@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SnowRaven Mini — Store Assets Design</title>
+<style>
+  :root{
+    --sr-primary:#2d8653; --sr-primary-hover:#266f45; --sr-primary-fg:#fff;
+    --sr-bg:#fff; --sr-fg:#0f1117;
+    --sr-muted:#f4f4f5; --sr-muted-fg:#6b6b73;
+    --sr-accent:#e8f5ee; --sr-accent-fg:#1a5c38; --sr-secondary:#f0faf4;
+    --sr-border:#e4e4e7; --sr-input-border:#9a9aa3; --sr-ring:#2d8653;
+    --sr-warning-fg:#92400e; --sr-warning-bg:#fffbeb; --sr-warning-bd:#fde68a;
+    --sr-mono-bg:#fafafa; --sr-radius:.5rem;
+    --sr-font-sans:Inter,system-ui,-apple-system,sans-serif;
+    --sr-font-mono:ui-monospace,"Cascadia Code","Fira Code",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#e9eaee;color:var(--sr-fg);font-family:var(--sr-font-sans);font-size:16px;line-height:1.5}
+  .page{max-width:1360px;margin:0 auto;padding:40px 24px 80px}
+  .doc-head{margin:8px 0 4px;font-size:1.9rem;font-weight:800;letter-spacing:-.02em}
+  .doc-sub{color:#52525b;margin:0 0 36px;max-width:70ch}
+  .sec{margin:48px 0 16px}
+  .sec h2{font-size:1.25rem;font-weight:750;letter-spacing:-.01em;margin:0 0 4px}
+  .sec p.note{color:#52525b;margin:0 0 18px;max-width:78ch;font-size:.95rem}
+  .spec-label{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#52525b;background:#fff;border:1px solid #d4d4d8;border-radius:999px;padding:5px 12px;margin-bottom:14px}
+  .frame-wrap{background:#fff;border:1px solid #d4d4d8;border-radius:14px;padding:22px;display:inline-block;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .scaler{transform-origin:top left}
+
+  /* ---------- shared raven mark ---------- */
+  .mark-tile{display:block}
+
+  /* ---------- PROMO TILE 440x280 ---------- */
+  .promo{width:440px;height:280px;border-radius:12px;overflow:hidden;position:relative;
+    background:radial-gradient(120% 140% at 100% 0%, #f0faf4 0%, #ffffff 55%);
+    border:1px solid var(--sr-border);font-family:var(--sr-font-sans)}
+  .promo .pad{position:absolute;inset:0;padding:30px 32px;display:flex;flex-direction:column;justify-content:space-between}
+  .promo .top{display:flex;align-items:center;gap:14px}
+  .promo .icon{width:60px;height:60px;border-radius:14px;flex-shrink:0;box-shadow:0 6px 16px rgba(45,134,83,.28)}
+  .promo .word{font-size:1.7rem;font-weight:800;letter-spacing:-.02em;line-height:1.05}
+  .promo .tag{font-size:1.02rem;color:#3f5247;font-weight:600;line-height:1.3;max-width:24ch}
+  .promo .peek{position:absolute;right:-10px;bottom:-12px;width:212px;transform:rotate(-3deg);
+    background:#fff;border:1px solid var(--sr-border);border-radius:12px;box-shadow:0 16px 40px rgba(15,17,23,.16);overflow:hidden}
+  .promo .peek .ph{display:flex;align-items:center;gap:7px;padding:9px 11px;border-bottom:1px solid var(--sr-border);font-size:.72rem;font-weight:700}
+  .promo .peek .ph svg{width:16px;height:16px}
+  .promo .peek pre{margin:0;padding:9px 11px;font-family:var(--sr-font-mono);font-size:.58rem;line-height:1.55;background:var(--sr-mono-bg);white-space:pre}
+  .promo .eyebrow{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--sr-muted-fg);padding:7px 11px 0}
+
+  /* ---------- SCREENSHOT FRAME 1280x800 ---------- */
+  .shot{width:1280px;height:800px;position:relative;overflow:hidden;font-family:var(--sr-font-sans);
+    background:linear-gradient(135deg,#f0faf4 0%,#ffffff 60%,#eef7f1 100%)}
+  .shot .watermark{position:absolute;right:-90px;top:-70px;width:520px;height:520px;opacity:.05}
+  .shot .copy{position:absolute;left:96px;top:150px;max-width:430px}
+  .shot .copy .kicker{display:inline-flex;align-items:center;gap:9px;font-size:.95rem;font-weight:700;color:var(--sr-accent-fg);background:var(--sr-accent);border-radius:999px;padding:8px 16px;margin-bottom:26px}
+  .shot .copy .kicker .ki{width:24px;height:24px;border-radius:7px;display:block}
+  .shot .copy h3{font-size:3.25rem;line-height:1.06;font-weight:800;letter-spacing:-.03em;margin:0 0 20px}
+  .shot .copy p{font-size:1.4rem;line-height:1.45;color:#3f5247;margin:0;font-weight:500}
+  .shot .device{position:absolute;right:120px;top:50%;transform:translateY(-50%);
+    border-radius:16px;box-shadow:0 40px 90px rgba(15,17,23,.22),0 8px 24px rgba(15,17,23,.10);overflow:hidden;border:1px solid var(--sr-border)}
+
+  /* ---------- POPUP (real component classes, trimmed) ---------- */
+  .sr-popup{width:380px;background:var(--sr-bg);color:var(--sr-fg)}
+  .sr-pop-head{display:flex;align-items:center;gap:9px;padding:13px 16px;border-bottom:1px solid var(--sr-border)}
+  .sr-brand{font-size:.9375rem;font-weight:600;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+  .sr-brand .sr-mark{width:20px;height:20px;flex-shrink:0;display:inline-flex}
+  .sr-pop-context{margin-left:auto;font-size:.6875rem;color:var(--sr-muted-fg);text-align:right;line-height:1.35;max-width:56%}
+  .sr-pop-context .sr-loc{display:block;font-weight:600;color:var(--sr-fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sr-pop-body{padding:14px;display:flex;flex-direction:column;gap:14px}
+  .sr-eyebrow{font-size:.6875rem;text-transform:uppercase;letter-spacing:.06em;color:var(--sr-muted-fg)}
+  .sr-eyebrow-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
+  .sr-eyebrow-row .sr-eyebrow{font-weight:600;letter-spacing:.08em}
+  .sr-mono{font-family:var(--sr-font-mono);font-size:.8125rem;line-height:1.7;background:var(--sr-mono-bg);border:1px solid var(--sr-border);border-radius:var(--sr-radius);padding:14px 16px;margin:0;white-space:pre;overflow-x:auto}
+  .sr-btn-copy{height:28px;padding:0 11px;background:var(--sr-accent);color:var(--sr-accent-fg);border:1.5px solid transparent;border-radius:6px;font-family:inherit;font-size:.75rem;font-weight:600;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+  .sr-copied-banner{display:flex;align-items:center;gap:7px;margin-top:8px;padding:7px 11px;border-radius:8px;background:var(--sr-accent);color:var(--sr-accent-fg);font-size:.8125rem;font-weight:600;line-height:1.35}
+  .sr-divider{border:none;border-top:1px solid var(--sr-border);margin:0;width:100%}
+  .sr-footer{text-align:center;font-size:.75rem;color:var(--sr-muted-fg);padding:11px 16px 13px;border-top:1px solid var(--sr-border)}
+  .sr-footer a{color:inherit;text-decoration:none}
+
+  /* set overview */
+  .set{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:18px;margin-top:8px}
+  .card{background:#fff;border:1px solid #d4d4d8;border-radius:12px;overflow:hidden}
+  .card .thumb{height:150px;background:linear-gradient(135deg,#f0faf4,#fff);display:flex;align-items:center;justify-content:center;border-bottom:1px solid #ececef;position:relative}
+  .card .thumb .num{position:absolute;left:10px;top:8px;font-size:.7rem;font-weight:800;color:var(--sr-accent-fg);background:var(--sr-accent);border-radius:6px;padding:2px 8px}
+  .card .mini{width:150px;transform:scale(.86);transform-origin:center}
+  .card .cap{padding:13px 14px 15px}
+  .card .cap .h{font-size:.95rem;font-weight:750;letter-spacing:-.01em;margin:0 0 4px}
+  .card .cap .s{font-size:.82rem;color:#52525b;margin:0 0 7px;line-height:1.4}
+  .card .cap .st{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--sr-muted-fg)}
+
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .chip{font-size:.78rem;background:#fff;border:1px solid #d4d4d8;border-radius:8px;padding:7px 11px;color:#3f3f46}
+  .chip b{color:var(--sr-fg)}
+  /* mini popup pieces */
+  .mini .mh{display:flex;align-items:center;gap:5px;padding:7px 9px;border-bottom:1px solid var(--sr-border);font-size:.6rem;font-weight:700;background:#fff}
+  .mini .mh svg{width:13px;height:13px}
+  .mini .mb{padding:9px;background:#fff}
+  .mini .mmono{font-family:var(--sr-font-mono);font-size:.5rem;line-height:1.5;background:var(--sr-mono-bg);border:1px solid var(--sr-border);border-radius:5px;padding:7px 8px;white-space:pre;margin:0}
+  .mini .mbtn{margin-top:7px;height:22px;border-radius:6px;background:var(--sr-primary);color:#fff;font-size:.6rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .mini .mamber{background:var(--sr-warning-bg);border:1px solid var(--sr-warning-bd);color:var(--sr-warning-fg);border-radius:6px;padding:8px;font-size:.55rem;line-height:1.4}
+</style>
+</head>
+<body>
+<div class="page">
+  <h1 class="doc-head">SnowRaven Mini — Store Assets</h1>
+  <p class="doc-sub">The visual direction for the Chrome Web Store and Firefox Add-ons listings, designed inside the existing SnowRaven brand (quiet utility, restrained green, the raven mark). Two things get produced: the 440&times;280 Chrome promo tile, and a 1280&times;800 screenshot template that frames the real popup on a calm branded canvas. Everything below renders at its true pixel size.</p>
+
+  <!-- PROMO TILE -->
+  <div class="sec">
+    <h2>1 · Chrome small promo tile</h2>
+    <p class="note">Required by the Chrome Web Store. 440&times;280, PNG. Shows the icon, the wordmark, a one-line tagline, and a small peek of the real weather output so the tile says what the tool does, not just what it is called.</p>
+    <span class="spec-label">440 &times; 280 px &middot; PNG &middot; no alpha</span>
+    <div class="frame-wrap">
+      <div class="promo">
+        <div class="pad">
+          <div class="top">
+            <svg class="icon" viewBox="0 0 32 32" aria-label="SnowRaven Mini icon"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg>
+            <div>
+              <div class="word">SnowRaven<br>Mini</div>
+            </div>
+          </div>
+          <div class="tag">Weather and tide for your eBird checklist, in one click.</div>
+        </div>
+        <div class="peek" aria-hidden="true">
+          <div class="eyebrow">WEATHER</div>
+          <pre>&#9729;&#65039;
+Overcast clouds
+Temperature: 54&deg;F
+Wind: Gentle breeze
+Wind Direction: W</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO SCREENSHOT -->
+  <div class="sec">
+    <h2>2 · Screenshot template (hero)</h2>
+    <p class="note">The frame every screenshot uses: a calm green-tinted canvas, a faint raven watermark, a headline plus one supporting line on the left, and the real popup floated on the right with a soft shadow. This hero shows the happy path: weather auto-copied, tide below the divider. Scaled to 60% here for viewing; true size is 1280&times;800.</p>
+    <span class="spec-label">1280 &times; 800 px &middot; PNG &middot; light theme</span>
+    <div class="frame-wrap" style="width:790px;height:502px;padding:0;overflow:hidden">
+      <div class="scaler" style="transform:scale(.6)">
+      <div class="shot">
+        <svg class="watermark" viewBox="0 0 32 32" aria-hidden="true"><g transform="translate(4,4)" stroke="#2D8653" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg>
+        <div class="copy">
+          <span class="kicker"><svg class="ki" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/></g></svg> SnowRaven Mini</span>
+          <h3>Weather and tide, already on your clipboard.</h3>
+          <p>One click on your eBird checklist. The weather block copies itself, the tide sits right below, both in SnowRaven's exact format.</p>
+        </div>
+        <div class="device">
+          <div class="sr-popup">
+            <div class="sr-pop-head">
+              <span class="sr-brand"><span class="sr-mark"><svg viewBox="0 0 32 32" width="20" height="20"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg></span> SnowRaven Mini</span>
+              <span class="sr-pop-context"><span class="sr-loc">The Battery, New York</span>Jun 7, 6:42am</span>
+            </div>
+            <div class="sr-pop-body">
+              <div>
+                <div class="sr-eyebrow-row"><span class="sr-eyebrow">Weather</span><span class="sr-btn-copy">Copy</span></div>
+                <pre class="sr-mono">&#9729;&#65039;
+Overcast clouds
+Temperature: 54&deg;F
+Wind: Gentle breeze
+Wind Direction: W
+Cloud Cover: 100%
+Humidity: 89%
+Dew point: 52&deg;F
+Sunrise: 5:08am
+Sunset: 6:53pm
+Weather generated by &lt;a href="..."&gt;SnowRaven&lt;/a&gt;</pre>
+                <div class="sr-copied-banner"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Copied to clipboard. Paste it into your checklist comment.</div>
+              </div>
+              <hr class="sr-divider" />
+              <div>
+                <div class="sr-eyebrow-row"><span class="sr-eyebrow">Tide</span><span class="sr-btn-copy">Copy</span></div>
+                <pre class="sr-mono">&#127754;
+Observed
+Water level: 2.3 &ndash; 5.6 ft
+Tide: Rising (turned during your checklist)
+Previous low: 1.8 ft at 7:42am
+Next high: 5.6 ft at 1:58pm
+Station: The Battery (8518750), 3.4 mi away
+Relative to MLLW
+Tide data from NOAA CO-OPS &middot; via &lt;a href="..."&gt;SnowRaven&lt;/a&gt;</pre>
+              </div>
+            </div>
+            <div class="sr-footer"><a href="#">SnowRaven Mini</a> &middot; <a href="#">Help</a></div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SET OVERVIEW -->
+  <div class="sec">
+    <h2>3 · The full screenshot set</h2>
+    <p class="note">Five screenshots, all on the same template, each pairing one real popup state with a short caption. Light theme by default; the hero and the Options shot also ship a dark-theme variant (the extension follows the OS setting). The Engineer captures the real popup for each in Stage 5; this is the plan and the caption copy.</p>
+    <div class="set">
+
+      <div class="card">
+        <div class="thumb"><span class="num">1</span>
+          <div class="mini"><div class="mh"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/></g></svg> SnowRaven Mini</div><div class="mb"><pre class="mmono">&#9729;&#65039; Overcast
+Temperature: 54&deg;F
+Wind: Gentle breeze</pre></div></div>
+        </div>
+        <div class="cap"><p class="h">Weather and tide, already on your clipboard.</p><p class="s">One click copies the weather; tide sits right below.</p><span class="st">Result state &middot; light + dark</span></div>
+      </div>
+
+      <div class="card">
+        <div class="thumb"><span class="num">2</span>
+          <div class="mini"><div class="mh"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/></g></svg> Settings</div><div class="mb"><div style="font-size:.55rem;font-weight:700;margin-bottom:4px">eBird API key</div><div style="height:18px;border:1px solid var(--sr-input-border);border-radius:4px;background:#fff"></div><div class="mbtn">Save keys</div></div></div>
+        </div>
+        <div class="cap"><p class="h">Your keys stay on your device.</p><p class="s">Two free keys, stored locally, sent only to eBird and OpenWeather.</p><span class="st">Options page &middot; light + dark</span></div>
+      </div>
+
+      <div class="card">
+        <div class="thumb"><span class="num">3</span>
+          <div class="mini"><div class="mh"><svg viewBox="0 0 24 24" fill="none" stroke="#1a5c38" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg> Permission</div><div class="mb"><div style="font-size:.5rem;line-height:1.5;color:#52525b">Allow SnowRaven Mini to reach eBird, OpenWeather, and NOAA?</div><div class="mbtn">Grant access</div></div></div>
+        </div>
+        <div class="cap"><p class="h">Asks only for what it needs.</p><p class="s">Reaches three bird and weather APIs, nothing else, only when you say so.</p><span class="st">Permission grant</span></div>
+      </div>
+
+      <div class="card">
+        <div class="thumb"><span class="num">4</span>
+          <div class="mini"><div class="mh"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/></g></svg> SnowRaven Mini</div><div class="mb"><pre class="mmono">&#9729;&#65039; Clear sky
+Temperature: 61&deg;F</pre><div class="mamber">&#9888; Nearest tide station is 38 mi away. Show it anyway?</div></div></div>
+        </div>
+        <div class="cap"><p class="h">Honest about tide.</p><p class="s">When the nearest NOAA station is far or inland, it says so, with an override.</p><span class="st">Tide notice</span></div>
+      </div>
+
+      <div class="card">
+        <div class="thumb"><span class="num">5</span>
+          <div class="mini"><div class="mh"><svg viewBox="0 0 24 24" fill="none" stroke="#6b6b73" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> On checklist</div><div class="mb"><div style="font-size:.5rem;line-height:1.5;color:#52525b;text-align:center">You're on the checklist page.</div><div class="mbtn">Show weather anyway</div></div></div>
+        </div>
+        <div class="cap"><p class="h">On the checklist page? One tap to the right spot.</p><p class="s">Offers the Edit Comments page, or shows the weather right there.</p><span class="st">Checklist-view state</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NOTES -->
+  <div class="sec">
+    <h2>Design notes</h2>
+    <div class="legend">
+      <span class="chip"><b>Brand:</b> existing SnowRaven system, unchanged. Green #2D8653, Inter, the raven mark.</span>
+      <span class="chip"><b>Promo tile:</b> light canvas so the green icon and the output peek carry the color, not a flat green block.</span>
+      <span class="chip"><b>Screenshots:</b> real popup, real output bytes, framed on a calm canvas. Chrome requires screenshots show the actual UI.</span>
+      <span class="chip"><b>Dark variants:</b> shots 1 and 2 also shipped in dark, since the extension follows the OS theme.</span>
+      <span class="chip"><b>Marquee tile (1400&times;560):</b> out of scope, optional, featured-placement only.</span>
+      <span class="chip"><b>Firefox:</b> reuses the same screenshots; AMO needs no promo tile.</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

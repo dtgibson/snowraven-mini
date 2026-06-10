@@ -1,6 +1,6 @@
 {
   "name": "snowraven-mini",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Weather and tide for your eBird checklist, just like SnowRaven, in one click.",
   "private": true,
   "type": "module",
@@ -9,7 +9,8 @@
     "build": "tsc -b && vite build",
     "test": "vitest run",
     "pack": "node scripts/pack.mjs",
-    "icons": "node scripts/make-icons.mjs"
+    "icons": "node scripts/make-icons.mjs",
+    "store:assets": "node scripts/make-store-assets.mjs"
   },
   "dependencies": {
     "@photostructure/tz-lookup": "11.5.0",

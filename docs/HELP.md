@@ -92,13 +92,13 @@ A brand-new OpenWeather key can take a little while (often up to a couple of hou
 
 ## Installing
 
-SnowRaven Mini ships as **v0.1.0** on GitHub: [github.com/dtgibson/snowraven-mini](https://github.com/dtgibson/snowraven-mini), with a Chrome zip and a Firefox zip attached to the release. It is **not yet** on the Chrome Web Store or Firefox Add-ons, so you install it by loading it unpacked or from the release zip. The same build works in both browsers: one codebase, one manifest. Chrome ignores the Firefox-specific `gecko` block in the manifest; Firefox reads it.
+SnowRaven Mini ships as **v1.0.0** on GitHub: [github.com/dtgibson/snowraven-mini](https://github.com/dtgibson/snowraven-mini), with a Chrome zip and a Firefox zip attached to the release. It is **not yet** on the Chrome Web Store or Firefox Add-ons, so you install it by loading it unpacked or from the release zip. The same build works in both browsers: one codebase, one manifest. Chrome ignores the Firefox-specific `gecko` block in the manifest; Firefox reads it.
 
 You can either download the release zip and load it, or build it from source. Both paths produce the same unpacked extension folder.
 
 ### From the release (recommended)
 
-1. Go to the [v0.1.0 release](https://github.com/dtgibson/snowraven-mini/releases) and download the **Chrome** zip or the **Firefox** zip.
+1. Go to the [v1.0.0 release](https://github.com/dtgibson/snowraven-mini/releases) and download the **Chrome** zip or the **Firefox** zip.
 2. Unzip it to a folder you will keep (the unpacked extension lives there).
 3. Load it unpacked using the browser instructions below.
 
@@ -174,7 +174,7 @@ The intended flow is fast: open the Edit Comments page, click the icon, paste.
 
 **The tide block.** Below the weather, the tide block appears as its own monospace card under a "Tide" eyebrow, with its own **Copy** button. Tide is **never auto-copied**; copy it with its button when you want it. If your checklist is inland or outside the US, you will see a calm amber notice instead, with an override to show the nearest station anyway (see [the tide notices](#tide-too-far-or-outside-the-us)).
 
-**What gets copied.** The weather block (auto-copied on open, or by the weather **Copy** button) is the weather text only, ending with the SnowRaven attribution line. The tide **Copy** button copies the tide text only, ending with its "Tide data from NOAA CO-OPS · via SnowRaven" credit. The two blocks are copied separately. (In this v0.1.0 there is no single combined "weather + tide together" copy button; copy each block in turn if you want both.) See [the output format](#the-weather-and-tide-output-format) for exactly what each block contains.
+**What gets copied.** The weather block (auto-copied on open, or by the weather **Copy** button) is the weather text only, ending with the SnowRaven attribution line. The tide **Copy** button copies the tide text only, ending with its "Tide data from NOAA CO-OPS · via SnowRaven" credit. The two blocks are copied separately. (In this version there is no single combined "weather + tide together" copy button; copy each block in turn if you want both.) See [the output format](#the-weather-and-tide-output-format) for exactly what each block contains.
 
 If you open the popup on a page that is not an eBird checklist, it tells you so calmly and does nothing else.
 
@@ -200,7 +200,7 @@ If one or both keys are not set, the popup shows a neutral nudge naming what is 
 - Only eBird missing: **"eBird API key isn't set yet…"** (and it notes "OpenWeather key: set ✓").
 - Only OpenWeather missing: **"OpenWeather API key isn't set yet…"** (and it notes "eBird key: set ✓").
 
-A **Go to Settings →** action opens the Options page. Both keys are required in v0.1.0; the extension will not run a partial lookup with only one key.
+A **Go to Settings →** action opens the Options page. Both keys are required in this version; the extension will not run a partial lookup with only one key.
 
 ### Allow SnowRaven Mini to reach these? (permission needed)
 
@@ -388,4 +388,4 @@ npm run dev        # watch + rebuild into dist/ while you work
 
 Load the resulting `dist/` folder unpacked (see [Installing](#installing)). After a rebuild, reload the extension from `chrome://extensions` (Chrome) or `about:debugging` (Firefox) to pick up changes.
 
-Source lives on `main` at [github.com/dtgibson/snowraven-mini](https://github.com/dtgibson/snowraven-mini); the **v0.1.0** release attaches the Chrome and Firefox zips. The project is not yet submitted to the Chrome Web Store or Firefox Add-ons.
+Source lives on `main` at [github.com/dtgibson/snowraven-mini](https://github.com/dtgibson/snowraven-mini); the **v1.0.0** release attaches the Chrome and Firefox zips. The project is not yet submitted to the Chrome Web Store or Firefox Add-ons.
