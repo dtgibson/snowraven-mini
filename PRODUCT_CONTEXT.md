@@ -7,19 +7,20 @@ A Chrome and Firefox browser extension that brings [SnowRaven](https://github.co
 Birders who do their eBird checklist editing in the browser and want SnowRaven's weather/tide comment blocks without launching the desktop app. They bring their own free eBird and OpenWeather API keys.
 
 ## Features
-- **Checklist weather & tide** — *shipped, v0.1.0.* On `ebird.org/edit/effort?subID=…`, resolves the checklist's location and time via the eBird API, fetches historical weather (OpenWeather One Call timemachine) and tide (NOAA), formats them byte-for-byte like SnowRaven, auto-copies the weather (with a visible "Copied to clipboard" confirmation), and shows tide with its own copy button. On a checklist view page (`/checklist/S…`), offers an Edit-Comments link and a "show weather anyway" button.
+- **Checklist weather & tide** — *shipped, v0.1.0.* On `ebird.org/edit/effort?subID=…`, resolves the checklist's location and time via the eBird API, fetches historical weather (OpenWeather One Call timemachine) and tide (NOAA), formats them exactly like SnowRaven, auto-copies the weather (with a visible "Copied to clipboard" confirmation), and shows tide with its own copy button. On a checklist view page (`/checklist/S…`), offers an Edit-Comments link and a "show weather anyway" button.
+- **Popup & Options polish** — *shipped, v0.1.1.* A shared footer with "SnowRaven Mini" (repo) and "Help" links on both the popup and the Options page, an in-app header mark that matches the toolbar icon (the SnowRaven raven on its green tile), and a light divider between the weather and tide sections so the "Copied to clipboard" confirmation reads as weather-only. The manifest/store description was also tidied to "Weather and tide for your eBird checklist, just like SnowRaven, in one click."
 
 ## How It Works
 - Popup-only Manifest V3; one codebase and manifest serve both Chrome and Firefox. No backend, no content script, no background worker.
 - Bring-your-own keys (eBird + OpenWeather) stored in `chrome.storage.local`, each sent only to its own API host. Tide uses the keyless NOAA API.
-- Weather, tide, and formatting logic ported byte-for-byte from SnowRaven's TypeScript; the desktop seams (Tauri fetch / clipboard / storage / native timezone) are swapped for browser equivalents (in-browser timezone via `@photostructure/tz-lookup`).
+- Weather, tide, and formatting logic ported directly from SnowRaven's TypeScript so the output matches; the desktop seams (Tauri fetch / clipboard / storage / native timezone) are swapped for browser equivalents (in-browser timezone via `@photostructure/tz-lookup`).
 - Minimal permissions: `activeTab`, `clipboardWrite`, `storage`, plus on-demand `optional_host_permissions` for the three API hosts.
 
 ## Stack
 React + Vite + TypeScript, Vitest. No component library — hand-authored CSS on the design-system tokens (`pipeline/design-system.md`) with inline SVG icons. The bundled, trimmed NOAA station list (~347 KB) is the only large asset.
 
 ## Distribution
-GitHub: <https://github.com/dtgibson/snowraven-mini> — source on `main`, **v0.1.0** release with Chrome and Firefox zips. Not yet submitted to the Chrome Web Store or Firefox Add-ons.
+GitHub: <https://github.com/dtgibson/snowraven-mini> — source on `main`, **v0.1.1** release with Chrome and Firefox zips (182.8 KB each). Not yet submitted to the Chrome Web Store or Firefox Add-ons.
 
 ## Deferred
 - Showing tide on its own when only the OpenWeather key is missing (v1 requires both keys).
