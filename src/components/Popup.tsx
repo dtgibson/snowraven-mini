@@ -25,6 +25,7 @@ import { copyText } from '../lib/ext/clipboard';
 import { getWeather } from '../lib/weatherService';
 import { getTide } from '../lib/tideService';
 import { WeatherTidePanel } from './WeatherTidePanel';
+import { Footer } from './Footer';
 import { RavenMark, PinIcon, KeyIcon, ArrowRightIcon, ShieldIcon, CheckIcon } from './Icons';
 
 function Header({ loc, sub }: { loc?: string; sub?: string }) {
@@ -364,6 +365,7 @@ export function Popup() {
           />
         )}
       </div>
+      <Footer />
     </div>
   );
 }

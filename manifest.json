@@ -1,9 +1,13 @@
 {
   "manifest_version": 3,
   "name": "SnowRaven Mini",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Weather and tide on the eBird checklist page — byte-for-byte SnowRaven, one click.",
-  "permissions": ["activeTab", "clipboardWrite", "storage"],
+  "permissions": [
+    "activeTab",
+    "clipboardWrite",
+    "storage"
+  ],
   "optional_host_permissions": [
     "https://api.ebird.org/*",
     "https://api.openweathermap.org/*",
@@ -19,7 +23,10 @@
       "128": "icons/icon-128.png"
     }
   },
-  "options_ui": { "page": "options.html", "open_in_tab": true },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
   "icons": {
     "16": "icons/icon-16.png",
     "32": "icons/icon-32.png",

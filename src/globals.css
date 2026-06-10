@@ -577,3 +577,27 @@ body {
 /* visible auto-copy confirmation in the weather slot */
 .sr-copied-banner { display: flex; align-items: center; gap: 7px; margin-top: 8px; padding: 7px 11px; border-radius: 8px; background: var(--sr-accent); color: var(--sr-accent-fg); font-size: 0.8125rem; font-weight: 600; line-height: 1.35; }
 .sr-copied-banner svg { flex-shrink: 0; }
+
+/* shared footer (popup + Options), modeled on SnowRaven's contentinfo footer */
+.sr-footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--sr-muted-fg);
+  padding: 11px 16px 13px;
+  border-top: 1px solid var(--sr-border);
+}
+.sr-footer a { color: inherit; text-decoration: none; }
+.sr-footer a:hover { text-decoration: underline; }
+.sr-footer a:focus-visible {
+  outline: 2px solid var(--sr-ring, var(--sr-primary));
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* light divider between the weather and tide sections */
+.sr-divider {
+  border: none;
+  border-top: 1px solid var(--sr-border);
+  margin: 0;
+  width: 100%;
+}

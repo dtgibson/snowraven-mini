@@ -7,6 +7,7 @@
 import { useEffect, useState } from 'react';
 import { storage } from '../lib/ext/storage';
 import { RavenMark, EyeIcon, EyeOffIcon, CheckIcon, LockIcon } from './Icons';
+import { Footer } from './Footer';
 
 interface KeyFieldProps {
   id: string;
@@ -136,6 +137,7 @@ export function Options() {
             </p>
           </form>
         </div>
+        <Footer />
       </div>
     </div>
   );

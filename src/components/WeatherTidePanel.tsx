@@ -119,6 +119,8 @@ export function WeatherTidePanel({ weather, tide, autoCopied, onTideOverride, an
       </div>
 
       {/* ── Tide slot ────────────────────────────────────────────────── */}
+      <hr className="sr-divider" aria-hidden="true" />
+
       <div>
         <BlockEyebrow
           label="Tide"

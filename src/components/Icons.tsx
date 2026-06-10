@@ -14,13 +14,25 @@ export function RavenMark({ size = 18 }: { size?: number }) {
       width={size}
       height={size}
       viewBox="0 0 32 32"
-      fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
-      <path d="M5 19c0-5.5 4.2-9.5 9.6-9.5 2.4 0 3.9.8 5.1 1.9l4.6-2.2c.6-.3 1.2.4.8.95L22.7 14c.7 1.1 1.1 2.5 1.1 4 0 5.2-4 8.5-9.2 8.5H6.4c-.6 0-.9-.7-.5-1.15L8 23.2C6.1 22.4 5 20.9 5 19Z" />
-      <circle cx="13" cy="15.4" r="1.35" fill="var(--sr-bg)" />
-      <path d="M27.6 6.1c-1.9.2-3.2 1-3.9 2.2.9.5 2.4.4 3.4-.4.2 1.3-.2 2.6-1.1 3.3 1.5.2 3-1 3.3-2.8.3-1.6-.4-2.4-1.7-2.3Z" />
+      <rect width="32" height="32" rx="7" fill="#2D8653" />
+      <g
+        transform="translate(4,4)"
+        stroke="#fff"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      >
+        <path d="M16 7h.01" />
+        <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
+        <path d="m20 7 2 .5-2 .5" />
+        <path d="M10 18v3" />
+        <path d="M14 17.75V21" />
+        <path d="M7 18a6 6 0 0 0 3.84-10.61" />
+      </g>
     </svg>
   );
 }
