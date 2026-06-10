@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SnowRaven Mini",
   "version": "0.1.1",
-  "description": "Weather and tide on the eBird checklist page — byte-for-byte SnowRaven, one click.",
+  "description": "Weather and tide for your eBird checklist, just like SnowRaven, in one click.",
   "permissions": [
     "activeTab",
     "clipboardWrite",
