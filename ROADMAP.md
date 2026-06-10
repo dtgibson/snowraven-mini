@@ -8,7 +8,7 @@ This is a living document. It reflects the current best thinking on what to buil
 
 **3 shipped.**
 
-- **Last shipped: Landing website.** A static marketing site under `website/`, mirroring the SnowRaven app site, deployed to GitHub Pages (live at dtgibson.github.io/snowraven-mini; custom domain `snowravenmini.dtgibson.com` pending a DNS record). The stores are shown as "coming soon" until the listings publish.
+- **Last shipped: Landing website.** A static marketing site under `website/`, mirroring the SnowRaven app site, deployed to GitHub Pages and live at `snowravenmini.dtgibson.com` with HTTPS. The stores are shown as "coming soon" until the listings publish.
 - **Previously: Store submission prep (v1.0.0).** The Chrome Web Store and Firefox Add-ons listing package, with v1.0.0 published to GitHub including a buildable source archive for Firefox review. Submitting to the stores is a remaining manual step.
 
 ---
@@ -18,7 +18,7 @@ This is a living document. It reflects the current best thinking on what to buil
 1. **Tide without an OpenWeather key, and a first-run key walkthrough.** Let tide show on its own when only OpenWeather is missing, and guide new users through pasting their two free keys.
 2. **Combined copy and a duplicate-block guard.** An optional one-button weather+tide copy, and skipping the auto-copy when the comment already contains a weather block.
 
-Two manual steps remain outside the build: submitting to the stores (package ready under `store/`) and adding the DNS record for `snowravenmini.dtgibson.com`.
+One manual step remains outside the build: submitting to the stores (the package is ready under `store/`). The site and its custom domain are live.
 
 ---
 
