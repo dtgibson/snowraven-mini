@@ -6,10 +6,10 @@ This is a living document. It reflects the current best thinking on what to buil
 
 ## Shipped
 
-**2 shipped.**
+**3 shipped.**
 
-- **Last shipped: Store submission prep (v1.0.0).** The Chrome Web Store and Firefox Add-ons listing package (copy, screenshots, promo tile, permission and privacy disclosures, and submit checklists), with v1.0.0 published to GitHub including a buildable source archive for Firefox review. Submitting to the stores is the remaining manual step.
-- **Previously: Weather & Tide on the eBird Checklist Page (v0.1.0).** One-click copy of SnowRaven's weather (and tide alongside) onto the eBird checklist Edit Comments page, in Chrome and Firefox.
+- **Last shipped: Landing website.** A static marketing site under `website/`, mirroring the SnowRaven app site, deployed to GitHub Pages (live at dtgibson.github.io/snowraven-mini; custom domain `snowravenmini.dtgibson.com` pending a DNS record). The stores are shown as "coming soon" until the listings publish.
+- **Previously: Store submission prep (v1.0.0).** The Chrome Web Store and Firefox Add-ons listing package, with v1.0.0 published to GitHub including a buildable source archive for Firefox review. Submitting to the stores is a remaining manual step.
 
 ---
 
@@ -18,7 +18,7 @@ This is a living document. It reflects the current best thinking on what to buil
 1. **Tide without an OpenWeather key, and a first-run key walkthrough.** Let tide show on its own when only OpenWeather is missing, and guide new users through pasting their two free keys.
 2. **Combined copy and a duplicate-block guard.** An optional one-button weather+tide copy, and skipping the auto-copy when the comment already contains a weather block.
 
-(The store-submission prep that was item 1 is now shipped: v1.0.0 is released and the listing package is ready; submitting is a manual step guided by `store/`.)
+Two manual steps remain outside the build: submitting to the stores (package ready under `store/`) and adding the DNS record for `snowravenmini.dtgibson.com`.
 
 ---
 

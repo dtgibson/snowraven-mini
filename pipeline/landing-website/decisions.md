@@ -11,3 +11,11 @@
 **Decision:** The site uses a system font stack with no external font request, matching `snowraven.dtgibson.com`, rather than loading Inter (which the extension UI uses).
 
 **Why:** Parity with SnowRaven's site, faster first paint, and no external dependency, consistent with the no-bloat ethos.
+
+## 2026-06-10 — Deployed to GitHub Pages
+**Action:** Committed `website/` and the Pages workflow to `main` (398b7ad, 8419eee) and pushed. Enabled GitHub Pages (`build_type: workflow`) via the `gh` API, because the workflow's own token cannot create the Pages site on the first run. The deploy workflow then succeeded.
+
+**Result:** The site is live at <https://dtgibson.github.io/snowraven-mini/> with HTTPS enforced.
+
+**Remaining manual step (maintainer):** add a DNS CNAME record, host `snowravenmini`, value `dtgibson.github.io`. GitHub will not accept the custom domain or provision its certificate until DNS resolves, so `snowravenmini.dtgibson.com` is pending that record. Once DNS is in place, set the custom domain in Settings -> Pages (or re-run the deploy so the `CNAME` file applies it) and enable HTTPS.
+

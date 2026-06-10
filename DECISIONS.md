@@ -23,3 +23,11 @@
 **Rationale:** 1.0.0 reads better for a public debut than 0.1.x, and a single version keeps one build for both browsers; routine updates resume incrementing by 0.1. Edge can install Chrome Web Store extensions only when each user enables an off-by-default "Allow extensions from other stores" setting, so it is not a reliable distribution channel without a separate Microsoft Edge Add-ons submission.
 
 **Implications:** Future releases keep one shared version and one build. The Firefox manifest must retain `gecko.data_collection_permissions` (AMO requires the data-collection declaration for new submissions). Revisit a dedicated Edge Add-ons listing only if there is demand.
+
+## Landing website — 2026-06-10
+
+**Decision:** Ship a static marketing site at `snowravenmini.dtgibson.com`, mirroring the SnowRaven app site, served from GitHub Pages via a GitHub Actions deploy of the `website/` folder. The site renders the extension's popup as live HTML (not screenshots), uses system fonts, and shows the stores as "coming soon" until the listings publish.
+
+**Rationale:** A trustworthy front door for the v1.0.0 release ahead of the store listings; parity with SnowRaven's own site keeps the family resemblance; live popup HTML avoids duplicating each feature row's heading and adds no image weight; system fonts and no build keep it fast, matching the no-bloat ethos.
+
+**Implications:** Enabling GitHub Pages is a one-time action done outside the workflow (the Action's token cannot create the Pages site on first run). The custom domain needs a DNS CNAME (`snowravenmini` to `dtgibson.github.io`) before GitHub will verify it and provision HTTPS. Swap the "coming soon" store buttons for live links once the listings go live.
