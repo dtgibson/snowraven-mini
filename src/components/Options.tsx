@@ -91,7 +91,7 @@ export function Options() {
             <span className="sr-mark" aria-hidden="true">
               <RavenMark size={22} />
             </span>
-            SnowRaven Mini — Settings
+            SnowRaven Mini Settings
           </span>
           <p>Bring your own free API keys. SnowRaven Mini has no account and no server.</p>
         </div>
@@ -132,7 +132,7 @@ export function Options() {
                 <LockIcon />
               </span>
               Keys stay on this device. They’re sent only to eBird and OpenWeather as your request’s
-              authentication — nowhere else.
+              authentication, nowhere else.
             </p>
           </form>
         </div>

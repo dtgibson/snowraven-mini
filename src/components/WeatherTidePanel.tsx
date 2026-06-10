@@ -98,7 +98,7 @@ export function WeatherTidePanel({ weather, tide, autoCopied, onTideOverride, an
         {weather.status === 'success' && autoCopied && (
           <div className="sr-copied-banner">
             <CheckIcon size={14} />
-            <span>Copied to clipboard — paste it into your checklist comment.</span>
+            <span>Copied to clipboard. Paste it into your checklist comment.</span>
           </div>
         )}
         {weather.status === 'error' && (

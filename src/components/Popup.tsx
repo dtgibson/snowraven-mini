@@ -91,7 +91,7 @@ export function Popup() {
             announce(
               ok
                 ? 'Weather copied to clipboard'
-                : 'Weather ready — use the Copy weather button to copy',
+                : 'Weather ready. Use the Copy weather button to copy.',
             );
           }
         },
@@ -262,7 +262,7 @@ export function Popup() {
             <h3>You’re on the checklist page</h3>
             <p>
               To paste the weather into a comment, open this checklist’s{' '}
-              <span className="sr-strong">Edit Comments</span> page — or show it here anyway.
+              <span className="sr-strong">Edit Comments</span> page, or show it here anyway.
             </p>
             <div className="sr-cv-actions">
               <button type="button" className="sr-btn-primary" onClick={proceed}>
@@ -334,7 +334,7 @@ export function Popup() {
               <div>
                 <h3>Allow SnowRaven Mini to reach these?</h3>
                 <p>
-                  It needs to call eBird, OpenWeather, and NOAA directly from your browser — nothing
+                  It needs to call eBird, OpenWeather, and NOAA directly from your browser, nothing
                   else.
                 </p>
               </div>
