@@ -6,17 +6,19 @@ This is a living document. It reflects the current best thinking on what to buil
 
 ## Shipped
 
-**1 shipped.**
+**2 shipped.**
 
-- **Last shipped — Weather & Tide on the eBird Checklist Page (v0.1.0):** one-click copy of SnowRaven's exact weather (and tide shown alongside) onto the eBird checklist Edit Comments page, in Chrome and Firefox. Published to GitHub with a release.
+- **Last shipped: Store submission prep (v1.0.0).** The Chrome Web Store and Firefox Add-ons listing package (copy, screenshots, promo tile, permission and privacy disclosures, and submit checklists), with v1.0.0 published to GitHub including a buildable source archive for Firefox review. Submitting to the stores is the remaining manual step.
+- **Previously: Weather & Tide on the eBird Checklist Page (v0.1.0).** One-click copy of SnowRaven's weather (and tide alongside) onto the eBird checklist Edit Comments page, in Chrome and Firefox.
 
 ---
 
 ## Up Next
 
-1. **Publish to the Chrome Web Store and Firefox Add-ons** — the v0.1.0 zips on the GitHub release are upload-ready; this is the step that gets it into users' browsers without manual sideloading.
-2. **Tide without an OpenWeather key, and a first-run key walkthrough** — let tide show on its own when only OpenWeather is missing, and guide new users through pasting their two free keys.
-3. **Combined copy and a duplicate-block guard** — an optional one-button weather+tide copy, and skipping the auto-copy when the comment already contains a weather block.
+1. **Tide without an OpenWeather key, and a first-run key walkthrough.** Let tide show on its own when only OpenWeather is missing, and guide new users through pasting their two free keys.
+2. **Combined copy and a duplicate-block guard.** An optional one-button weather+tide copy, and skipping the auto-copy when the comment already contains a weather block.
+
+(The store-submission prep that was item 1 is now shipped: v1.0.0 is released and the listing package is ready; submitting is a manual step guided by `store/`.)
 
 ---
 
@@ -24,3 +26,4 @@ This is a living document. It reflects the current best thinking on what to buil
 
 - Edge-case hardening: checklists with no resolvable coordinates, inland checklists with no nearby tide station, and expired or invalid keys.
 - Re-verify timezone parity against SnowRaven if either side updates its timezone data.
+- A dedicated Microsoft Edge Add-ons listing, if there is demand.

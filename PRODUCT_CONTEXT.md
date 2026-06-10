@@ -9,6 +9,7 @@ Birders who do their eBird checklist editing in the browser and want SnowRaven's
 ## Features
 - **Checklist weather & tide** — *shipped, v0.1.0.* On `ebird.org/edit/effort?subID=…`, resolves the checklist's location and time via the eBird API, fetches historical weather (OpenWeather One Call timemachine) and tide (NOAA), formats them exactly like SnowRaven, auto-copies the weather (with a visible "Copied to clipboard" confirmation), and shows tide with its own copy button. On a checklist view page (`/checklist/S…`), offers an Edit-Comments link and a "show weather anyway" button.
 - **Popup & Options polish** — *shipped, v0.1.1.* A shared footer with "SnowRaven Mini" (repo) and "Help" links on both the popup and the Options page, an in-app header mark that matches the toolbar icon (the SnowRaven raven on its green tile), and a light divider between the weather and tide sections so the "Copied to clipboard" confirmation reads as weather-only. The manifest/store description was also tidied to "Weather and tide for your eBird checklist, just like SnowRaven, in one click."
+- **Store submission prep** — *shipped, v1.0.0.* The Chrome Web Store and Firefox Add-ons listing packages under `store/`: copy, screenshots and a 440x280 promo tile (generated reproducibly with `npm run store:assets`), permission and privacy disclosures, and per-store submit checklists. Bumped to v1.0.0 for parity across both stores and added the AMO-required `gecko.data_collection_permissions` manifest key. Published as the v1.0.0 GitHub release with Chrome, Firefox, and source zips (the source archive plus `BUILD.md` satisfy Firefox's reproducible-build review). The store submissions themselves are a manual maintainer step.
 
 ## How It Works
 - Popup-only Manifest V3; one codebase and manifest serve both Chrome and Firefox. No backend, no content script, no background worker.
@@ -20,9 +21,10 @@ Birders who do their eBird checklist editing in the browser and want SnowRaven's
 React + Vite + TypeScript, Vitest. No component library — hand-authored CSS on the design-system tokens (`pipeline/design-system.md`) with inline SVG icons. The bundled, trimmed NOAA station list (~347 KB) is the only large asset.
 
 ## Distribution
-GitHub: <https://github.com/dtgibson/snowraven-mini> — source on `main`, **v0.1.1** release with Chrome and Firefox zips (182.8 KB each). Not yet submitted to the Chrome Web Store or Firefox Add-ons.
+GitHub: <https://github.com/dtgibson/snowraven-mini> — source on `main`, **v1.0.0** release with Chrome, Firefox, and source zips. The full store listing package (copy, assets, disclosures, submit checklists) is prepared under `store/`. Not yet submitted to the Chrome Web Store or Firefox Add-ons; the developer-account setup, the one-time $5 Chrome fee, and the uploads are the maintainer's manual step, guided by the checklists in `store/`.
 
 ## Deferred
 - Showing tide on its own when only the OpenWeather key is missing (v1 requires both keys).
 - A combined one-button weather+tide copy, and a duplicate-block guard (skip if the comment already contains a weather block).
-- Store submissions (Chrome Web Store, Firefox Add-ons).
+- Actually submitting to the stores: the package is prepared and v1.0.0 is released, but creating the developer accounts and uploading are manual.
+- A separate Microsoft Edge Add-ons listing. Edge can install from the Chrome listing only via a per-user opt-in, so reaching Edge users by default would be its own submission.

@@ -15,3 +15,9 @@ The Edit Comments page (the paste target) carries the checklist ID in the **quer
 
 ## Verify before shipping
 `npm test` (Vitest, includes the golden parity tests) and `npm run build` (tsc + vite) must be green.
+
+## Releases & store
+- **Versioning:** store releases use clean numbers (v1.0.0 was the public debut); routine updates increment by 0.1. One shared version and one build serve both stores.
+- **Store package** lives in `store/` (listing copy, disclosures, submit checklists, assets). Regenerate the image assets with `npm run store:assets` (headless Chromium renders the real component CSS, sharp flattens to no-alpha PNGs). `BUILD.md` documents the AMO reproducible build.
+- Keep `gecko.data_collection_permissions` in the manifest — Firefox AMO requires the data-collection declaration for new submissions.
+- **Contact email is `developer@dtgibson.com`** anywhere a project address is needed. Never use a personal address.

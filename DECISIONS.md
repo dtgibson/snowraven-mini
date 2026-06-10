@@ -15,3 +15,11 @@
 **Rationale:** The product's headline is weather, which needs the OpenWeather key; tide-only is a niche case not worth extra v1 UI.
 
 **Implications:** Tide-without-OpenWeather is a deferred enhancement.
+
+## Store submission — 2026-06-10
+
+**Decision:** Publish to the Chrome Web Store and Firefox Add-ons as public listings, debuting at **v1.0.0** (one build serves both stores). Microsoft Edge is deliberately out of scope.
+
+**Rationale:** 1.0.0 reads better for a public debut than 0.1.x, and a single version keeps one build for both browsers; routine updates resume incrementing by 0.1. Edge can install Chrome Web Store extensions only when each user enables an off-by-default "Allow extensions from other stores" setting, so it is not a reliable distribution channel without a separate Microsoft Edge Add-ons submission.
+
+**Implications:** Future releases keep one shared version and one build. The Firefox manifest must retain `gecko.data_collection_permissions` (AMO requires the data-collection declaration for new submissions). Revisit a dedicated Edge Add-ons listing only if there is demand.
