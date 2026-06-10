@@ -38,4 +38,4 @@ It is not on the Chrome Web Store or Firefox Add-ons yet. Download a zip from th
 
 ## License
 
-MIT, see [LICENSE](LICENSE).
+GNU Affero General Public License v3.0 (AGPL-3.0). See [LICENSE](LICENSE).
