@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SnowRaven Mini: Weather and tide for your eBird checklist</title>
+<meta name="description" content="A Chrome and Firefox extension that puts SnowRaven's weather and tide on your eBird checklist page. One click copies the weather, ready to paste. Bring your own free keys; nothing leaves your device." />
+<meta name="color-scheme" content="light dark" />
+<link rel="canonical" href="https://snowravenmini.dtgibson.com/" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="SnowRaven Mini: Weather and tide for your eBird checklist" />
+<meta property="og:description" content="A Chrome and Firefox extension that puts weather and tide on your eBird checklist, in one click. Coming soon to the Chrome Web Store and Firefox Add-ons." />
+<meta property="og:url" content="https://snowravenmini.dtgibson.com/" />
+<meta property="og:image" content="https://snowravenmini.dtgibson.com/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:image" content="https://snowravenmini.dtgibson.com/assets/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<script>
+  (function () {
+    try {
+      var s = localStorage.getItem('srm-site-theme');
+      var t = (s === 'light' || s === 'dark') ? s : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+  })();
+</script>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a class="brand" href="#top" aria-label="SnowRaven Mini home">
+      <svg class="brand-mark" width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg>
+      <span class="brand-name">Snow<span class="brand-accent">Raven</span> Mini</span>
+      <span class="version-pill">v1.0.0</span>
+    </a>
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="#features">Features</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#install">Install</a>
+    </nav>
+    <div class="header-actions">
+      <a class="ghost-link" href="https://github.com/dtgibson/snowraven-mini" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12 11.5 11.5 0 0 0 8.4 23c.6.1.8-.26.8-.57v-2c-3.2.7-3.87-1.55-3.87-1.55-.53-1.34-1.3-1.7-1.3-1.7-1.05-.72.08-.7.08-.7 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.73 1.26 3.4.96.1-.75.4-1.27.73-1.56-2.56-.3-5.26-1.28-5.26-5.7 0-1.26.45-2.3 1.2-3.1-.12-.3-.52-1.48.1-3.08 0 0 .98-.31 3.2 1.18a11 11 0 0 1 5.83 0c2.22-1.5 3.2-1.18 3.2-1.18.62 1.6.22 2.78.1 3.08.75.8 1.2 1.84 1.2 3.1 0 4.43-2.7 5.4-5.27 5.69.41.36.78 1.05.78 2.12v3.14c0 .31.2.68.81.57A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
+        <span>GitHub</span>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch color theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile" hidden>
+    <a href="#features">Features</a><a href="#privacy">Privacy</a><a href="#install">Install</a>
+    <a href="https://github.com/dtgibson/snowraven-mini" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="dot"></span>Browser extension · Free &amp; open source</p>
+        <h1>Weather and tide for your eBird checklist, <span class="accent">in one click</span></h1>
+        <p class="lede">SnowRaven Mini puts the SnowRaven app's weather and tide right on the eBird checklist page. Open it on a checklist's Edit Comments page and the weather is already on your clipboard, formatted the same way as SnowRaven, with the tide right below.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#install">Get SnowRaven Mini</a>
+          <a class="btn btn-secondary" href="https://github.com/dtgibson/snowraven-mini" target="_blank" rel="noopener">View on GitHub</a>
+        </div>
+        <p class="hero-meta">Chrome &amp; Firefox &nbsp;·&nbsp; No account, no telemetry</p>
+      </div>
+      <div class="hero-media">
+        <figure class="browser-frame">
+          <div class="browser-bar"><span class="tl"></span><span class="tl"></span><span class="tl"></span><span class="url">ebird.org/edit/effort</span></div>
+          <div class="sr-popup">
+            <div class="sr-pop-head"><span class="sr-brand2"><svg width="18" height="18" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg> SnowRaven Mini</span><span class="sr-pop-ctx"><b>The Battery, NY</b>Jun 7, 6:42am</span></div>
+            <div class="sr-pop-body">
+              <div><div class="sr-erow"><span class="sr-eyebrow2">Weather</span><span class="sr-copy">✓ Copied</span></div><pre class="sr-mono">☁️
+Overcast clouds
+Temperature: 54°F
+Wind: Gentle breeze
+Wind Direction: W
+Humidity: 89%</pre><div class="sr-banner">✓ Copied to clipboard. Paste it into your comment.</div></div>
+              <hr class="sr-div" />
+              <div><div class="sr-erow"><span class="sr-eyebrow2">Tide</span><span class="sr-copy">Copy</span></div><pre class="sr-mono">🌊
+Observed
+Water level: 2.3 – 5.6 ft
+Tide: Rising
+Next high: 5.6 ft at 1:58pm
+Station: The Battery, 3.4 mi</pre></div>
+            </div>
+            <div class="sr-foot2">SnowRaven Mini · Help</div>
+          </div>
+        </figure>
+        <div class="float-card float-a"><span class="fc-k">Weather</span><span class="fc-v">Copied ✓</span></div>
+        <div class="float-card float-b"><span class="fc-k">Tide</span><span class="fc-v">5.6 ft rising</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="privacy">
+    <div class="container privacy-grid">
+      <div class="privacy-lead">
+        <p class="eyebrow on-dark"><span class="dot"></span>Privacy by design</p>
+        <h2>Your keys stay on your device</h2>
+        <p>SnowRaven Mini has no account, no analytics, no telemetry, and no server. You bring your own two free API keys, for eBird and OpenWeather. They are stored only in your browser and each is sent only to its own service. NOAA tide data needs no key. There is nothing in the middle.</p>
+      </div>
+      <ul class="privacy-points">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V5l-8-3z"/></svg><div><strong>You bring the keys</strong><span>Two free keys, entered once on the Settings page.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="m4 20 16-16"/></svg><div><strong>No tracking</strong><span>Zero analytics or telemetry, in either browser.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><div><strong>Keys stay local</strong><span>Stored in chrome.storage.local, sent only to each API.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12a7 7 0 0 1 14 0"/><rect x="3" y="12" width="18" height="8" rx="2"/></svg><div><strong>No developer server</strong><span>There is no SnowRaven Mini cloud. Nothing to run.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow"><span class="dot"></span>What it does</p>
+        <h2>Weather and tide, without leaving eBird</h2>
+        <p class="section-sub">One click on a checklist resolves where and when you were, fetches the weather and tide, and hands them to you ready to paste.</p>
+      </header>
+
+      <article class="feature-row">
+        <div class="feature-text">
+          <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M16 13a4 4 0 0 0-3.9-5 5 5 0 0 0-9 2.3A3.5 3.5 0 0 0 4 17h11"/><path d="M8 19v2M12 20v2M16 19v2"/></svg></span>
+          <h3>One-click weather and tide</h3>
+          <p>Open the popup on a checklist's Edit Comments page and the weather block copies itself, in the same format the SnowRaven desktop app produces. The tide for the nearest NOAA station sits right below with its own copy button. Switch to the comment field and paste.</p>
+        </div>
+        <figure class="feature-media">
+          <div class="browser-frame">
+            <div class="browser-bar"><span class="tl"></span><span class="tl"></span><span class="tl"></span></div>
+            <div class="sr-popup">
+              <div class="sr-pop-head"><span class="sr-brand2"><svg width="18" height="18" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/></g></svg> SnowRaven Mini</span><span class="sr-pop-ctx"><b>The Battery, NY</b>Jun 7, 6:42am</span></div>
+              <div class="sr-pop-body">
+                <div><div class="sr-erow"><span class="sr-eyebrow2">Weather</span><span class="sr-copy">✓ Copied</span></div><pre class="sr-mono">☁️
+Overcast clouds
+Temperature: 54°F
+Wind: Gentle breeze
+Cloud Cover: 100%
+Sunrise: 5:08am</pre><div class="sr-banner">✓ Copied to clipboard.</div></div>
+                <hr class="sr-div" />
+                <div><div class="sr-erow"><span class="sr-eyebrow2">Tide</span><span class="sr-copy">Copy</span></div><pre class="sr-mono">🌊
+Observed · 2.3 – 5.6 ft
+Rising · next high 1:58pm
+Station: The Battery</pre></div>
+              </div>
+            </div>
+          </div>
+        </figure>
+      </article>
+
+      <article class="feature-row reverse">
+        <div class="feature-text">
+          <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="3.5"/><path d="m10 13 6-6"/><path d="m14 5 3 3"/><path d="m17 8 2-2"/></svg></span>
+          <h3>Your keys, your device</h3>
+          <p>Paste your two free keys once on the Settings page. They live in your browser's local storage and are sent only to eBird and OpenWeather, never to anyone else. There is no account and no server.</p>
+        </div>
+        <figure class="feature-media">
+          <div class="browser-frame">
+            <div class="browser-bar"><span class="tl"></span><span class="tl"></span><span class="tl"></span></div>
+            <div class="sr-opt">
+              <div class="sr-opt-head"><span class="sr-brand2"><svg width="18" height="18" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/></g></svg> SnowRaven Mini</span><p>Your keys stay on this device.</p></div>
+              <div class="sr-opt-body">
+                <div class="sr-field"><div class="lab"><span>eBird API key</span><a>Get a free key ›</a></div><div class="inp">••••••••••••</div></div>
+                <div class="sr-field"><div class="lab"><span>OpenWeather API key</span><a>Get a free key ›</a></div><div class="inp">••••••••••••••••</div></div>
+                <div class="sr-savep"><button class="sr-prim" style="width:auto;padding:0 18px">Save keys</button><span class="sr-saved">✓ Saved</span></div>
+                <div class="sr-priv"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Keys stay on this device, sent only to eBird and OpenWeather.</div>
+              </div>
+            </div>
+          </div>
+        </figure>
+      </article>
+
+      <article class="feature-row">
+        <div class="feature-text">
+          <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg></span>
+          <h3>Asks only for what it needs</h3>
+          <p>SnowRaven Mini reaches three APIs, eBird, OpenWeather, and NOAA, and nothing else. It requests that access from your click the first time you use it, not at install, so there is no broad-permission warning and no surprise.</p>
+        </div>
+        <figure class="feature-media">
+          <div class="browser-frame">
+            <div class="browser-bar"><span class="tl"></span><span class="tl"></span><span class="tl"></span></div>
+            <div class="sr-popup">
+              <div class="sr-pop-head"><span class="sr-brand2"><svg width="18" height="18" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/></g></svg> SnowRaven Mini</span></div>
+              <div class="sr-perm">
+                <div class="lead"><span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg></span><div><h4>Allow SnowRaven Mini to reach these?</h4><p>It calls eBird, OpenWeather, and NOAA directly from your browser, nothing else.</p></div></div>
+                <ul class="sr-hosts"><li><span class="d"></span>api.ebird.org</li><li><span class="d"></span>api.openweathermap.org</li><li><span class="d"></span>api.tidesandcurrents.noaa.gov</li></ul>
+                <button class="sr-prim">Grant access</button>
+              </div>
+            </div>
+          </div>
+        </figure>
+      </article>
+
+      <article class="feature-row reverse">
+        <div class="feature-text">
+          <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4M12 17h.01"/></svg></span>
+          <h3>Also get the tides</h3>
+          <p>Tide is for US coastal checklists. When the nearest NOAA station is too far away or your checklist is inland, SnowRaven Mini says so plainly, with an override to show the nearest station anyway, rather than inventing a number.</p>
+        </div>
+        <figure class="feature-media">
+          <div class="browser-frame">
+            <div class="browser-bar"><span class="tl"></span><span class="tl"></span><span class="tl"></span></div>
+            <div class="sr-popup">
+              <div class="sr-pop-head"><span class="sr-brand2"><svg width="18" height="18" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/></g></svg> SnowRaven Mini</span><span class="sr-pop-ctx"><b>Ridgefield NWR, WA</b>May 19, 7:10am</span></div>
+              <div class="sr-pop-body">
+                <div><div class="sr-erow"><span class="sr-eyebrow2">Weather</span><span class="sr-copy">✓ Copied</span></div><pre class="sr-mono">☀️
+Clear sky
+Temperature: 61°F
+Wind: Light breeze</pre></div>
+                <hr class="sr-div" />
+                <div><div class="sr-erow"><span class="sr-eyebrow2">Tide</span></div><div class="sr-amber"><span class="t"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4M12 17h.01"/></svg><span>The nearest tide station is 38 miles away.</span></span><button class="sr-ghost">Show it anyway</button></div></div>
+              </div>
+            </div>
+          </div>
+        </figure>
+      </article>
+    </div>
+  </section>
+
+  <section class="install" id="install">
+    <div class="container">
+      <header class="section-head">
+        <p class="eyebrow"><span class="dot"></span>Get started</p>
+        <h2>Add it to your browser</h2>
+        <p class="section-sub">Store listings are on the way. Until then, install it straight from the GitHub release.</p>
+      </header>
+      <div class="install-grid">
+        <div>
+          <div class="store-row">
+            <div class="store-btn" aria-disabled="true">
+              <svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8h9M7.5 6.5 12 14M4.2 17 9 9"/></svg>
+              <span class="st"><span class="top">Coming soon to</span><span class="name">Chrome Web Store</span></span>
+              <span class="soon">Soon</span>
+            </div>
+            <div class="store-btn" aria-disabled="true">
+              <svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18M8 8c2 3 6 3 8 0"/></svg>
+              <span class="st"><span class="top">Coming soon to</span><span class="name">Firefox Add-ons</span></span>
+              <span class="soon">Soon</span>
+            </div>
+          </div>
+          <article class="install-card">
+            <h3>Install from the release</h3>
+            <p>Until it is in the stores, grab the latest release and load it in your browser. The same build works in Chrome and Firefox. The step-by-step guide walks through loading it.</p>
+            <a class="btn btn-primary btn-small" href="https://github.com/dtgibson/snowraven-mini/releases/latest" target="_blank" rel="noopener">Download the latest release</a>
+            <a class="btn btn-secondary btn-small" href="https://github.com/dtgibson/snowraven-mini/blob/main/docs/HELP.md" target="_blank" rel="noopener">Install guide</a>
+          </article>
+        </div>
+        <aside class="requirements">
+          <h3>What you'll need</h3>
+          <p>Two free API keys, entered once in Settings:</p>
+          <ul>
+            <li><strong>eBird API key</strong>, free from <a href="https://ebird.org/api/keygen" target="_blank" rel="noopener">ebird.org/api/keygen</a>.</li>
+            <li><strong>OpenWeather API key</strong>, free from <a href="https://openweathermap.org/api" target="_blank" rel="noopener">openweathermap.org</a>, on the One Call by Call plan.</li>
+          </ul>
+          <p style="font-size:.88rem;color:var(--text-muted);margin-top:12px">NOAA tide data needs no key. Your keys never leave your device.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing band">
+    <div class="container closing-inner">
+      <h2>A small companion to SnowRaven, shared freely</h2>
+      <p>SnowRaven Mini does one job: the weather and tide comment blocks, in your browser, the same way the <a href="https://snowraven.dtgibson.com" target="_blank" rel="noopener" style="color:var(--band-accent)">SnowRaven desktop app</a> makes them. It is open source and free, with nothing to sign up for and nothing to buy.</p>
+      <div class="cta-row center">
+        <a class="btn btn-primary" href="https://github.com/dtgibson/snowraven-mini/releases/latest" target="_blank" rel="noopener">Download the latest release</a>
+        <a class="btn btn-secondary on-dark" href="https://github.com/dtgibson/snowraven-mini" target="_blank" rel="noopener">View the source on GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="#top" aria-label="SnowRaven Mini home">
+        <svg class="brand-mark" width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg>
+        <span class="brand-name">Snow<span class="brand-accent">Raven</span> Mini</span>
+      </a>
+      <p>Weather and tide for your eBird checklist. The browser companion to <a href="https://snowraven.dtgibson.com" target="_blank" rel="noopener">SnowRaven</a>, by <a href="https://github.com/dtgibson" target="_blank" rel="noopener">dtgibson</a>.</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="https://github.com/dtgibson/snowraven-mini" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/dtgibson/snowraven-mini/releases/latest" target="_blank" rel="noopener">Releases</a>
+      <a href="https://github.com/dtgibson/snowraven-mini/blob/main/docs/HELP.md" target="_blank" rel="noopener">Help</a>
+      <a href="https://github.com/dtgibson/snowraven-mini/blob/main/PRIVACY_POLICY.md" target="_blank" rel="noopener">Privacy</a>
+      <a href="https://github.com/dtgibson/snowraven-mini/blob/main/ACCESSIBILITY.md" target="_blank" rel="noopener">Accessibility</a>
+      <a href="https://snowraven.dtgibson.com" target="_blank" rel="noopener">SnowRaven app</a>
+    </nav>
+  </div>
+  <div class="container footer-fine">
+    <p>Weather by OpenWeather. Checklist data from eBird. Tides from NOAA Tides &amp; Currents. Output matches the SnowRaven desktop app.</p>
+    <p class="footer-version">SnowRaven Mini v1.0.0 · AGPL-3.0 · Free &amp; open source</p>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>
