@@ -6,19 +6,21 @@ This is a living document. It reflects the current best thinking on what to buil
 
 ## Shipped
 
-Nothing shipped yet.
+**1 shipped.**
+
+- **Last shipped — Weather & Tide on the eBird Checklist Page (v0.1.0):** one-click copy of SnowRaven's exact weather (and tide shown alongside) onto the eBird checklist Edit Comments page, in Chrome and Firefox. Published to GitHub with a release.
 
 ---
 
 ## Up Next
 
-1. **Weather on the checklist page** — The core path end to end: detect the eBird edit page, read the checklist ID, resolve its location and time through the eBird API exactly as SnowRaven does, fetch historical weather from OpenWeather, format it byte-for-byte like SnowRaven, and auto-copy it on click with a popup display. This proves the whole idea and delivers the headline value first.
-2. **Tide in the popup** — Add the keyless NOAA tide lookup and nearest-station matching, shown alongside the weather with its own copy button, so the user can add it when it's relevant. Builds directly on the resolved location from step one.
-3. **Accessible polish and release to both stores** — Bring the popup to SnowRaven's WCAG 2.1 AA bar (keyboard, screen-reader labels, focus, contrast, dark theme, reduced motion), then package and submit one codebase to both the Chrome Web Store and Firefox Add-ons.
+1. **Publish to the Chrome Web Store and Firefox Add-ons** — the v0.1.0 zips on the GitHub release are upload-ready; this is the step that gets it into users' browsers without manual sideloading.
+2. **Tide without an OpenWeather key, and a first-run key walkthrough** — let tide show on its own when only OpenWeather is missing, and guide new users through pasting their two free keys.
+3. **Combined copy and a duplicate-block guard** — an optional one-button weather+tide copy, and skipping the auto-copy when the comment already contains a weather block.
 
 ---
 
 ## On the Horizon
 
-- A first-run setup that walks the user through pasting their free eBird and OpenWeather keys.
-- Graceful handling of edge cases: missing coordinates, inland checklists with no nearby tide station, and expired or invalid keys.
+- Edge-case hardening: checklists with no resolvable coordinates, inland checklists with no nearby tide station, and expired or invalid keys.
+- Re-verify timezone parity against SnowRaven if either side updates its timezone data.
