@@ -27,6 +27,9 @@ export default defineConfig({
   base: './',
   plugins: [react(), emitExtensionFiles()],
   build: {
+    // Clear dist/ before every build so stale hashed assets never accumulate
+    // (left over, they would bloat the packed release zips).
+    emptyOutDir: true,
     // One shared globals.css (FR-50) — no per-entry CSS split.
     cssCodeSplit: false,
     // Never inline the 347 KB NOAA JSON; always emit it as a separate hashed
