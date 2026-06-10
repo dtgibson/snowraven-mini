@@ -1,0 +1,31 @@
+{
+  "name": "snowraven-mini",
+  "version": "0.1.0",
+  "description": "Weather and tide on the eBird checklist page — byte-for-byte SnowRaven, one click.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "tsc -b && vite build",
+    "test": "vitest run",
+    "pack": "node scripts/pack.mjs",
+    "icons": "node scripts/make-icons.mjs"
+  },
+  "dependencies": {
+    "@photostructure/tz-lookup": "11.5.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.287",
+    "@types/node": "^22.19.20",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^25.0.1",
+    "sharp": "^0.34.5",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.7",
+    "vitest": "^3.2.6"
+  }
+}

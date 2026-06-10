@@ -1,0 +1,25 @@
+{
+  "name": "snowraven-mini",
+  "type": "web_app",
+  "entryPath": "new",
+  "repoURL": null,
+  "repoProvider": null,
+  "frontend": "react-vite",
+  "backend": null,
+  "emailProvider": null,
+  "smsProvider": null,
+  "deploymentTarget": null,
+  "createdAt": "2026-06-09T04:18:29Z",
+  "updatedAt": "2026-06-09T04:18:29Z",
+  "stack": {
+    "componentLibrary": null,
+    "designTokens": "src/globals.css",
+    "testRunner": "vitest",
+    "cicd": null,
+    "environments": {
+      "dev": "main",
+      "staging": null,
+      "prod": null
+    }
+  }
+}

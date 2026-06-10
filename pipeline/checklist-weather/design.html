@@ -1,0 +1,1350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SnowRaven Mini — Design Mockup</title>
+<style>
+/* ============================================================================
+   SnowRaven brand tokens.
+   Light is the default (from /home/parallels/snowraven/brand.md); dark is
+   re-derived from frontend/src/globals.css [data-theme="dark"] — a NEUTRAL ZINC
+   ramp with an EMERALD (#34D399) accent — so the popup matches the desktop app
+   rather than an invented slate. Mirrored under [data-theme] so the preview
+   toggle can force either theme. AA (>=4.5:1 text, >=3:1 functional UI) holds in
+   both. Output blocks are monospace, mirroring
+   frontend/src/components/WeatherTidePanel.tsx MonoBlock.
+   ========================================================================== */
+:root,
+[data-theme="light"] {
+  --bg:            #FFFFFF;
+  --fg:            #0F1117;
+  --card:          #FFFFFF;
+  --muted:         #F4F4F5;
+  --muted-fg:      #6B6B73;   /* darkened so AA holds on the muted #F4F4F5 fill */
+  --accent:        #E8F5EE;   /* light green highlight */
+  --accent-fg:     #1A5C38;   /* AA on accent */
+  --secondary:     #F0FAF4;
+  --primary:       #2D8653;   /* Irish clover — filled primary action only */
+  --primary-hover: #266F45;
+  --primary-fg:    #FFFFFF;
+  --link-fg:       #266F45;   /* body-text green; AA (5.85:1) on the #FAFAFA mono surface */
+  --link-hover:    #1F5A38;
+  --border:        #E4E4E7;
+  --input-border:  #9A9AA3;   /* >=3:1 on white — functional field boundary (SC 1.4.11) */
+  --ring:          #2D8653;
+  --destructive:   #B91C1C;   /* AA (~5.9:1) on the #FEF2F2 alert bg */
+  --destructive-bg:#FEF2F2;
+  --destructive-bd:#FCA5A5;
+  --warning-fg:    #92400E;   /* matches app --sr-warning */
+  --warning-bg:    #FFFBEB;   /* matches app --sr-warning-bg */
+  --warning-bd:    #FDE68A;   /* matches app --sr-warning-subtle */
+  --warning-icon:  #92400E;
+  --mono-bg:       #FAFAFA;   /* output block surface */
+  --radius:        0.5rem;
+  --shadow:        0 1px 2px rgba(15,17,23,.06), 0 8px 24px rgba(15,17,23,.06);
+  --shadow-pop:    0 2px 4px rgba(15,17,23,.08), 0 18px 48px rgba(15,17,23,.14);
+  /* page chrome (the gallery shell, deliberately neutral so popups read clearly) */
+  --page-bg:       #F6F7F8;
+  --page-panel:    #FFFFFF;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Re-derived from app globals.css [data-theme="dark"] — neutral zinc + emerald */
+    --bg:            #18181B;
+    --fg:            #F4F4F5;
+    --card:          #18181B;
+    --muted:         #27272A;
+    --muted-fg:      #A1A1AA;
+    --accent:        #052E16;   /* emerald wash */
+    --accent-fg:     #34D399;   /* emerald, AA on accent */
+    --secondary:     #064E3B;
+    --primary:       #34D399;   /* emerald accent (matches app dark) */
+    --primary-hover: #6EE7B7;
+    --primary-fg:    #052E16;   /* dark green ON the emerald fill */
+    --link-fg:       #34D399;
+    --link-hover:    #6EE7B7;
+    --border:        #27272A;
+    --input-border:  #52525B;   /* >=3:1 on #18181B */
+    --ring:          #34D399;
+    --destructive:   #F87171;
+    --destructive-bg:#1C0505;
+    --destructive-bd:#7F1D1D;
+    --warning-fg:    #FDE68A;   /* matches app --sr-warning (dark) */
+    --warning-bg:    #1C1002;   /* matches app --sr-warning-bg (dark) */
+    --warning-bd:    #78350F;   /* matches app --sr-warning-subtle (dark) */
+    --warning-icon:  #FDE68A;
+    --mono-bg:       #1C1C1F;
+    --shadow:        0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+    --shadow-pop:    0 2px 4px rgba(0,0,0,.5), 0 18px 48px rgba(0,0,0,.55);
+    --page-bg:       #09090B;
+    --page-panel:    #18181B;
+  }
+}
+/* Forced themes via the preview toggle (overrides the OS query) */
+[data-theme="dark"] {
+  --bg:            #18181B;
+  --fg:            #F4F4F5;
+  --card:          #18181B;
+  --muted:         #27272A;
+  --muted-fg:      #A1A1AA;
+  --accent:        #052E16;
+  --accent-fg:     #34D399;
+  --secondary:     #064E3B;
+  --primary:       #34D399;
+  --primary-hover: #6EE7B7;
+  --primary-fg:    #052E16;
+  --link-fg:       #34D399;
+  --link-hover:    #6EE7B7;
+  --border:        #27272A;
+  --input-border:  #52525B;
+  --ring:          #34D399;
+  --destructive:   #F87171;
+  --destructive-bg:#1C0505;
+  --destructive-bd:#7F1D1D;
+  --warning-fg:    #FDE68A;
+  --warning-bg:    #1C1002;
+  --warning-bd:    #78350F;
+  --warning-icon:  #FDE68A;
+  --mono-bg:       #1C1C1F;
+  --shadow:        0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+  --shadow-pop:    0 2px 4px rgba(0,0,0,.5), 0 18px 48px rgba(0,0,0,.55);
+  --page-bg:       #09090B;
+  --page-panel:    #18181B;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--page-bg);
+  color: var(--fg);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- Typographic roles ----------------------------------------------------
+   1. Display/header role  (.gallery-title, .pop-brand)  — weight 600/700, tight
+   2. Body role            (default 16/1.5 Inter)
+   3. Monospace output role (.mono) — ui-monospace, ~0.8125rem, line-height 1.7
+   plus an uppercase "eyebrow" micro-label that ties the surface together.
+   -------------------------------------------------------------------------- */
+.mono {
+  font-family: ui-monospace, "Cascadia Code", "Cascadia Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+}
+
+/* ---- Page shell ---- */
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.gallery-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.gallery-title .mark { color: var(--primary); flex-shrink: 0; }
+.gallery-sub {
+  margin: 10px 0 0;
+  color: var(--muted-fg);
+  font-size: 0.9375rem;
+  max-width: 60ch;
+}
+
+/* ---- Theme toggle ---- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background: var(--page-panel);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+}
+.theme-toggle button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--muted-fg);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .15s, color .15s;
+}
+/* Active segment: green tint + bolder weight + a check glyph, so the selected
+   state is perceivable without relying on the (subtle) background tint alone. */
+.theme-toggle button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-weight: 700;
+}
+.theme-toggle button .check {
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: width .12s, opacity .12s;
+  display: inline-flex;
+}
+.theme-toggle button[aria-pressed="true"] .check {
+  width: 13px;
+  opacity: 1;
+}
+.theme-toggle button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* ---- Gallery layout: a labeled VERTICAL gallery, not a card grid ---- */
+.gallery {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+.row {
+  display: grid;
+  grid-template-columns: 232px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+@media (max-width: 720px) {
+  .row { grid-template-columns: 1fr; gap: 14px; }
+}
+.row-label .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.row-label .cap {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted-fg);
+  margin: 0 0 6px;
+}
+.row-label h2 {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
+  color: var(--fg);
+}
+.row-label p {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted-fg);
+  margin: 0;
+  max-width: 30ch;
+}
+.row-label p + p { margin-top: 8px; }
+.row-stage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* ---- The popup frame (~380px wide extension popup) ---- */
+.popup {
+  width: 380px;
+  max-width: 100%;
+  background: var(--card);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 10px;   /* close to the app's 8px panel radius */
+  box-shadow: var(--shadow-pop);
+  overflow: hidden;
+}
+.popup.hero { width: 392px; }
+
+/* popup header bar */
+.pop-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.pop-brand {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pop-brand .mark { color: var(--primary); flex-shrink: 0; display: inline-flex; }
+.pop-context {
+  margin-left: auto;
+  font-size: 0.6875rem;
+  color: var(--muted-fg);
+  text-align: right;
+  line-height: 1.35;
+  max-width: 56%;
+  overflow: hidden;
+}
+.pop-context .loc {
+  display: block;
+  font-weight: 600;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pop-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* eyebrow + per-block copy row (mirrors WeatherTidePanel BlockEyebrow) */
+.eyebrow-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-fg);
+}
+
+/* Secondary / "copy" control — accent-tinted, NOT the green primary */
+.btn-copy {
+  height: 28px;
+  padding: 0 11px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  border: 1.5px solid transparent;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.btn-copy:hover { background: var(--secondary); border-color: var(--accent-fg); }
+.btn-copy:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+.btn-copy.is-copied {
+  background: var(--accent-fg);
+  color: var(--bg);
+  border-color: var(--accent-fg);
+}
+[data-theme="dark"] .btn-copy.is-copied,
+.popup .btn-copy.is-copied { color: var(--bg); }
+
+/* monospace output block — mirrors MonoBlock */
+.mono-block {
+  background: var(--mono-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  margin: 0;
+  color: inherit;
+}
+
+/* Primary action — the ONE place green is filled (used sparingly per brand) */
+.btn-primary {
+  width: 100%;
+  min-height: 38px;
+  padding: 0 16px;
+  background: var(--primary);
+  color: var(--primary-fg);
+  border: 0;
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background .15s, transform .05s;
+}
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-primary:active { transform: translateY(0.5px); }
+.btn-primary:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+
+/* Quiet / ghost action (e.g. "Show it anyway", "Go to Settings") */
+.btn-ghost {
+  min-height: 32px;
+  padding: 0 13px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  border: 1.5px solid transparent;
+  border-radius: 7px;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: background .15s, border-color .15s;
+}
+.btn-ghost:hover { background: var(--secondary); border-color: var(--accent-fg); }
+.btn-ghost:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+
+/* link-styled inline action */
+.link-action {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border-radius: 4px;
+}
+.link-action:hover { color: var(--primary-hover); text-decoration: underline; }
+.link-action:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+
+/* ---- Loading row ---- */
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 2px;
+  font-size: 0.8125rem;
+  color: var(--muted-fg);
+}
+.status-row .ico { flex-shrink: 0; color: var(--muted-fg); display: inline-flex; }
+.spinner {
+  width: 15px; height: 15px; flex-shrink: 0;
+  border: 2px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---- Calm informational state (not-on-checklist) ---- */
+.info-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 26px 22px 28px;
+}
+.info-state .ico {
+  width: 44px; height: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 12px;
+  background: var(--muted);
+  color: var(--muted-fg);
+}
+.info-state h3 {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.info-state p {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--muted-fg);
+  max-width: 30ch;
+}
+
+/* ---- Nudge / notice cards ---- */
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 12px 13px;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.notice .ico { flex-shrink: 0; margin-top: 1px; }
+.notice-neutral {
+  background: var(--muted);
+  border: 1px solid var(--border);
+  color: var(--fg);
+}
+.notice-neutral .ico { color: var(--muted-fg); }
+/* Amber tide notice — matches the app component: a single space-between ROW,
+   icon + text on the left, the override button right-aligned on the SAME row. */
+.notice-amber {
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 15px;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning-bd);
+  color: var(--warning-fg);
+}
+.notice-amber .amber-text {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.notice-amber .amber-text .ico { color: var(--warning-icon); }
+.notice-amber .btn-ghost { flex-shrink: 0; }
+.notice .strong { font-weight: 600; }
+.nudge-actions {
+  margin-top: 11px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* ---- Error (alert) card ---- */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 11px 13px;
+  background: var(--destructive-bg);
+  border: 1px solid var(--destructive-bd);
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--destructive);
+}
+.alert .ico { flex-shrink: 0; margin-top: 1px; color: var(--destructive); }
+.alert .title { font-weight: 600; }
+.alert .sub { margin-top: 6px; }
+.alert .sub a, .alert .link-alert {
+  color: var(--destructive);
+  font-weight: 600;
+  text-decoration: underline;
+  background: none; border: 0; padding: 0; font: inherit; cursor: pointer;
+}
+.alert .link-alert:focus-visible { outline: 2px solid var(--destructive); outline-offset: 2px; border-radius: 3px; }
+
+/* ---- Permission state ---- */
+.perm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 16px 16px;
+}
+.perm .lead { display: flex; gap: 11px; align-items: flex-start; }
+.perm .lead .ico {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--accent-fg);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.perm h3 { margin: 0 0 4px; font-size: 0.9375rem; font-weight: 600; }
+.perm p { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--muted-fg); }
+.host-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.host-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", Consolas, monospace;
+  color: var(--fg);
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 7px 10px;
+}
+.host-list li .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); flex-shrink: 0; }
+
+/* ====== OPTIONS PAGE (full width, not the narrow popup) ====== */
+.options {
+  width: 100%;
+  max-width: 640px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-pop);
+  overflow: hidden;
+}
+.options-head {
+  padding: 22px 28px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.options-head .pop-brand { font-size: 1.0625rem; }
+.options-head p { margin: 8px 0 0; color: var(--muted-fg); font-size: 0.875rem; }
+.options-body { padding: 26px 28px 28px; }
+.field { margin-bottom: 24px; }
+.field-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 7px;
+}
+.field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.field .getkey {
+  font-size: 0.8125rem;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.field .getkey:hover { color: var(--primary-hover); text-decoration: underline; }
+.field .getkey:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 3px; }
+.input-wrap { position: relative; display: flex; }
+.field input {
+  width: 100%;
+  height: 42px;
+  padding: 0 44px 0 13px;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", Consolas, monospace;
+  letter-spacing: 0.04em;
+  transition: border-color .15s, box-shadow .15s;
+}
+.field input::placeholder { color: var(--muted-fg); letter-spacing: normal; font-family: Inter, system-ui, sans-serif; }
+.field input:hover { border-color: var(--fg); }
+/* Keep a real, visible focus ring on the inputs (like every other control);
+   the glow is enhancement only — outline survives Windows High Contrast Mode. */
+.field input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 28%, transparent);
+}
+.reveal-btn {
+  position: absolute;
+  right: 6px; top: 50%;
+  transform: translateY(-50%);
+  width: 32px; height: 32px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: 0; border-radius: 6px;
+  color: var(--fg); cursor: pointer;
+}
+.reveal-btn:hover { color: var(--fg); background: var(--muted); }
+.reveal-btn:focus-visible { outline: 2px solid var(--ring); outline-offset: 1px; }
+.field .help {
+  margin: 7px 0 0;
+  font-size: 0.8125rem;
+  color: var(--muted-fg);
+  line-height: 1.45;
+}
+.options-foot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+}
+.options-foot .btn-primary { width: auto; padding: 0 22px; }
+.save-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent-fg);
+}
+.privacy-note {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--muted-fg);
+}
+.privacy-note .ico { color: var(--primary); flex-shrink: 0; }
+
+/* visually-hidden but available to AT */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+footer.legend {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--muted-fg);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+footer.legend code {
+  font-family: ui-monospace, "Cascadia Code", "Fira Code", Consolas, monospace;
+  font-size: 0.78rem;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; border-top-color: var(--primary); }
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="page-head">
+    <div>
+      <h1 class="gallery-title">
+        <span class="mark" aria-hidden="true">
+          <!-- raven + clover-leaf mark -->
+          <svg width="30" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 19c0-5.5 4.2-9.5 9.6-9.5 2.4 0 3.9.8 5.1 1.9l4.6-2.2c.6-.3 1.2.4.8.95L22.7 14c.7 1.1 1.1 2.5 1.1 4 0 5.2-4 8.5-9.2 8.5H6.4c-.6 0-.9-.7-.5-1.15L8 23.2C6.1 22.4 5 20.9 5 19Z" fill="currentColor"/>
+            <circle cx="13" cy="15.4" r="1.35" fill="var(--bg)"/>
+            <path d="M27.6 6.1c-1.9.2-3.2 1-3.9 2.2.9.5 2.4.4 3.4-.4.2 1.3-.2 2.6-1.1 3.3 1.5.2 3-1 3.3-2.8.3-1.6-.4-2.4-1.7-2.3Z" fill="currentColor"/>
+          </svg>
+        </span>
+        SnowRaven&nbsp;Mini
+      </h1>
+      <p class="gallery-sub">
+        Browser-extension popup design surface — every state of the weather &amp; tide popup,
+        plus the options page. ~380&nbsp;px popup, OS-driven dark theme, AA contrast in both.
+      </p>
+    </div>
+
+    <div class="theme-toggle" role="group" aria-label="Preview theme">
+      <button type="button" data-set-theme="light" aria-pressed="true">
+        <span class="check" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        Light
+      </button>
+      <button type="button" data-set-theme="dark" aria-pressed="false">
+        <span class="check" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        Dark
+      </button>
+    </div>
+  </header>
+
+  <main class="gallery">
+
+    <!-- ============================================================== 1 -->
+    <section class="row">
+      <div class="row-label">
+        <span class="num">1</span>
+        <p class="cap">Result · happy path</p>
+        <h2>Weather &amp; tide ready</h2>
+        <p>Each block has its own Copy button that flips to “Copied!” for ~2s on press (no auto-copy). Clean two-block stack — the most common surface.</p>
+        <p>Output is shown exactly as the app renders it on screen: the attribution markup is literal escaped text, not a live link (it only becomes a link once pasted into eBird).</p>
+      </div>
+      <div class="row-stage">
+        <!-- HERO popup -->
+        <div class="popup hero">
+          <div class="pop-head">
+            <span class="pop-brand">
+              <span class="mark" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5 19c0-5.5 4.2-9.5 9.6-9.5 2.4 0 3.9.8 5.1 1.9l4.6-2.2c.6-.3 1.2.4.8.95L22.7 14c.7 1.1 1.1 2.5 1.1 4 0 5.2-4 8.5-9.2 8.5H6.4c-.6 0-.9-.7-.5-1.15L8 23.2C6.1 22.4 5 20.9 5 19Z"/><circle cx="13" cy="15.4" r="1.35" fill="var(--card)"/><path d="M27.6 6.1c-1.9.2-3.2 1-3.9 2.2.9.5 2.4.4 3.4-.4.2 1.3-.2 2.6-1.1 3.3 1.5.2 3-1 3.3-2.8.3-1.6-.4-2.4-1.7-2.3Z"/></svg>
+              </span>
+              SnowRaven Mini
+            </span>
+            <span class="pop-context">
+              <span class="loc">Pillar Point Harbor, CA</span>
+              May 31, 2026 · 7:42am · 1.5h
+            </span>
+          </div>
+          <div class="pop-body">
+            <!-- Shared polite live region — EMPTY in markup; the copy handler
+                 writes "<block> copied to clipboard" here at the moment of copy
+                 (re-writing the text is what triggers the announcement). -->
+            <span class="sr-only" role="status" aria-live="polite" data-copy-live></span>
+
+            <!-- WEATHER slot -->
+            <div>
+              <div class="eyebrow-row">
+                <span class="eyebrow">Weather</span>
+                <button class="btn-copy" type="button" data-copy="Weather" aria-label="Copy weather to clipboard">
+                  <svg class="ico-copy" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span class="label">Copy</span>
+                </button>
+              </div>
+              <pre class="mono mono-block">🌤️
+Few clouds
+Temperature: 54°F
+Wind: Gentle breeze
+Wind Direction: W
+Cloud Cover: 40%
+Humidity: 78%
+Dew point: 48°F
+Sunrise: 5:47am
+Sunset: 8:24pm
+Weather generated by &lt;a href="https://github.com/dtgibson/snowraven"&gt;SnowRaven&lt;/a&gt;</pre>
+            </div>
+
+            <!-- TIDE slot -->
+            <div>
+              <div class="eyebrow-row">
+                <span class="eyebrow">Tide</span>
+                <button class="btn-copy" type="button" data-copy="Tide" aria-label="Copy tide to clipboard">
+                  <svg class="ico-copy" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span class="label">Copy</span>
+                </button>
+              </div>
+              <pre class="mono mono-block">🌊
+Predicted
+Water level: 2.1 – 3.4 ft
+Tide: Rising
+Previous low: 0.8 ft at 6:12am
+Next high: 4.9 ft at 12:31pm
+Station: Pillar Point Harbor (9414131), 2.3 mi away
+Relative to MLLW
+Tide data from NOAA CO-OPS · via &lt;a href="https://github.com/dtgibson/snowraven"&gt;SnowRaven&lt;/a&gt;</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== 2 -->
+    <section class="row">
+      <div class="row-label">
+        <span class="num">2</span>
+        <p class="cap">Result · tide too far</p>
+        <h2>Weather ok, tide out of range</h2>
+        <p>Inland checklist. Weather copies as usual; the tide block becomes a calm amber notice — icon + text left, a single opt-in override on the same row.</p>
+      </div>
+      <div class="row-stage">
+        <div class="popup">
+          <div class="pop-head">
+            <span class="pop-brand">
+              <span class="mark" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5 19c0-5.5 4.2-9.5 9.6-9.5 2.4 0 3.9.8 5.1 1.9l4.6-2.2c.6-.3 1.2.4.8.95L22.7 14c.7 1.1 1.1 2.5 1.1 4 0 5.2-4 8.5-9.2 8.5H6.4c-.6 0-.9-.7-.5-1.15L8 23.2C6.1 22.4 5 20.9 5 19Z"/><circle cx="13" cy="15.4" r="1.35" fill="var(--card)"/><path d="M27.6 6.1c-1.9.2-3.2 1-3.9 2.2.9.5 2.4.4 3.4-.4.2 1.3-.2 2.6-1.1 3.3 1.5.2 3-1 3.3-2.8.3-1.6-.4-2.4-1.7-2.3Z"/></svg>
+              </span>
+              SnowRaven Mini
+            </span>
+            <span class="pop-context">
+              <span class="loc">Hawk Ridge, MN</span>
+              May 31, 2026 · 7:42am · 1.5h
+            </span>
+          </div>
+          <div class="pop-body">
+            <span class="sr-only" role="status" aria-live="polite" data-copy-live></span>
+            <div>
+              <div class="eyebrow-row">
+                <span class="eyebrow">Weather</span>
+                <button class="btn-copy" type="button" data-copy="Weather" aria-label="Copy weather to clipboard">
+                  <svg class="ico-copy" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span class="label">Copy</span>
+                </button>
+              </div>
+              <pre class="mono mono-block">🌤️
+Few clouds
+Temperature: 54°F
+Wind: Gentle breeze
+Wind Direction: W
+Cloud Cover: 40%
+Humidity: 78%
+Dew point: 48°F
+Sunrise: 5:47am
+Sunset: 8:24pm
+Weather generated by &lt;a href="https://github.com/dtgibson/snowraven"&gt;SnowRaven&lt;/a&gt;</pre>
+            </div>
+
+            <div>
+              <div class="eyebrow-row">
+                <span class="eyebrow">Tide</span>
+              </div>
+              <div class="notice notice-amber">
+                <span class="amber-text">
+                  <span class="ico" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+                  </span>
+                  <span>The nearest tide station is <span class="strong">240 miles away</span> (Duluth, MN). Tide data may not reflect your spot.</span>
+                </span>
+                <button class="btn-ghost" type="button" aria-label="Show the nearest tide station anyway">Show it anyway</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== 2b -->
+    <section class="row">
+      <div class="row-label">
+        <span class="num">2b</span>
+        <p class="cap">Result · outside the US</p>
+        <h2>Tide is US-only</h2>
+        <p>NOAA CO-OPS covers US stations only. Same amber-notice pattern, distinct copy and a “Show nearest US station” override (FR-38 outside-us variant).</p>
+      </div>
+      <div class="row-stage">
+        <div class="popup">
+          <div class="pop-head">
+            <span class="pop-brand">
+              <span class="mark" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5 19c0-5.5 4.2-9.5 9.6-9.5 2.4 0 3.9.8 5.1 1.9l4.6-2.2c.6-.3 1.2.4.8.95L22.7 14c.7 1.1 1.1 2.5 1.1 4 0 5.2-4 8.5-9.2 8.5H6.4c-.6 0-.9-.7-.5-1.15L8 23.2C6.1 22.4 5 20.9 5 19Z"/><circle cx="13" cy="15.4" r="1.35" fill="var(--card)"/><path d="M27.6 6.1c-1.9.2-3.2 1-3.9 2.2.9.5 2.4.4 3.4-.4.2 1.3-.2 2.6-1.1 3.3 1.5.2 3-1 3.3-2.8.3-1.6-.4-2.4-1.7-2.3Z"/></svg>
+              </span>
+              SnowRaven Mini
+            </span>
+            <span class="pop-context">
+              <span class="loc">Stanley Park, Vancouver BC</span>
+              May 31, 2026 · 7:42am · 1.5h
+            </span>
+          </div>
+          <div class="pop-body">
+            <span class="sr-only" role="status" aria-live="polite" data-copy-live></span>
+            <div>
+              <div class="eyebrow-row">
+                <span class="eyebrow">Weather</span>
+                <button class="btn-copy" type="button" data-copy="Weather" aria-label="Copy weather to clipboard">
+                  <svg class="ico-copy" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span class="label">Copy</span>
+                </button>
+              </div>
+              <pre class="mono mono-block">⛅
+Scattered clouds
+Temperature: 51°F
+Wind: Light breeze
+Wind Direction: NW
+Cloud Cover: 55%
+Humidity: 81%
+Dew point: 46°F
+Sunrise: 5:11am
+Sunset: 9:02pm
+Weather generated by &lt;a href="https://github.com/dtgibson/snowraven"&gt;SnowRaven&lt;/a&gt;</pre>
+            </div>
+
+            <div>
+              <div class="eyebrow-row">
+                <span class="eyebrow">Tide</span>
+              </div>
+              <div class="notice notice-amber">
+                <span class="amber-text">
+                  <span class="ico" aria-hidden="true">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+                  </span>
+                  <span>Tide information is only available in the US. The nearest US station is <span class="strong">Cherry Point, WA</span>, 38 miles away.</span>
+                </span>
+                <button class="btn-ghost" type="button" aria-label="Show the nearest US tide station">Show nearest US station</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== 3 -->
+    <section class="row">
+      <div class="row-label">
+        <span class="num">3</span>
+        <p class="cap">Loading</p>
+        <h2>Fetching both blocks</h2>
+        <p>One combined status row before anything resolves. The spinner is decorative; the text carries the announcement and freezes under reduced-motion.</p>
+      </div>
+      <div class="row-stage">
+        <div class="popup">
+          <div class="pop-head">
+            <span class="pop-brand">
+              <span class="mark" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5 19c0-5.5 4.2-9.5 9.6-9.5 2.4 0 3.9.8 5.1 1.9l4.6-2.2c.6-.3 1.2.4.8.95L22.7 14c.7 1.1 1.1 2.5 1.1 4 0 5.2-4 8.5-9.2 8.5H6.4c-.6 0-.9-.7-.5-1.15L8 23.2C6.1 22.4 5 20.9 5 19Z"/><circle cx="13" cy="15.4" r="1.35" fill="var(--card)"/><path d="M27.6 6.1c-1.9.2-3.2 1-3.9 2.2.9.5 2.4.4 3.4-.4.2 1.3-.2 2.6-1.1 3.3 1.5.2 3-1 3.3-2.8.3-1.6-.4-2.4-1.7-2.3Z"/></svg>
+              </span>
+              SnowRaven Mini
+            </span>
+            <span class="pop-context">
+              <span class="loc">Pillar Point Harbor, CA</span>
+              May 31, 2026 · 7:42am · 1.5h
+            </span>
+          </div>
+          <div class="pop-body">
+            <div class="status-row" role="status" aria-live="polite">
+              <span class="spinner" aria-hidden="true"></span>
+              Loading weather &amp; tide…
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== 4 -->
+    <section class="row">
+      <div class="row-label">
+        <span class="num">4</span>
+        <p class="cap">Not on a checklist</p>
+        <h2>Nothing to read here</h2>
+        <p>Calm, informational — not an error. No fetch, no copy, no permission prompt fires from this state.</p>
+      </div>
+      <div class="row-stage">
+        <div class="popup">
+          <div class="pop-head">
+            <span class="pop-brand">
+              <span class="mark" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5 19c0-5.5 4.2-9.5 9.6-9.5 2.4 0 3.9.8 5.1 1.9l4.6-2.2c.6-.3 1.2.4.8.95L22.7 14c.7 1.1 1.1 2.5 1.1 4 0 5.2-4 8.5-9.2 8.5H6.4c-.6 0-.9-.7-.5-1.15L8 23.2C6.1 22.4 5 20.9 5 19Z"/><circle cx="13" cy="15.4" r="1.35" fill="var(--card)"/><path d="M27.6 6.1c-1.9.2-3.2 1-3.9 2.2.9.5 2.4.4 3.4-.4.2 1.3-.2 2.6-1.1 3.3 1.5.2 3-1 3.3-2.8.3-1.6-.4-2.4-1.7-2.3Z"/></svg>
+              </span>
+              SnowRaven Mini
+            </span>
+          </div>
+          <div class="pop-body">
+            <div class="info-state">
+              <span class="ico" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4.5 8-11.8A8 8 0 0 0 4 10.2C4 17.5 12 22 12 22Z"/><circle cx="12" cy="10" r="2.6"/></svg>
+              </span>
+              <h3>No checklist on this page</h3>
+              <p>Open an eBird checklist edit page to get its weather.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== 5 -->
+    <section class="row">
+      <div class="row-label">
+        <span class="num">5</span>
+        <p class="cap">Missing keys</p>
+        <h2>One-time setup nudge</h2>
+        <p>Names the exact key that’s missing and routes to Settings. eBird gates both blocks; OpenWeather gates only weather.</p>
+      </div>
+      <div class="row-stage">
+        <div class="popup">
+          <div class="pop-head">
+            <span class="pop-brand">
+              <span class="mark" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5 19c0-5.5 4.2-9.5 9.6-9.5 2.4 0 3.9.8 5.1 1.9l4.6-2.2c.6-.3 1.2.4.8.95L22.7 14c.7 1.1 1.1 2.5 1.1 4 0 5.2-4 8.5-9.2 8.5H6.4c-.6 0-.9-.7-.5-1.15L8 23.2C6.1 22.4 5 20.9 5 19Z"/><circle cx="13" cy="15.4" r="1.35" fill="var(--card)"/><path d="M27.6 6.1c-1.9.2-3.2 1-3.9 2.2.9.5 2.4.4 3.4-.4.2 1.3-.2 2.6-1.1 3.3 1.5.2 3-1 3.3-2.8.3-1.6-.4-2.4-1.7-2.3Z"/></svg>
+              </span>
+              SnowRaven Mini
+            </span>
+          </div>
+          <div class="pop-body">
+            <div class="notice notice-neutral">
+              <span class="ico" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15.5 7.5-7 7a3.5 3.5 0 1 1-2-2l1.6-1.6"/><circle cx="16.5" cy="6.5" r="3.5"/></svg>
+              </span>
+              <div style="flex:1">
+                <div><span class="strong">eBird API key</span> isn’t set yet. Add it once and a single click does the lookup.</div>
+                <div class="nudge-actions">
+                  <span style="font-size:.75rem;color:var(--muted-fg)">OpenWeather key: <span class="strong" style="color:var(--fg)">set ✓</span></span>
+                  <button class="link-action" type="button">
+                    Go to Settings
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== 6 -->
+    <section class="row">
+      <div class="row-label">
+        <span class="num">6</span>
+        <p class="cap">Permission needed</p>
+        <h2>One-time host grant</h2>
+        <p>All three origins requested together from the click. A single Grant covers weather and tide; denial is recoverable.</p>
+      </div>
+      <div class="row-stage">
+        <div class="popup">
+          <div class="pop-head">
+            <span class="pop-brand">
+              <span class="mark" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5 19c0-5.5 4.2-9.5 9.6-9.5 2.4 0 3.9.8 5.1 1.9l4.6-2.2c.6-.3 1.2.4.8.95L22.7 14c.7 1.1 1.1 2.5 1.1 4 0 5.2-4 8.5-9.2 8.5H6.4c-.6 0-.9-.7-.5-1.15L8 23.2C6.1 22.4 5 20.9 5 19Z"/><circle cx="13" cy="15.4" r="1.35" fill="var(--card)"/><path d="M27.6 6.1c-1.9.2-3.2 1-3.9 2.2.9.5 2.4.4 3.4-.4.2 1.3-.2 2.6-1.1 3.3 1.5.2 3-1 3.3-2.8.3-1.6-.4-2.4-1.7-2.3Z"/></svg>
+              </span>
+              SnowRaven Mini
+            </span>
+          </div>
+          <div class="pop-body">
+            <div class="perm">
+              <div class="lead">
+                <span class="ico" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-3 8-10V5l-8-3-8 3v7c0 7 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+                </span>
+                <div>
+                  <h3>Allow SnowRaven Mini to reach these?</h3>
+                  <p>It needs to call eBird, OpenWeather, and NOAA directly from your browser — nothing else.</p>
+                </div>
+              </div>
+              <ul class="host-list">
+                <li><span class="dot"></span>api.ebird.org</li>
+                <li><span class="dot"></span>api.openweathermap.org</li>
+                <li><span class="dot"></span>api.tidesandcurrents.noaa.gov</li>
+              </ul>
+              <button class="btn-primary" type="button">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                Grant access
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== 7 -->
+    <section class="row">
+      <div class="row-label">
+        <span class="num">7</span>
+        <p class="cap">Weather error</p>
+        <h2>Recoverable, pointed</h2>
+        <p>The only alert-styled state. Maps an eBird 401/403 to the exact key-invalid string with a route to Settings. Nothing is copied.</p>
+        <p>Two distinct quiet tide strings exist (FR-37): “No tide reading available.” (unavailable) vs “Tide data unavailable right now.” (error, shown here).</p>
+      </div>
+      <div class="row-stage">
+        <div class="popup">
+          <div class="pop-head">
+            <span class="pop-brand">
+              <span class="mark" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5 19c0-5.5 4.2-9.5 9.6-9.5 2.4 0 3.9.8 5.1 1.9l4.6-2.2c.6-.3 1.2.4.8.95L22.7 14c.7 1.1 1.1 2.5 1.1 4 0 5.2-4 8.5-9.2 8.5H6.4c-.6 0-.9-.7-.5-1.15L8 23.2C6.1 22.4 5 20.9 5 19Z"/><circle cx="13" cy="15.4" r="1.35" fill="var(--card)"/><path d="M27.6 6.1c-1.9.2-3.2 1-3.9 2.2.9.5 2.4.4 3.4-.4.2 1.3-.2 2.6-1.1 3.3 1.5.2 3-1 3.3-2.8.3-1.6-.4-2.4-1.7-2.3Z"/></svg>
+              </span>
+              SnowRaven Mini
+            </span>
+            <span class="pop-context">
+              <span class="loc">Pillar Point Harbor, CA</span>
+              May 31, 2026 · 7:42am · 1.5h
+            </span>
+          </div>
+          <div class="pop-body">
+            <div>
+              <div class="eyebrow-row"><span class="eyebrow">Weather</span></div>
+              <div class="alert" role="alert">
+                <span class="ico" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+                </span>
+                <div>
+                  <div class="title">eBird API key invalid. Check it in Settings.</div>
+                  <div class="sub"><button class="link-alert" type="button">Open Settings →</button></div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="eyebrow-row"><span class="eyebrow">Tide</span></div>
+              <div class="status-row" role="status">
+                <span class="ico" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+                </span>
+                Tide data unavailable right now.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== 8 -->
+    <section class="row">
+      <div class="row-label">
+        <span class="num">8</span>
+        <p class="cap">Options page</p>
+        <h2>Two keys, on this device</h2>
+        <p>Full-width surface (not the narrow popup). Masked fields, a free-key link each, Save with confirmation, and a plain privacy line.</p>
+      </div>
+      <div class="row-stage">
+        <div class="options">
+          <div class="options-head">
+            <span class="pop-brand">
+              <span class="mark" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M5 19c0-5.5 4.2-9.5 9.6-9.5 2.4 0 3.9.8 5.1 1.9l4.6-2.2c.6-.3 1.2.4.8.95L22.7 14c.7 1.1 1.1 2.5 1.1 4 0 5.2-4 8.5-9.2 8.5H6.4c-.6 0-.9-.7-.5-1.15L8 23.2C6.1 22.4 5 20.9 5 19Z"/><circle cx="13" cy="15.4" r="1.35" fill="var(--card)"/><path d="M27.6 6.1c-1.9.2-3.2 1-3.9 2.2.9.5 2.4.4 3.4-.4.2 1.3-.2 2.6-1.1 3.3 1.5.2 3-1 3.3-2.8.3-1.6-.4-2.4-1.7-2.3Z"/></svg>
+              </span>
+              SnowRaven Mini — Settings
+            </span>
+            <p>Bring your own free API keys. SnowRaven Mini has no account and no server.</p>
+          </div>
+          <div class="options-body">
+            <form onsubmit="return false">
+              <div class="field">
+                <div class="field-top">
+                  <label for="ebird-key">eBird API key</label>
+                  <a class="getkey" href="https://ebird.org/api/keygen" target="_blank" rel="noreferrer">Get a free key ↗</a>
+                </div>
+                <div class="input-wrap">
+                  <input id="ebird-key" type="password" data-secret value="o7q3k29ab1x8" autocomplete="off" spellcheck="false" aria-describedby="ebird-help" />
+                  <button class="reveal-btn" type="button" data-reveal aria-label="Show eBird API key">
+                    <svg class="eye-on" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+                <p class="help" id="ebird-help">Resolves the checklist’s location and time. Needed for both weather and tide.</p>
+              </div>
+
+              <div class="field">
+                <div class="field-top">
+                  <label for="ow-key">OpenWeather API key</label>
+                  <a class="getkey" href="https://openweathermap.org/api" target="_blank" rel="noreferrer">Get a free key ↗</a>
+                </div>
+                <div class="input-wrap">
+                  <input id="ow-key" type="password" data-secret value="d41d8cd98f00b204e98" autocomplete="off" spellcheck="false" aria-describedby="ow-help" />
+                  <button class="reveal-btn" type="button" data-reveal aria-label="Show OpenWeather API key">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+                <p class="help" id="ow-help">Fetches historical weather for the checklist’s hour. Tide (NOAA) needs no key.</p>
+              </div>
+
+              <div class="options-foot">
+                <button class="btn-primary" type="submit" id="save-btn">Save keys</button>
+                <span class="save-confirm" id="save-confirm" role="status" aria-live="polite"></span>
+              </div>
+
+              <p class="privacy-note">
+                <span class="ico" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                </span>
+                Keys stay on this device. They’re sent only to eBird and OpenWeather as your request’s authentication — nowhere else.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="legend">
+    Tokens from <code>/home/parallels/snowraven/brand.md</code>; output blocks mirror
+    <code>frontend/src/components/WeatherTidePanel.tsx</code> MonoBlock and render attribution as the
+    app does on screen — literal escaped markup, which only becomes a live link once pasted into eBird.
+    Dark tokens re-derived from <code>frontend/src/globals.css</code> <code>[data-theme="dark"]</code> (neutral zinc + emerald).
+    No component library, no build step — plain HTML, hand-authored CSS, inline SVG. Dark theme follows
+    <code>prefers-color-scheme</code> (the toggle above is preview-only); motion respects <code>prefers-reduced-motion</code>.
+  </footer>
+</div>
+
+<script>
+// ---- Tiny JS: preview theme toggle + copy-button flip + reveal/save demo ----
+// (mirrors the live extension's hover/focus + 2s "Copied!" pattern; nothing here
+//  is load-bearing for the design — it just makes the mockup interactive.)
+(function () {
+  var root = document.documentElement;
+
+  // Preview theme toggle (forces a theme; the real extension follows the OS).
+  var toggles = document.querySelectorAll('.theme-toggle [data-set-theme]');
+  toggles.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var theme = btn.getAttribute('data-set-theme');
+      root.setAttribute('data-theme', theme);
+      toggles.forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b === btn));
+      });
+    });
+  });
+  // Initialise the toggle's pressed state from the OS preference on load.
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    var darkBtn = document.querySelector('.theme-toggle [data-set-theme="dark"]');
+    if (darkBtn) darkBtn.click();
+  }
+
+  // Per-block Copy button: flip to "Copied!" for ~2000ms, then revert (FR-33),
+  // and announce the result via the slot's polite live region (SC 4.1.3). The
+  // announcement is triggered by WRITING into a previously-empty region, then
+  // clearing it — toggling a static label's text alone does not reliably announce.
+  document.querySelectorAll('button[data-copy]').forEach(function (btn) {
+    var label = btn.querySelector('.label');
+    var icon = btn.querySelector('.ico-copy');
+    var kind = btn.getAttribute('data-copy') || 'Block';
+    var original = label ? label.textContent : 'Copy';
+    var timer, liveTimer;
+    btn.addEventListener('click', function () {
+      var body = btn.closest('.pop-body');
+      var block = btn.closest('div').parentElement.querySelector('.mono-block');
+      if (block && navigator.clipboard) {
+        navigator.clipboard.writeText(block.textContent).catch(function () {});
+      }
+      btn.classList.add('is-copied');
+      if (label) label.textContent = 'Copied!';
+      if (icon) icon.style.display = 'none';
+
+      // Announce to AT: write the message into the (empty) live region, clear later.
+      var live = body ? body.querySelector('[data-copy-live]') : null;
+      if (live) {
+        live.textContent = kind + ' copied to clipboard';
+        clearTimeout(liveTimer);
+        liveTimer = setTimeout(function () { live.textContent = ''; }, 3000);
+      }
+
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        btn.classList.remove('is-copied');
+        if (label) label.textContent = original;
+        if (icon) icon.style.display = '';
+      }, 2000);
+    });
+  });
+
+  // Options: reveal/mask the secret fields.
+  document.querySelectorAll('button[data-reveal]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var input = btn.parentElement.querySelector('input[data-secret]');
+      if (!input) return;
+      var showing = input.type === 'text';
+      input.type = showing ? 'password' : 'text';
+      btn.setAttribute('aria-label', (showing ? 'Show ' : 'Hide ') + (input.id === 'ow-key' ? 'OpenWeather' : 'eBird') + ' API key');
+    });
+  });
+
+  // Options: Save → momentary confirmation, written into an (empty) live region
+  // so the "Saved" message is announced on save rather than read on initial load.
+  var saveBtn = document.getElementById('save-btn');
+  var confirm = document.getElementById('save-confirm');
+  if (saveBtn && confirm) {
+    var ct;
+    saveBtn.addEventListener('click', function () {
+      confirm.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg> Saved';
+      clearTimeout(ct);
+      ct = setTimeout(function () { confirm.textContent = ''; }, 2400);
+    });
+  }
+})();
+</script>
+</body>
+</html>

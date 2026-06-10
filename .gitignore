@@ -1,0 +1,12 @@
+node_modules/
+dist/
+*.zip
+*.local
+.DS_Store
+.vite/
+*.tsbuildinfo
+
+# transient Weft state (not published) + packaged artifacts
+pipeline/session-state.json
+pipeline/handoff.md
+artifacts/
