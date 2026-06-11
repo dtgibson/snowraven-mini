@@ -1,6 +1,6 @@
 {
   "name": "snowraven-mini",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Weather and tide for your eBird checklist, just like SnowRaven, in one click.",
   "private": true,
   "type": "module",
