@@ -92,13 +92,13 @@ A brand-new OpenWeather key can take a little while (often up to a couple of hou
 
 ## Installing
 
-SnowRaven Mini ships as **v1.0.0** on GitHub: [github.com/dtgibson/snowraven-mini](https://github.com/dtgibson/snowraven-mini), with a Chrome zip and a Firefox zip attached to the release. It is **not yet** on the Chrome Web Store or Firefox Add-ons, so you install it by loading it unpacked or from the release zip. The same build works in both browsers: one codebase, one manifest. Chrome ignores the Firefox-specific `gecko` block in the manifest; Firefox reads it.
+SnowRaven Mini ships as **v1.1.0** on GitHub: [github.com/dtgibson/snowraven-mini](https://github.com/dtgibson/snowraven-mini), with a Chrome zip and a Firefox zip attached to the release. It is **not yet** on the Chrome Web Store or Firefox Add-ons, so you install it by loading it unpacked or from the release zip. The same build works in both browsers: one codebase, one manifest. Chrome ignores the Firefox-specific `gecko` block in the manifest; Firefox reads it.
 
 You can either download the release zip and load it, or build it from source. Both paths produce the same unpacked extension folder.
 
 ### From the release (recommended)
 
-1. Go to the [v1.0.0 release](https://github.com/dtgibson/snowraven-mini/releases) and download the **Chrome** zip or the **Firefox** zip.
+1. Go to the [v1.1.0 release](https://github.com/dtgibson/snowraven-mini/releases) and download the **Chrome** zip or the **Firefox** zip.
 2. Unzip it to a folder you will keep (the unpacked extension lives there).
 3. Load it unpacked using the browser instructions below.
 
@@ -388,4 +388,4 @@ npm run dev        # watch + rebuild into dist/ while you work
 
 Load the resulting `dist/` folder unpacked (see [Installing](#installing)). After a rebuild, reload the extension from `chrome://extensions` (Chrome) or `about:debugging` (Firefox) to pick up changes.
 
-Source lives on `main` at [github.com/dtgibson/snowraven-mini](https://github.com/dtgibson/snowraven-mini); the **v1.0.0** release attaches the Chrome and Firefox zips. The project is not yet submitted to the Chrome Web Store or Firefox Add-ons.
+Source lives on `main` at [github.com/dtgibson/snowraven-mini](https://github.com/dtgibson/snowraven-mini); the **v1.1.0** release attaches the Chrome and Firefox zips. The project is not yet submitted to the Chrome Web Store or Firefox Add-ons.

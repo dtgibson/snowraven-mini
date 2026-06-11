@@ -1,4 +1,4 @@
-# Store Submission Package: SnowRaven Mini v1.0.0
+# Store Submission Package: SnowRaven Mini v1.1.0
 
 Everything needed to publish SnowRaven Mini on the Chrome Web Store and Firefox Add-ons. This package stops at the point of submission. Creating the developer accounts, paying the Chrome fee, and clicking submit are your steps, walked through in the checklists below.
 
@@ -11,12 +11,12 @@ Everything needed to publish SnowRaven Mini on the Chrome Web Store and Firefox 
 - `assets/render/`: the source HTML and embedded fonts used to generate the images. Regenerate any time with `npm run store:assets`.
 
 ## The packages to upload
-- Chrome: `artifacts/snowraven-mini-chrome-1.0.0.zip`
-- Firefox: `artifacts/snowraven-mini-firefox-1.0.0.zip`
-- Firefox source (required by AMO): `artifacts/snowraven-mini-source-1.0.0.zip` (build steps in `/BUILD.md`)
+- Chrome: `artifacts/snowraven-mini-chrome-1.1.0.zip`
+- Firefox: `artifacts/snowraven-mini-firefox-1.1.0.zip`
+- Firefox source (required by AMO): `artifacts/snowraven-mini-source-1.1.0.zip` (build steps in `/BUILD.md`)
 
 ## Key facts
-- Both stores ship v1.0.0 from one build. Chrome ignores the manifest `gecko` block; Firefox reads it.
+- Both stores ship v1.1.0 from one build. Chrome ignores the manifest `gecko` block; Firefox reads it.
 - Both listings are public.
 - Privacy policy URL: <https://github.com/dtgibson/snowraven-mini/blob/main/PRIVACY_POLICY.md>
 - Edge is not covered here. Edge can install from the Chrome listing only if a user turns on "Allow extensions from other stores"; reaching Edge users by default would be a separate Microsoft Edge Add-ons submission.
