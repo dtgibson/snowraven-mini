@@ -31,3 +31,11 @@
 **Rationale:** A trustworthy front door for the v1.0.0 release ahead of the store listings; parity with SnowRaven's own site keeps the family resemblance; live popup HTML avoids duplicating each feature row's heading and adds no image weight; system fonts and no build keep it fast, matching the no-bloat ethos.
 
 **Implications:** Enabling GitHub Pages is a one-time action done outside the workflow (the Action's token cannot create the Pages site on first run). The custom domain needs a DNS CNAME (`snowravenmini` to `dtgibson.github.io`) before GitHub will verify it and provision HTTPS. Swap the "coming soon" store buttons for live links once the listings go live.
+
+## Night-list weather: moon-phase emoji parity — 2026-06-11
+
+**Decision:** Match SnowRaven 0.5.28 (`512466e`): night checklists' weather blocks append a moon-phase emoji to the condition emoji, unspaced (e.g. `☁️🌗`). A block is night when any sampled hour falls outside its own sunrise–sunset window; the phase is read from the checklist's first hour and mirrored in the Southern Hemisphere. The moon math is a hand-port of `lunarphase-js@2.0.3` with a pure-UTC Julian Day, copied character-for-character from SnowRaven's `weatherFormatter.ts`. Day blocks are byte-unchanged. Shipped to `main` as **v1.1.0**.
+
+**Rationale:** Byte-for-byte weather parity with SnowRaven is the product's core promise, so adopting SnowRaven's output change is maintenance of an existing contract, not a new feature — it stayed in the Improve lane. Hand-porting the moon math rather than adding `lunarphase-js` keeps the small-bundle, no-new-dependency posture. The golden parity test asserts the exact night strings via `.toBe`, copied from SnowRaven, so any byte drift fails the build; parity was further confirmed by a logic diff against `512466e`, an independent from-scratch recomputation of the moon phases, and a regression/security audit.
+
+**Implications:** The moon emoji must stay glued to the condition emoji with no space — a single emoji run is the parity contract (SnowRaven anchors a weather block on its last emoji run). The store package under `store/` and the website still carry `v1.0.0` artifact names and version text; cutting an actual 1.1.0 store release means regenerating the store zips/assets and updating the website version pill. Re-sync again if SnowRaven changes its weather formatter.
