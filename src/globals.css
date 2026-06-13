@@ -21,7 +21,7 @@
   --sr-secondary: #f0faf4;
 
   --sr-border: #e4e4e7;
-  --sr-input-border: #9a9aa3;
+  --sr-input-border: #8a8a93;
   --sr-ring: #2d8653;
 
   --sr-destructive: #b91c1c;
@@ -51,6 +51,7 @@
     --sr-accent-fg: #34d399;
 
     --sr-primary: #34d399;
+    --sr-primary-hover: #10b981;
     --sr-primary-fg: #052e16;
 
     --sr-border: #27272a;
@@ -173,6 +174,7 @@ body {
   border-bottom: 1px solid var(--sr-border);
 }
 .sr-brand {
+  margin: 0;
   font-size: 0.9375rem;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -344,7 +346,7 @@ body {
   background: var(--sr-muted);
   color: var(--sr-muted-fg);
 }
-.sr-info-state h3 { margin: 0; font-size: 0.9375rem; font-weight: 600; }
+.sr-info-state h2 { margin: 0; font-size: 0.9375rem; font-weight: 600; }
 .sr-info-state p {
   margin: 0;
   font-size: 0.8125rem;
@@ -437,7 +439,7 @@ body {
   color: var(--sr-accent-fg);
   display: inline-flex; align-items: center; justify-content: center;
 }
-.sr-perm h3 { margin: 0 0 4px; font-size: 0.9375rem; font-weight: 600; }
+.sr-perm h2 { margin: 0 0 4px; font-size: 0.9375rem; font-weight: 600; }
 .sr-perm p { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--sr-muted-fg); }
 .sr-host-list {
   list-style: none;
@@ -508,8 +510,8 @@ body {
 .sr-input-wrap { position: relative; display: flex; }
 .sr-field input {
   width: 100%;
-  height: 42px;
-  padding: 0 44px 0 13px;
+  min-height: 42px;
+  padding: 8px 44px 8px 13px;
   background: var(--sr-bg);
   color: var(--sr-fg);
   border: 1px solid var(--sr-input-border);

@@ -30,20 +30,20 @@ import { RavenMark, PinIcon, KeyIcon, ArrowRightIcon, ShieldIcon, CheckIcon } fr
 
 function Header({ loc, sub }: { loc?: string; sub?: string }) {
   return (
-    <div className="sr-pop-head">
-      <span className="sr-brand">
+    <header className="sr-pop-head">
+      <h1 className="sr-brand">
         <span className="sr-mark" aria-hidden="true">
           <RavenMark size={18} />
         </span>
         SnowRaven Mini
-      </span>
+      </h1>
       {loc && (
         <span className="sr-pop-context">
           <span className="sr-loc">{loc}</span>
           {sub}
         </span>
       )}
-    </div>
+    </header>
   );
 }
 
@@ -80,6 +80,12 @@ export function Popup() {
       setTide({ status: 'loading' });
       setAutoCopied(false);
 
+      // Each block records its own outcome; one combined announcement fires once
+      // both settle, so the two parallel lookups never clobber each other in the
+      // shared polite live region (FR-48).
+      let weatherMsg = '';
+      let tideMsg = '';
+
       const weatherP = getWeather(checklistId).then(
         async (res) => {
           setLocName(res.loc_name);
@@ -89,13 +95,13 @@ export function Popup() {
             autoCopiedRef.current = true;
             const ok = await copyText(res.formatted);
             if (ok) setAutoCopied(true);
-            announce(
-              ok
-                ? 'Weather copied to clipboard'
-                : 'Weather ready. Use the Copy weather button to copy.',
-            );
+            weatherMsg = ok
+              ? 'Weather copied to clipboard.'
+              : 'Weather ready. Use the Copy weather button to copy.';
           }
         },
+        // The error block carries role="alert" (assertive), so it announces
+        // itself — leave weatherMsg empty to avoid a duplicate polite read.
         (err: unknown) => {
           const message = err instanceof Error && err.message ? err.message : 'Something went wrong. Please try again.';
           setWeather({ status: 'error', message });
@@ -107,24 +113,31 @@ export function Popup() {
           if (res.loc_name) setLocName((prev) => prev ?? res.loc_name);
           if (res.status === 'ok' && res.formatted) {
             setTide({ status: 'ok', formatted: res.formatted });
+            tideMsg = 'Tide ready.';
           } else if (res.status === 'too-far' || res.status === 'outside-us') {
             setTide({
               status: res.status,
               station: res.station ?? { id: '', name: '' },
               distanceMi: res.distanceMi ?? 0,
             });
+            tideMsg = 'Nearest tide station is out of range. Use the button to show it anyway.';
           } else {
             setTide({ status: 'unavailable' });
+            tideMsg = 'No tide reading available.';
           }
         },
         // A getTide throw before the getJson seam (missing eBird key, or any
         // fetchChecklist throw) surfaces as the tide 'error' state (FR-37a).
         () => {
           setTide({ status: 'error' });
+          tideMsg = 'Tide data unavailable right now.';
         },
       );
 
       await Promise.allSettled([weatherP, tideP]);
+
+      const combined = [weatherMsg, tideMsg].filter(Boolean).join(' ');
+      if (combined) announce(combined);
     },
     [announce],
   );
@@ -139,13 +152,18 @@ export function Popup() {
       (res) => {
         if (res.status === 'ok' && res.formatted) {
           setTide({ status: 'ok', formatted: res.formatted });
+          announce('Tide ready.');
         } else {
           setTide({ status: 'unavailable' });
+          announce('No tide reading available.');
         }
       },
-      () => setTide({ status: 'error' }),
+      () => {
+        setTide({ status: 'error' });
+        announce('Tide data unavailable right now.');
+      },
     );
-  }, []);
+  }, [announce]);
 
   // Ensure host permission (requested from THIS click — chrome.permissions.request
   // needs a user gesture and CANNOT fire from popup auto-load, which only throws),
@@ -179,6 +197,7 @@ export function Popup() {
         // Phase 1 gate — no eBird checklist on this page (FR-04).
         if (tab.pageType === 'other' || !tab.checklistId) {
           setPageState('not-on-checklist');
+          announce('No eBird checklist on this page. Open a checklist’s Edit Comments page to get its weather.');
           return;
         }
         checklistIdRef.current = tab.checklistId;
@@ -191,6 +210,13 @@ export function Popup() {
         if (missing.length) {
           setMissingKeys(missing);
           setPageState('missing-keys');
+          announce(
+            missing.length === 2
+              ? 'eBird and OpenWeather API keys are not set yet. Open Settings to add them.'
+              : missing[0] === 'ebird'
+                ? 'eBird API key is not set yet. Open Settings to add it.'
+                : 'OpenWeather API key is not set yet. Open Settings to add it.',
+          );
           return;
         }
 
@@ -200,6 +226,7 @@ export function Popup() {
         // that drives the permission request.
         if (tab.pageType === 'checklist-view') {
           setPageState('checklist-view');
+          announce('You’re on the checklist page. Open its Edit Comments page to paste, or show the weather here.');
           return;
         }
 
@@ -211,6 +238,7 @@ export function Popup() {
           void runLookup(tab.checklistId);
         } else {
           setPageState('permission-blocked');
+          announce('Permission needed to reach eBird, OpenWeather, and NOAA. Use Grant access to allow it.');
         }
       } catch {
         // Never leave the popup spinning on an unexpected error.
@@ -219,7 +247,7 @@ export function Popup() {
         setPageState('result');
       }
     })();
-  }, [runLookup]);
+  }, [runLookup, announce]);
 
   // ── Render ──────────────────────────────────────────────────────────
   return (
@@ -232,7 +260,7 @@ export function Popup() {
         <Header loc={locName} />
       )}
 
-      <div className="sr-pop-body">
+      <main className="sr-pop-body">
         {/* Shared polite live region (FR-48/48a) — empty until an event writes it. */}
         <span className="sr-only" role="status" aria-live="polite">
           {liveMsg}
@@ -250,7 +278,7 @@ export function Popup() {
             <span className="sr-ico" aria-hidden="true">
               <PinIcon />
             </span>
-            <h3>No checklist on this page</h3>
+            <h2>No checklist on this page</h2>
             <p>Open a checklist’s Edit Comments page to get its weather.</p>
           </div>
         )}
@@ -260,7 +288,7 @@ export function Popup() {
             <span className="sr-ico" aria-hidden="true">
               <PinIcon />
             </span>
-            <h3>You’re on the checklist page</h3>
+            <h2>You’re on the checklist page</h2>
             <p>
               To paste the weather into a comment, open this checklist’s{' '}
               <span className="sr-strong">Edit Comments</span> page, or show it here anyway.
@@ -333,7 +361,7 @@ export function Popup() {
                 <ShieldIcon />
               </span>
               <div>
-                <h3>Allow SnowRaven Mini to reach these?</h3>
+                <h2>Allow SnowRaven Mini to reach these?</h2>
                 <p>
                   It needs to call eBird, OpenWeather, and NOAA directly from your browser, nothing
                   else.
@@ -364,7 +392,7 @@ export function Popup() {
             announce={announce}
           />
         )}
-      </div>
+      </main>
       <Footer />
     </div>
   );

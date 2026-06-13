@@ -26,7 +26,7 @@ function KeyField({ id, label, getKeyHref, help, value, onChange }: KeyFieldProp
       <div className="sr-field-top">
         <label htmlFor={id}>{label}</label>
         <a className="sr-getkey" href={getKeyHref} target="_blank" rel="noreferrer">
-          Get a free key ↗
+          Get a free key <span aria-hidden="true">↗</span>
         </a>
       </div>
       <div className="sr-input-wrap">
@@ -87,16 +87,16 @@ export function Options() {
   return (
     <div className="sr-options-page">
       <div className="sr-options">
-        <div className="sr-options-head">
-          <span className="sr-brand">
+        <header className="sr-options-head">
+          <h1 className="sr-brand">
             <span className="sr-mark" aria-hidden="true">
               <RavenMark size={22} />
             </span>
             SnowRaven Mini Settings
-          </span>
+          </h1>
           <p>Bring your own free API keys. SnowRaven Mini has no account and no server.</p>
-        </div>
-        <div className="sr-options-body">
+        </header>
+        <main className="sr-options-body">
           <form onSubmit={onSubmit}>
             <KeyField
               id="ebird-key"
@@ -136,7 +136,7 @@ export function Options() {
               authentication, nowhere else.
             </p>
           </form>
-        </div>
+        </main>
         <Footer />
       </div>
     </div>

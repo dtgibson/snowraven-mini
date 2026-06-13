@@ -13,8 +13,15 @@ import { CopyIcon, CheckIcon, AlertIcon } from './Icons';
 
 // A monospace output block — the MonoBlock pattern, white-space: pre so wrapping
 // never alters the bytes (FR-34).
-function MonoBlock({ text }: { text: string }) {
-  return <pre className="sr-mono">{text}</pre>;
+function MonoBlock({ text, label }: { text: string; label: string }) {
+  // tabIndex makes the horizontally-scrollable block reachable (and scrollable)
+  // by keyboard (2.1.1); role + aria-label name it when focused. The bytes are
+  // unchanged — white-space: pre is preserved, so clipboard parity holds.
+  return (
+    <pre className="sr-mono" tabIndex={0} role="group" aria-label={label}>
+      {text}
+    </pre>
+  );
 }
 
 // The eyebrow label + (optional) per-block Copy button on one space-between row.
@@ -22,11 +29,13 @@ function MonoBlock({ text }: { text: string }) {
 // shared polite live region (FR-48).
 function BlockEyebrow({
   label,
+  labelId,
   copyLabel,
   ariaLabel,
   onCopy,
 }: {
   label: string;
+  labelId?: string;
   copyLabel?: string;
   ariaLabel?: string;
   onCopy?: () => void;
@@ -40,7 +49,7 @@ function BlockEyebrow({
   };
   return (
     <div className="sr-eyebrow-row">
-      <span className="sr-eyebrow">{label}</span>
+      <span className="sr-eyebrow" id={labelId}>{label}</span>
       {onCopy && (
         <button
           type="button"
@@ -74,9 +83,10 @@ export function WeatherTidePanel({ weather, tide, autoCopied, onTideOverride, an
   return (
     <>
       {/* ── Weather slot ─────────────────────────────────────────────── */}
-      <div>
+      <section aria-labelledby="sr-weather-label">
         <BlockEyebrow
           label="Weather"
+          labelId="sr-weather-label"
           ariaLabel="Copy weather to clipboard"
           onCopy={
             weatherOk
@@ -89,12 +99,12 @@ export function WeatherTidePanel({ weather, tide, autoCopied, onTideOverride, an
           }
         />
         {weather.status === 'loading' && (
-          <div className="sr-status-row" role="status">
+          <div className="sr-status-row">
             <span className="sr-spinner" aria-hidden="true" />
             Loading weather…
           </div>
         )}
-        {weather.status === 'success' && <MonoBlock text={weather.formatted} />}
+        {weather.status === 'success' && <MonoBlock text={weather.formatted} label="Weather output" />}
         {weather.status === 'success' && autoCopied && (
           <div className="sr-copied-banner">
             <CheckIcon size={14} />
@@ -110,20 +120,21 @@ export function WeatherTidePanel({ weather, tide, autoCopied, onTideOverride, an
               <div className="sr-title">{weather.message}</div>
               <div className="sr-sub">
                 <button type="button" className="sr-link-alert" onClick={openOptions}>
-                  Open Settings →
+                  Open Settings <span aria-hidden="true">→</span>
                 </button>
               </div>
             </div>
           </div>
         )}
-      </div>
+      </section>
 
       {/* ── Tide slot ────────────────────────────────────────────────── */}
       <hr className="sr-divider" aria-hidden="true" />
 
-      <div>
+      <section aria-labelledby="sr-tide-label">
         <BlockEyebrow
           label="Tide"
+          labelId="sr-tide-label"
           ariaLabel="Copy tide to clipboard"
           onCopy={
             tideOk
@@ -136,12 +147,12 @@ export function WeatherTidePanel({ weather, tide, autoCopied, onTideOverride, an
           }
         />
         {tide.status === 'loading' && (
-          <div className="sr-status-row" role="status">
+          <div className="sr-status-row">
             <span className="sr-spinner" aria-hidden="true" />
             Loading tide…
           </div>
         )}
-        {tide.status === 'ok' && <MonoBlock text={tide.formatted} />}
+        {tide.status === 'ok' && <MonoBlock text={tide.formatted} label="Tide output" />}
         {(tide.status === 'too-far' || tide.status === 'outside-us') && (
           <div className="sr-notice sr-notice-amber">
             <span className="sr-amber-text">
@@ -165,19 +176,19 @@ export function WeatherTidePanel({ weather, tide, autoCopied, onTideOverride, an
           </div>
         )}
         {tide.status === 'unavailable' && (
-          <div className="sr-status-row" role="status">
+          <div className="sr-status-row">
             No tide reading available.
           </div>
         )}
         {tide.status === 'error' && (
-          <div className="sr-status-row" role="status">
+          <div className="sr-status-row">
             <span className="sr-ico" aria-hidden="true">
               <AlertIcon size={14} />
             </span>
             Tide data unavailable right now.
           </div>
         )}
-      </div>
+      </section>
     </>
   );
 }
