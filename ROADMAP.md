@@ -6,9 +6,10 @@ This is a living document. It reflects the current best thinking on what to buil
 
 ## Shipped
 
-**5 shipped.**
+**6 shipped.**
 
-- **Last shipped: Chrome Web Store launch + Edge docs + site polish.** v1.1.0 went live on the Chrome Web Store; the site links to the listing (Firefox "coming soon"), the docs cover installing on Microsoft Edge via the Chrome Web Store, the website's broken icons were fixed (real Chrome/Firefox logos, complete bird/weather/key glyphs), and the Pages CI workflow was moved off the deprecated Node 20 actions.
+- **Last shipped: Accessibility (WCAG 2.1 AA) pass.** The popup and Options UI were brought to WCAG 2.1 AA — semantic landmarks and headings, labelled keyboard-reachable Weather/Tide regions, AA contrast in both themes, and screen-reader announcements for every state. Presentation/ARIA only; weather/tide parity unchanged. On `main` (f50ab43); ships in the next store release.
+- **Previously: Chrome Web Store launch + Edge docs + site polish.** v1.1.0 went live on the Chrome Web Store; the site links to the listing (Firefox "coming soon"), the docs cover installing on Microsoft Edge via the Chrome Web Store, the website's broken icons were fixed (real Chrome/Firefox logos, complete bird/weather/key glyphs), and the Pages CI workflow was moved off the deprecated Node 20 actions.
 - **Previously: Night weather moon phase (v1.1.0).** Night checklists' weather blocks now append a moon-phase emoji to the condition emoji, unspaced (e.g. `☁️🌗`), matching SnowRaven 0.5.28 byte-for-byte. Shipped in v1.1.0, now live on the Chrome Web Store.
 - **Previously: Landing website.** A static marketing site under `website/`, mirroring the SnowRaven app site, deployed to GitHub Pages and live at `snowravenmini.dtgibson.com` with HTTPS. The Chrome Web Store is now live and linked; Firefox stays "coming soon" until it publishes.
 - **Previously: Store submission prep (v1.0.0).** The Chrome Web Store and Firefox Add-ons listing package, with v1.0.0 published to GitHub including a buildable source archive for Firefox review. Chrome is now live on the Web Store; the Firefox submission remains a manual step.

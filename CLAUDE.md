@@ -9,6 +9,7 @@ Conventions for building this project. Keep this lean.
 - **`chrome.permissions.request` fires only from a user click** — never on popup auto-load (it throws and hangs the popup). Check `permissions.contains()` on open; request from a button.
 - **Smallest possible bundle.** No component library; hand-authored CSS on the design-system tokens (`pipeline/design-system.md`) and inline SVG icons. Keep heavy deps out of the bundle (enforced via Rollup `external`).
 - **One codebase for Chrome + Firefox.** A single manifest with the `browser_specific_settings.gecko` block, one build, two zips.
+- **Accessibility: WCAG 2.1 AA on the popup + Options.** Keep semantic landmarks (`<main>`/`<header>`/`<h1>`), labelled Weather/Tide regions, AA contrast in both themes, and announce async state changes through the shared polite live region. The weather/tide `<pre>` stays keyboard-reachable via `tabindex`, never rewrapped — clipboard parity rides on the copied string, but `tabindex` also keeps the on-screen block identical to the desktop.
 
 ## Page detection
 The Edit Comments page (the paste target) carries the checklist ID in the **query string** (`/edit/effort?subID=S…`); the checklist **view** page carries it in the **path** (`/checklist/S…`). Read both.
