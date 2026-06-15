@@ -27,7 +27,7 @@ NOAA tide data needs no key.
 
 ## Install
 
-SnowRaven Mini is on the **Chrome Web Store**: [install it here](https://chromewebstore.google.com/detail/snowraven-mini/dfbphfbhbehdlfepoigechmjbifpndhc). On **Microsoft Edge** and other Chromium browsers, install from the same listing after turning on "Allow extensions from other stores." Firefox Add-ons is still on the way; until then, download a zip from the [latest release](https://github.com/dtgibson/snowraven-mini/releases) and load it unpacked (Firefox 128 or newer: `about:debugging`). Then add your keys in Options. Full step-by-step instructions — including Edge and building from source — are in [docs/HELP.md](docs/HELP.md).
+SnowRaven Mini is on the **Chrome Web Store**: [install it here](https://chromewebstore.google.com/detail/snowraven-mini/dfbphfbhbehdlfepoigechmjbifpndhc). On **Microsoft Edge** and other Chromium browsers, install from the same listing after turning on "Allow extensions from other stores." It's also on the **Firefox Add-ons** store: [install it here](https://addons.mozilla.org/firefox/addon/snowraven-mini/) (Firefox 128 or newer). Prefer not to use a store? Download a zip from the [latest release](https://github.com/dtgibson/snowraven-mini/releases) and load it unpacked (`about:debugging`). Then add your keys in Options. Full step-by-step instructions — including Edge and building from source — are in [docs/HELP.md](docs/HELP.md).
 
 ## More
 

@@ -92,7 +92,7 @@ A brand-new OpenWeather key can take a little while (often up to a couple of hou
 
 ## Installing
 
-SnowRaven Mini is on the **Chrome Web Store** ([listing](https://chromewebstore.google.com/detail/snowraven-mini/dfbphfbhbehdlfepoigechmjbifpndhc)) as **v1.1.0** — the one-click install for Chrome, Microsoft Edge, and other Chromium browsers. Firefox Add-ons is still on the way; until it lands, Firefox users install from the GitHub release. The same build works in both browsers: one codebase, one manifest. Chrome ignores the Firefox-specific `gecko` block in the manifest; Firefox reads it.
+SnowRaven Mini is on the **Chrome Web Store** ([listing](https://chromewebstore.google.com/detail/snowraven-mini/dfbphfbhbehdlfepoigechmjbifpndhc)) as **v1.2.0** — the one-click install for Chrome, Microsoft Edge, and other Chromium browsers. It's also on **Firefox Add-ons** ([listing](https://addons.mozilla.org/firefox/addon/snowraven-mini/)), currently at **v1.1.0** (one version behind Chrome while the v1.2.0 update is pending) — the one-click install for Firefox. The same build works in both browsers: one codebase, one manifest. Chrome ignores the Firefox-specific `gecko` block in the manifest; Firefox reads it.
 
 ### From the Chrome Web Store (recommended for Chrome)
 
@@ -111,11 +111,17 @@ Edge is built on Chromium, so it installs the Chrome Web Store version directly,
 
 Other Chromium browsers (Brave, Vivaldi, Opera) install the same way from the Chrome Web Store.
 
-### From the GitHub release (Firefox, or a manual install)
+### From Firefox Add-ons (recommended for Firefox)
 
-Firefox Add-ons isn't live yet, so on Firefox — or any time you'd rather not use a store — install from the release zip (or build from source below). Both produce the same unpacked extension folder.
+1. Open the [Firefox Add-ons listing](https://addons.mozilla.org/firefox/addon/snowraven-mini/).
+2. Click **Add to Firefox**, then **Add** to confirm.
+3. **Pin it to the toolbar** so the popup is one click away.
 
-1. Go to the [v1.1.0 release](https://github.com/dtgibson/snowraven-mini/releases) and download the **Chrome** zip or the **Firefox** zip.
+### From the GitHub release (a manual install)
+
+Prefer not to use a store, or want to pin a specific version? Install from the release zip (or build from source below). Both produce the same unpacked extension folder.
+
+1. Go to the [latest release](https://github.com/dtgibson/snowraven-mini/releases/latest) and download the **Chrome** zip or the **Firefox** zip.
 2. Unzip it to a folder you will keep (the unpacked extension lives there).
 3. Load it unpacked using the browser instructions below.
 
@@ -405,4 +411,4 @@ npm run dev        # watch + rebuild into dist/ while you work
 
 Load the resulting `dist/` folder unpacked (see [Installing](#installing)). After a rebuild, reload the extension from `chrome://extensions` (Chrome) or `about:debugging` (Firefox) to pick up changes.
 
-Source lives on `main` at [github.com/dtgibson/snowraven-mini](https://github.com/dtgibson/snowraven-mini); the **v1.1.0** release attaches the Chrome and Firefox zips. SnowRaven Mini is on the Chrome Web Store; Firefox Add-ons is still on the way.
+Source lives on `main` at [github.com/dtgibson/snowraven-mini](https://github.com/dtgibson/snowraven-mini); the latest release attaches the Chrome and Firefox zips. SnowRaven Mini is on both the [Chrome Web Store](https://chromewebstore.google.com/detail/snowraven-mini/dfbphfbhbehdlfepoigechmjbifpndhc) and [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/snowraven-mini/).
