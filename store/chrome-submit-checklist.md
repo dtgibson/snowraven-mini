@@ -20,12 +20,12 @@
 9. Category: **Productivity**. Language: **English**.
 10. Store icon: upload `store/assets/store-icon-128.png` (128x128). If the dashboard objects to transparency, flatten it onto a solid background and re-upload.
 11. Screenshots (1280x800), upload from `store/assets/` in this order:
-    - `screenshot-1-result-light.png`
+    - `screenshot-1-result-light.png` (weather + tide + the "copy both together" button)
+    - `screenshot-6-setup-light.png` (the first-run key walkthrough)
     - `screenshot-2-options-light.png`
     - `screenshot-3-permission-light.png`
     - `screenshot-4-tide-notice-light.png`
-    - `screenshot-5-checklist-view-light.png`
-    (Chrome allows up to 5. The dark variants `screenshot-1-result-dark.png` and `screenshot-2-options-dark.png` are available if you prefer to swap either in.)
+    (Chrome allows up to 5. Also available to swap in: `screenshot-5-checklist-view-light.png` and the dark variants `screenshot-1-result-dark.png`, `screenshot-6-setup-dark.png`, `screenshot-2-options-dark.png`.)
 12. Small promo tile (440x280, required): upload `store/assets/promo-tile-440x280.png`.
 13. Marquee promo tile (1400x560): skip (optional, featured-placement only).
 

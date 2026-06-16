@@ -130,26 +130,30 @@ body{font-family:var(--sr-font-sans);-webkit-font-smoothing:antialiased}
 .sr-walk-foot .sr-free{font-size:.75rem;color:var(--sr-muted-fg)}
 .sr-btn-combined{width:100%;min-height:40px;padding:0 16px;margin-top:2px;background:var(--sr-accent);color:var(--sr-accent-fg);border:1.5px solid var(--sr-border);border-radius:var(--sr-radius);font:inherit;font-size:.8125rem;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 
-  html,body{width:1280px;height:800px;overflow:hidden;background:#fff}</style></head><body><div class="shot dark" style="width:1280px;height:800px">
+  html,body{width:1280px;height:800px;overflow:hidden;background:#fff}</style></head><body><div class="shot " style="width:1280px;height:800px">
     <svg class="wm" viewBox="0 0 32 32" aria-hidden="true"><g transform="translate(4,4)" stroke="var(--wm)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg>
     <div class="copy">
       <span class="kicker"><svg width="24" height="24" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg> SnowRaven Mini</span>
-      <h3>Your keys stay on your device.</h3>
-      <p>Two free keys, stored locally, sent only to eBird and OpenWeather.</p>
+      <h3>First run? It walks you through setup.</h3>
+      <p>No keys yet? It names the two free keys, links you straight to where to get each, and points you to Settings. That is the whole setup.</p>
     </div>
-    <div class="device"><div class="dark"><div class="sr-options">
-    <div class="sr-options-head"><span class="sr-brand"><svg width="20" height="20" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg> SnowRaven Mini</span><p>Your keys stay on this device. Enter them once.</p></div>
-    <div class="sr-options-body">
-      <div class="sr-field">
-      <div class="sr-field-top"><label>eBird API key</label><a class="sr-getkey">Get a free key &rsaquo;</a></div>
-      <div class="sr-input-wrap"><div class="inp">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</div><span class="sr-reveal"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></span></div>
-    </div>
-      <div class="sr-field">
-      <div class="sr-field-top"><label>OpenWeather API key</label><a class="sr-getkey">Get a free key &rsaquo;</a></div>
-      <div class="sr-input-wrap"><div class="inp">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</div><span class="sr-reveal"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></span></div>
-    </div>
-      <div class="sr-foot"><button class="sr-btn-primary">Save keys</button><span class="sr-saved"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Saved</span></div>
-      <div class="sr-privacy"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Keys stay on this device. They're sent only to eBird and OpenWeather, for authentication, nowhere else.</div>
-    </div>
-  </div></div></div>
+    <div class="device"><div class="sr-popup">
+    <div class="sr-pop-head"><span class="sr-brand"><svg width="20" height="20" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg> SnowRaven Mini</span><span class="sr-pop-context"><span class="sr-loc">Central Park, New York</span>Jun 7, 6:42am</span></div>
+    <div class="sr-pop-body">
+      <div class="sr-notice sr-notice-neutral sr-walk">
+        <div class="sr-walk-head">
+          <span class="sr-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="3.5"/><path d="m10 13 6-6"/><path d="m14 5 3 3"/><path d="m17 8 2-2"/></svg></span>
+          <div>
+            <div class="sr-walk-title">Two free keys and you&rsquo;re set</div>
+            <div class="sr-walk-lead">Add your eBird and OpenWeather keys once. After that, opening a checklist copies its weather in a single click.</div>
+          </div>
+        </div>
+        <ul class="sr-keylist">
+          <li class="sr-keyrow is-needed"><span class="sr-keymark"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="3.5"/><path d="m10 13 6-6"/><path d="m14 5 3 3"/><path d="m17 8 2-2"/></svg></span><span class="sr-keytext"><span class="sr-keyname">eBird API key</span><span class="sr-keystate">Needed</span></span><a class="sr-getkey">Get a free key <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></li>
+          <li class="sr-keyrow is-needed"><span class="sr-keymark"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="3.5"/><path d="m10 13 6-6"/><path d="m14 5 3 3"/><path d="m17 8 2-2"/></svg></span><span class="sr-keytext"><span class="sr-keyname">OpenWeather API key</span><span class="sr-keystate">Needed</span></span><a class="sr-getkey">Get a free key <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a></li>
+        </ul>
+        <div class="sr-walk-foot"><span class="sr-free">Both are free to get.</span><button class="sr-link-action">Go to Settings <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button></div>
+      </div>
+    </div><div class="sr-footer"><a>SnowRaven Mini</a> <span>&middot;</span> <a>Help</a></div>
+  </div></div>
   </div></body></html>

@@ -7,7 +7,7 @@ Everything needed to publish SnowRaven Mini on the Chrome Web Store and Firefox 
 - `permissions-and-privacy.md`: the single-purpose statement, per-permission and per-host justifications, the Chrome data-usage answers, and the Firefox data-collection declaration.
 - `chrome-submit-checklist.md`: step by step for the Chrome Web Store.
 - `firefox-submit-checklist.md`: step by step for Firefox Add-ons (AMO).
-- `assets/`: the images: the 440x280 promo tile, the 128x128 store icon, and the screenshots (1280x800, with light and dark variants for the result and Options shots).
+- `assets/`: the images: the 440x280 promo tile, the 128x128 store icon, and the screenshots (1280x800; the result, first-run setup, and Options shots have light and dark variants).
 - `assets/render/`: the source HTML and embedded fonts used to generate the images. Regenerate any time with `npm run store:assets`.
 
 ## The packages to upload

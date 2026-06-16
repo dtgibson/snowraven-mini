@@ -46,7 +46,7 @@ const FONT_CSS = [
 // ---- raven mark (brand/icon.svg artwork) ----
 const RAVEN_PATHS = '<g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g>';
 const tile = (s) => `<svg width="${s}" height="${s}" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D8653"/>${RAVEN_PATHS}</svg>`;
-const ico = (path, stroke, w = 2) => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
+const ico = (path, stroke, w = 2, s = 20) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${path}</svg>`;
 const CHECK = '<path d="M20 6 9 17l-5-5"/>';
 const SHIELD = '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/>';
 const PIN = '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>';
@@ -54,6 +54,8 @@ const KEY = '<circle cx="7.5" cy="15.5" r="3.5"/><path d="m10 13 6-6"/><path d="
 const ALERT = '<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>';
 const LOCK = '<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>';
 const EYE = '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>';
+const ARROW = '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>';
+const COPY = '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>';
 
 // ---- shared CSS: tokens (light + .dark), component classes, frame, promo ----
 const CSS = `
@@ -161,6 +163,30 @@ body{font-family:var(--sr-font-sans);-webkit-font-smoothing:antialiased}
 .sr-saved{display:inline-flex;align-items:center;gap:6px;font-size:.8125rem;font-weight:600;color:var(--sr-accent-fg)}
 .sr-privacy{margin-top:20px;padding-top:18px;border-top:1px solid var(--sr-border);display:flex;align-items:center;gap:8px;font-size:.8125rem;color:var(--sr-muted-fg)}
 .sr-privacy svg{color:var(--sr-primary);flex-shrink:0}
+
+/* first-run walkthrough + combined copy (the v1.3.0 additions) */
+.sr-notice{display:flex;align-items:flex-start;gap:9px;padding:12px 13px;border-radius:8px;font-size:.8125rem;line-height:1.5}
+.sr-notice-neutral{background:var(--sr-muted);border:1px solid var(--sr-border);color:var(--sr-fg)}
+.sr-notice-neutral .sr-ico{color:var(--sr-muted-fg)}
+.sr-link-action{background:none;border:0;padding:0;font:inherit;font-size:.8125rem;font-weight:600;color:var(--sr-primary);display:inline-flex;align-items:center;gap:3px}
+.sr-walk{gap:11px;flex-direction:column;align-items:stretch}
+.sr-walk-head{display:flex;align-items:flex-start;gap:9px}
+.sr-walk-head .sr-ico{flex-shrink:0;margin-top:1px;color:var(--sr-muted-fg)}
+.sr-walk-title{font-weight:600}
+.sr-walk-lead{color:var(--sr-muted-fg);margin-top:3px;line-height:1.5}
+.sr-keylist{list-style:none;margin:2px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
+.sr-keyrow{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:7px;background:var(--sr-bg);border:1px solid var(--sr-border)}
+.sr-keyrow .sr-keymark{flex-shrink:0;width:22px;height:22px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center}
+.sr-keyrow.is-needed .sr-keymark{background:var(--sr-muted);color:var(--sr-muted-fg)}
+.sr-keyrow.is-set .sr-keymark{background:var(--sr-accent);color:var(--sr-accent-fg)}
+.sr-keyrow .sr-keytext{flex:1;min-width:0;display:flex;flex-direction:column}
+.sr-keyrow .sr-keyname{font-weight:600;font-size:.8125rem}
+.sr-keyrow .sr-keystate{font-size:.6875rem;color:var(--sr-muted-fg)}
+.sr-keyrow.is-set .sr-keystate{color:var(--sr-accent-fg);font-weight:600}
+.sr-keyrow .sr-getkey{font-size:.75rem;font-weight:600;flex-shrink:0;display:inline-flex;align-items:center;gap:3px;color:var(--sr-primary);text-decoration:none}
+.sr-walk-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:3px}
+.sr-walk-foot .sr-free{font-size:.75rem;color:var(--sr-muted-fg)}
+.sr-btn-combined{width:100%;min-height:40px;padding:0 16px;margin-top:2px;background:var(--sr-accent);color:var(--sr-accent-fg);border:1.5px solid var(--sr-border);border-radius:var(--sr-radius);font:inherit;font-size:.8125rem;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 `;
 
 // ---- popup state markup ----
@@ -215,6 +241,7 @@ function popupResult() {
         <div class="sr-eyebrow-row"><span class="sr-eyebrow">Tide</span><span class="sr-btn-copy">Copy</span></div>
         <pre class="sr-mono">${TIDE}</pre>
       </div>
+      <button class="sr-btn-combined">${ico(COPY, 'currentColor', 2, 14)} Copy weather &amp; tide together</button>
     </div>${footer}
   </div>`;
 }
@@ -262,6 +289,29 @@ function popupChecklistView() {
     <div class="sr-cv">
       <button class="sr-btn-primary">Show weather anyway</button>
       <a class="sr-link">Open Edit Comments &rsaquo;</a>
+    </div>${footer}
+  </div>`;
+}
+
+function popupWalkthrough() {
+  const keyrow = (name) => `<li class="sr-keyrow is-needed"><span class="sr-keymark">${ico(KEY, 'currentColor', 2, 13)}</span><span class="sr-keytext"><span class="sr-keyname">${name}</span><span class="sr-keystate">Needed</span></span><a class="sr-getkey">Get a free key ${ico(ARROW, 'currentColor', 2, 11)}</a></li>`;
+  return `<div class="sr-popup">
+    <div class="sr-pop-head">${brand}<span class="sr-pop-context"><span class="sr-loc">Central Park, New York</span>Jun 7, 6:42am</span></div>
+    <div class="sr-pop-body">
+      <div class="sr-notice sr-notice-neutral sr-walk">
+        <div class="sr-walk-head">
+          <span class="sr-ico">${ico(KEY, 'currentColor', 2, 18)}</span>
+          <div>
+            <div class="sr-walk-title">Two free keys and you&rsquo;re set</div>
+            <div class="sr-walk-lead">Add your eBird and OpenWeather keys once. After that, opening a checklist copies its weather in a single click.</div>
+          </div>
+        </div>
+        <ul class="sr-keylist">
+          ${keyrow('eBird API key')}
+          ${keyrow('OpenWeather API key')}
+        </ul>
+        <div class="sr-walk-foot"><span class="sr-free">Both are free to get.</span><button class="sr-link-action">Go to Settings ${ico(ARROW, 'currentColor', 2, 14)}</button></div>
+      </div>
     </div>${footer}
   </div>`;
 }
@@ -316,8 +366,10 @@ function doc(w, h, inner) {
 
 const ASSETS = [
   { name: 'promo-tile-440x280', w: 440, h: 280, inner: promoTile() },
-  { name: 'screenshot-1-result-light', w: 1280, h: 800, inner: frame({ theme: 'light', h3: 'Weather and tide, already on your clipboard.', p: "One click on your eBird checklist. The weather block copies itself; the tide sits right below.", device: popupResult() }) },
-  { name: 'screenshot-1-result-dark', w: 1280, h: 800, inner: frame({ theme: 'dark', h3: 'Weather and tide, already on your clipboard.', p: "One click on your eBird checklist. The weather block copies itself; the tide sits right below.", device: `<div class="dark">${popupResult()}</div>` }) },
+  { name: 'screenshot-1-result-light', w: 1280, h: 800, inner: frame({ theme: 'light', h3: 'Weather and tide, already on your clipboard.', p: "One click on your eBird checklist: the weather copies itself, the tide sits right below, and one button grabs both together.", device: popupResult() }) },
+  { name: 'screenshot-1-result-dark', w: 1280, h: 800, inner: frame({ theme: 'dark', h3: 'Weather and tide, already on your clipboard.', p: "One click on your eBird checklist: the weather copies itself, the tide sits right below, and one button grabs both together.", device: `<div class="dark">${popupResult()}</div>` }) },
+  { name: 'screenshot-6-setup-light', w: 1280, h: 800, inner: frame({ theme: 'light', h3: 'First run? It walks you through setup.', p: 'No keys yet? It names the two free keys, links you straight to where to get each, and points you to Settings. That is the whole setup.', device: popupWalkthrough() }) },
+  { name: 'screenshot-6-setup-dark', w: 1280, h: 800, inner: frame({ theme: 'dark', h3: 'First run? It walks you through setup.', p: 'No keys yet? It names the two free keys, links you straight to where to get each, and points you to Settings. That is the whole setup.', device: `<div class="dark">${popupWalkthrough()}</div>` }) },
   { name: 'screenshot-2-options-light', w: 1280, h: 800, inner: frame({ theme: 'light', h3: 'Your keys stay on your device.', p: 'Two free keys, stored locally, sent only to eBird and OpenWeather.', device: optionsCard() }) },
   { name: 'screenshot-2-options-dark', w: 1280, h: 800, inner: frame({ theme: 'dark', h3: 'Your keys stay on your device.', p: 'Two free keys, stored locally, sent only to eBird and OpenWeather.', device: `<div class="dark">${optionsCard()}</div>` }) },
   { name: 'screenshot-3-permission-light', w: 1280, h: 800, inner: frame({ theme: 'light', h3: 'Asks only for what it needs.', p: 'Reaches three bird and weather APIs, nothing else, and only when you say so.', device: popupPermission() }) },

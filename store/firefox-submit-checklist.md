@@ -28,7 +28,7 @@
 14. Homepage: `https://github.com/dtgibson/snowraven-mini`
 15. License: **AGPL-3.0**.
 16. Privacy policy: `https://github.com/dtgibson/snowraven-mini/blob/main/PRIVACY_POLICY.md`
-17. Screenshots: upload the five light shots from `store/assets/` (dark variants optional).
+17. Screenshots: upload the light shots from `store/assets/` in a sensible order — result, setup, options, permission, tide-notice, checklist-view (AMO allows up to 10, so the dark variants can go in too if you like).
 
 ## Data collection and reviewer notes
 18. The manifest already declares `data_collection_permissions: { required: ["none"] }`, so AMO reads "collects no data" from the package. Confirm any data-collection prompt reflects that.
