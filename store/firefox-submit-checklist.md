@@ -1,6 +1,6 @@
 # Firefox Add-ons (AMO): Submit Checklist
 
-> **Status: v1.2.0 live; v1.3.0 update prepared** — v1.2.0 is published at <https://addons.mozilla.org/firefox/addon/snowraven-mini/> (full cross-store parity with Chrome). The v1.3.0 package (firefox + source zips under `artifacts/`, attached to the v1.3.0 GitHub release) is prepared; follow the steps below to submit the v1.3.0 update to AMO.
+> **Status: ✅ v1.3.0 live** — published at <https://addons.mozilla.org/firefox/addon/snowraven-mini/>. (The Chrome Web Store is updating from v1.2.0 to v1.3.0.) Retained for reference when preparing future Firefox Add-ons updates: bump the version, regenerate `store/` assets and zips, and repeat the steps below.
 
 - Package to upload: `artifacts/snowraven-mini-firefox-1.3.0.zip`
 - Source archive (required by AMO): `artifacts/snowraven-mini-source-1.3.0.zip` (build steps in `/BUILD.md`)
