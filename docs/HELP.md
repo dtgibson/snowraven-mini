@@ -92,7 +92,7 @@ A brand-new OpenWeather key can take a little while (often up to a couple of hou
 
 ## Installing
 
-SnowRaven Mini is on the **Chrome Web Store** ([listing](https://chromewebstore.google.com/detail/snowraven-mini/dfbphfbhbehdlfepoigechmjbifpndhc)) as **v1.2.0**, with the **v1.3.0** update rolling out — the one-click install for Chrome, Microsoft Edge, and other Chromium browsers. It's also on **Firefox Add-ons** ([listing](https://addons.mozilla.org/firefox/addon/snowraven-mini/)) as **v1.3.0** — the one-click install for Firefox. The same build works in both browsers: one codebase, one manifest. Chrome ignores the Firefox-specific `gecko` block in the manifest; Firefox reads it.
+SnowRaven Mini is on the **Chrome Web Store** ([listing](https://chromewebstore.google.com/detail/snowraven-mini/dfbphfbhbehdlfepoigechmjbifpndhc)) as **v1.3.0** — the one-click install for Chrome, Microsoft Edge, and other Chromium browsers. It's also on **Firefox Add-ons** ([listing](https://addons.mozilla.org/firefox/addon/snowraven-mini/)) as **v1.3.0** — the one-click install for Firefox. The same build works in both browsers: one codebase, one manifest. Chrome ignores the Firefox-specific `gecko` block in the manifest; Firefox reads it.
 
 ### From the Chrome Web Store (recommended for Chrome)
 
