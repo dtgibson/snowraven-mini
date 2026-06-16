@@ -6,27 +6,25 @@ This is a living document. It reflects the current best thinking on what to buil
 
 ## Shipped
 
-**6 shipped.**
+**7 shipped.**
 
-- **Last shipped: Accessibility (WCAG 2.1 AA) pass.** The popup and Options UI were brought to WCAG 2.1 AA — semantic landmarks and headings, labelled keyboard-reachable Weather/Tide regions, AA contrast in both themes, and screen-reader announcements for every state. Presentation/ARIA only; weather/tide parity unchanged. On `main` (f50ab43); shipped to users in v1.2.0, now live on both the Chrome Web Store and Firefox Add-ons.
-- **Previously: Chrome Web Store launch + Edge docs + site polish.** v1.1.0 went live on the Chrome Web Store; the site links to the listing (Firefox "coming soon"), the docs cover installing on Microsoft Edge via the Chrome Web Store, the website's broken icons were fixed (real Chrome/Firefox logos, complete bird/weather/key glyphs), and the Pages CI workflow was moved off the deprecated Node 20 actions.
-- **Previously: Night weather moon phase (v1.1.0).** Night checklists' weather blocks now append a moon-phase emoji to the condition emoji, unspaced (e.g. `☁️🌗`), matching SnowRaven 0.5.28 byte-for-byte. Shipped in v1.1.0; now live on both the Chrome Web Store and Firefox Add-ons.
-- **Previously: Landing website.** A static marketing site under `website/`, mirroring the SnowRaven app site, deployed to GitHub Pages and live at `snowravenmini.dtgibson.com` with HTTPS. Both the Chrome Web Store and Firefox Add-ons listings are now live and linked.
-- **Previously: Store submission prep (v1.0.0).** The Chrome Web Store and Firefox Add-ons listing package, with v1.0.0 published to GitHub including a buildable source archive for Firefox review. Both stores are now live: the Chrome Web Store and Firefox Add-ons.
+- **Last shipped: First-run walkthrough + combined weather & tide copy.** A per-key onboarding checklist that names both free keys, links out, and routes to Settings replaced the bare missing-keys notice; and a secondary "Copy weather & tide together" button (shown only when both blocks resolve) copies SnowRaven desktop's `buildCombined()` output byte-for-byte. Frontend-only, manual-only combined copy, no new permissions. On `main` (55d501b); ships to users in the next store release.
+- **Previously: Accessibility (WCAG 2.1 AA) pass.** The popup and Options UI were brought to WCAG 2.1 AA — semantic landmarks and headings, labelled keyboard-reachable Weather/Tide regions, AA contrast in both themes, and screen-reader announcements for every state. On `main` (f50ab43); shipped to users in v1.2.0, now live on both the Chrome Web Store and Firefox Add-ons.
 
 ---
 
 ## Up Next
 
-1. **Tide without an OpenWeather key, and a first-run key walkthrough.** Let tide show on its own when only OpenWeather is missing, and guide new users through pasting their two free keys.
-2. **Combined copy and a duplicate-block guard.** An optional one-button weather+tide copy, and skipping the auto-copy when the comment already contains a weather block.
+1. **Tide without an OpenWeather key.** Let tide show on its own when only OpenWeather is missing, instead of requiring both keys before any lookup. (The first-run walkthrough that used to share this row has shipped.)
+2. **Duplicate-block guard.** Skip the weather auto-copy when the checklist comment already contains a weather block, so reopening the popup doesn't risk a double paste. (The combined copy that used to share this row has shipped.)
 
-Both store listings are live at v1.2.0 — the **Chrome Web Store** and **Firefox Add-ons** — at full cross-store parity, and the site and its custom domain are live. No manual submission steps remain outside the build.
+Both store listings are live at v1.2.0 — the **Chrome Web Store** and **Firefox Add-ons** — at full cross-store parity, and the site and its custom domain are live. The walkthrough and combined copy are on `main` but not yet in a store release; they reach users in the next versioned store update (a separate step).
 
 ---
 
 ## On the Horizon
 
 - Edge-case hardening: checklists with no resolvable coordinates, inland checklists with no nearby tide station, and expired or invalid keys.
+- A component-render smoke layer (jsdom + React Testing Library) for the popup's page-state branches and button-gate conditions, so QA covers them automatically instead of by code inspection. The lib/golden parity tests are solid; the gap is at the component boundary.
 - Re-verify timezone parity against SnowRaven if either side updates its timezone data.
 - A dedicated Microsoft Edge Add-ons listing, if there is demand.
