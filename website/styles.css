@@ -169,6 +169,8 @@ a.store-btn:hover{transform:translateY(-2px);border-color:var(--accent-strong)}
 .sr-erow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
 .sr-mono{font-family:var(--mono);font-size:.72rem;line-height:1.7;background:var(--sr-mono-bg);border:1px solid var(--sr-border);border-radius:8px;padding:12px 13px;margin:0;white-space:pre;overflow:hidden;color:var(--sr-fg)}
 .sr-copy{height:25px;padding:0 10px;background:var(--sr-accent);color:var(--sr-accent-fg);border:0;border-radius:6px;font-size:.7rem;font-weight:600;display:inline-flex;align-items:center;gap:5px}
+.sr-combined{width:100%;min-height:38px;margin-top:2px;background:var(--sr-accent);color:var(--sr-accent-fg);border:1.5px solid var(--sr-border);border-radius:8px;font-size:.76rem;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:7px;cursor:pointer}
+.sr-combined svg{flex-shrink:0}
 .sr-banner{display:flex;align-items:center;gap:6px;margin-top:7px;padding:6px 10px;border-radius:7px;background:var(--sr-accent);color:var(--sr-accent-fg);font-size:.72rem;font-weight:600}
 .sr-div{border:none;border-top:1px solid var(--sr-border);margin:0}
 .sr-foot2{text-align:center;font-size:.68rem;color:var(--sr-muted-fg);padding:10px;border-top:1px solid var(--sr-border)}
