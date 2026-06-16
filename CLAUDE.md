@@ -19,6 +19,7 @@ The Edit Comments page (the paste target) carries the checklist ID in the **quer
 
 ## Releases & store
 - **Versioning:** store releases use clean numbers (v1.0.0 was the public debut); routine updates increment by 0.1. One shared version and one build serve both stores.
+- **Changelog:** every release adds a dated `## [version]` entry at the top of `CHANGELOG.md` (Keep a Changelog format — `### Added`/`### Changed`/`### Fixed`, newest first), landed in the same commit as the version bump so the file never lags the manifest. Match the entry voice to the SnowRaven repo's changelog: a short bold lead sentence then plain prose for notable user-facing changes, plainer bullets for minor ones; informative, not salesy; em dashes are fine here (unlike store/README copy). Omit pure housekeeping (context-update files, asset regen) unless genuinely notable.
 - **Store package** lives in `store/` (listing copy, disclosures, submit checklists, assets). Regenerate the image assets with `npm run store:assets` (headless Chromium renders the real component CSS, sharp flattens to no-alpha PNGs). `BUILD.md` documents the AMO reproducible build.
 - Keep `gecko.data_collection_permissions` in the manifest — Firefox AMO requires the data-collection declaration for new submissions.
 - **Contact email is `developer@dtgibson.com`** anywhere a project address is needed. Never use a personal address.
