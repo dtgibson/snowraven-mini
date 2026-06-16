@@ -36,7 +36,7 @@ export type WeatherState =
 /** Tide sub-machine. Carries the notice/override context for too-far/outside-us. */
 export type TideState =
   | { status: 'loading' }
-  | { status: 'ok'; formatted: string }
+  | { status: 'ok'; formatted: string; body: string }
   | {
       status: 'too-far' | 'outside-us';
       station: { id: string; name: string };

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { formatTide, formatTideBody, buildCombined, NOAA_CREDIT, TIDE_ATTRIBUTION, COMBINED_ATTRIBUTION } from './tideFormatter'
-import { formatWeather, ATTRIBUTION } from './weatherFormatter'
+import { formatWeather, formatWeatherBody, ATTRIBUTION } from './weatherFormatter'
 import type { HourlyResponse } from './weatherFormatter'
 import type { TideReading } from './tide'
 import type { TideStation } from './tideStations'
@@ -84,5 +84,21 @@ describe('buildCombined (Copy Weather and Tide Together)', () => {
     // The standalone tide attribution ("· via SnowRaven") never appears — the
     // combined block uses the body, which ends in the bare NOAA credit.
     expect(combined).not.toContain(TIDE_ATTRIBUTION)
+  })
+
+  it('equals SnowRaven desktop buildCombined() byte-for-byte (QA-15, .toBe parity)', () => {
+    // Build `expected` from independent primitives — NOT by re-applying
+    // buildCombined's own `weather.replace(...)` formula, which would be circular
+    // (it would pass even if buildCombined's spacing or strip logic drifted).
+    // `formatWeatherBody` is the no-attribution weather block, golden-tested
+    // separately against SnowRaven; `formatWeather` is exactly that body plus
+    // `\n${ATTRIBUTION}`. Asserting this precondition first makes the strip
+    // meaningful, then the .toBe independently locks: weather body (attribution
+    // stripped) + blank line + tide body (inline NOAA credit kept) + blank line +
+    // the single combined attribution.
+    const weatherBody = formatWeatherBody([hour], 'America/Los_Angeles', 37.8)
+    expect(weather).toBe(`${weatherBody}\n${ATTRIBUTION}`)
+    const expected = `${weatherBody}\n\n${tideBody}\n\n${COMBINED_ATTRIBUTION}`
+    expect(combined).toBe(expected)
   })
 })

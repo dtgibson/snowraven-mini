@@ -47,6 +47,83 @@ function Header({ loc, sub }: { loc?: string; sub?: string }) {
   );
 }
 
+// First-run walkthrough — replaces the bare missing-keys notice (FR-01..06).
+// A single guided panel: a header, a per-key checklist (each row shows Needed/Set
+// and a "Get a free key" link that opens the provider's key page in a new tab),
+// and a foot with "Go to Settings". Preserves the three-way both/eBird-only/
+// OW-only logic; an already-set key's row shows "Set" and drops its get-key link
+// from the tab order. No new permission — the get-key links are plain anchors.
+const KEY_META = {
+  ebird: { name: 'eBird API key', short: 'eBird', getKeyHref: 'https://ebird.org/api/keygen' },
+  openweather: { name: 'OpenWeather API key', short: 'OpenWeather', getKeyHref: 'https://openweathermap.org/api' },
+} as const;
+const KEY_ORDER: MissingKey[] = ['ebird', 'openweather'];
+
+function Walkthrough({ missingKeys }: { missingKeys: MissingKey[] }) {
+  const bothMissing = missingKeys.length === 2;
+  const missingShort = bothMissing ? '' : KEY_META[missingKeys[0]].short;
+
+  return (
+    <div className="sr-notice sr-notice-neutral sr-walk">
+      <div className="sr-walk-head">
+        <span className="sr-ico" aria-hidden="true">
+          <KeyIcon />
+        </span>
+        <div>
+          <div className="sr-walk-title">
+            {bothMissing ? 'Two free keys and you’re set' : 'One free key to go'}
+          </div>
+          <div className="sr-walk-lead">
+            {bothMissing
+              ? 'Add your eBird and OpenWeather keys once. After that, opening a checklist copies its weather in a single click.'
+              : missingKeys[0] === 'openweather'
+                ? 'Your eBird key is set. Add your OpenWeather key and you’re ready for one-click weather.'
+                : 'Your OpenWeather key is set. Add your eBird key and you’re ready for one-click weather.'}
+          </div>
+        </div>
+      </div>
+
+      <ul className="sr-keylist">
+        {KEY_ORDER.map((key) => {
+          const needed = missingKeys.includes(key);
+          const meta = KEY_META[key];
+          return (
+            <li key={key} className={`sr-keyrow ${needed ? 'is-needed' : 'is-set'}`}>
+              <span className="sr-keymark" aria-hidden="true">
+                {needed ? <KeyIcon size={13} /> : <CheckIcon size={13} />}
+              </span>
+              <span className="sr-keytext">
+                <span className="sr-keyname">{meta.name}</span>
+                <span className="sr-keystate">{needed ? 'Needed' : 'Set'}</span>
+              </span>
+              <a
+                className="sr-getkey"
+                href={meta.getKeyHref}
+                target="_blank"
+                rel="noreferrer"
+                {...(needed ? {} : { tabIndex: -1, 'aria-hidden': true })}
+              >
+                Get a free key
+                {needed && <ArrowRightIcon size={11} />}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div className="sr-walk-foot">
+        <span className="sr-free">
+          {bothMissing ? 'Both are free to get.' : `The ${missingShort} key is free to get.`}
+        </span>
+        <button type="button" className="sr-link-action" onClick={openOptions}>
+          Go to Settings
+          <ArrowRightIcon />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function Popup() {
   const [pageState, setPageState] = useState<PageState>('resolving');
   const [missingKeys, setMissingKeys] = useState<MissingKey[]>([]);
@@ -112,7 +189,7 @@ export function Popup() {
         (res) => {
           if (res.loc_name) setLocName((prev) => prev ?? res.loc_name);
           if (res.status === 'ok' && res.formatted) {
-            setTide({ status: 'ok', formatted: res.formatted });
+            setTide({ status: 'ok', formatted: res.formatted, body: res.body ?? '' });
             tideMsg = 'Tide ready.';
           } else if (res.status === 'too-far' || res.status === 'outside-us') {
             setTide({
@@ -151,7 +228,7 @@ export function Popup() {
     getTide(id, true).then(
       (res) => {
         if (res.status === 'ok' && res.formatted) {
-          setTide({ status: 'ok', formatted: res.formatted });
+          setTide({ status: 'ok', formatted: res.formatted, body: res.body ?? '' });
           announce('Tide ready.');
         } else {
           setTide({ status: 'unavailable' });
@@ -312,47 +389,7 @@ export function Popup() {
           </div>
         )}
 
-        {pageState === 'missing-keys' && (
-          <div className="sr-notice sr-notice-neutral">
-            <span className="sr-ico" aria-hidden="true">
-              <KeyIcon />
-            </span>
-            <div className="sr-nudge-body">
-              <div>
-                {missingKeys.includes('ebird') && missingKeys.includes('openweather') ? (
-                  <>
-                    <span className="sr-strong">eBird and OpenWeather API keys</span> aren’t set yet.
-                    Add them once and a single click does the lookup.
-                  </>
-                ) : missingKeys.includes('ebird') ? (
-                  <>
-                    <span className="sr-strong">eBird API key</span> isn’t set yet. Add it once and a
-                    single click does the lookup.
-                  </>
-                ) : (
-                  <>
-                    <span className="sr-strong">OpenWeather API key</span> isn’t set yet. Add it once
-                    and a single click does the lookup.
-                  </>
-                )}
-              </div>
-              <div className="sr-nudge-actions">
-                <span className="sr-nudge-meta">
-                  {missingKeys.includes('ebird') && !missingKeys.includes('openweather') && (
-                    <>OpenWeather key: <span className="sr-strong">set ✓</span></>
-                  )}
-                  {missingKeys.includes('openweather') && !missingKeys.includes('ebird') && (
-                    <>eBird key: <span className="sr-strong">set ✓</span></>
-                  )}
-                </span>
-                <button type="button" className="sr-link-action" onClick={openOptions}>
-                  Go to Settings
-                  <ArrowRightIcon />
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {pageState === 'missing-keys' && <Walkthrough missingKeys={missingKeys} />}
 
         {pageState === 'permission-blocked' && (
           <div className="sr-perm">

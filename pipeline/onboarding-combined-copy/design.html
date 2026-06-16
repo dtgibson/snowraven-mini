@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SnowRaven Mini — Onboarding &amp; Combined Copy design</title>
+<style>
+  /* ============================================================================
+   * Tokens — verbatim from src/globals.css. Light is default; dark is applied
+   * here via [data-theme] so the mockup can toggle (the real app uses
+   * prefers-color-scheme, no in-app toggle — this toggle is for review only).
+   * ========================================================================== */
+  :root {
+    --sr-primary: #2d8653;
+    --sr-primary-hover: #266f45;
+    --sr-primary-fg: #ffffff;
+    --sr-bg: #ffffff;
+    --sr-fg: #0f1117;
+    --sr-muted: #f4f4f5;
+    --sr-muted-fg: #6b6b73;
+    --sr-accent: #e8f5ee;
+    --sr-accent-fg: #1a5c38;
+    --sr-secondary: #f0faf4;
+    --sr-border: #e4e4e7;
+    --sr-input-border: #8a8a93;
+    --sr-ring: #2d8653;
+    --sr-destructive: #b91c1c;
+    --sr-destructive-bg: #fef2f2;
+    --sr-warning-fg: #92400e;
+    --sr-warning-bg: #fffbeb;
+    --sr-warning-bd: #fde68a;
+    --sr-mono-bg: #fafafa;
+    --sr-radius: 0.5rem;
+    --sr-font-sans: Inter, system-ui, -apple-system, sans-serif;
+    --sr-font-mono: ui-monospace, "Cascadia Code", "Fira Code", Consolas, monospace;
+  }
+  [data-theme="dark"] {
+    --sr-bg: #18181b;
+    --sr-fg: #f4f4f5;
+    --sr-muted: #27272a;
+    --sr-muted-fg: #a1a1aa;
+    --sr-accent: #052e16;
+    --sr-accent-fg: #34d399;
+    --sr-primary: #34d399;
+    --sr-primary-hover: #10b981;
+    --sr-primary-fg: #052e16;
+    --sr-border: #27272a;
+    --sr-ring: #34d399;
+    --sr-destructive: #f87171;
+    --sr-destructive-bg: #1c0505;
+    --sr-warning-fg: #fde68a;
+    --sr-warning-bg: #1c1002;
+    --sr-warning-bd: #78350f;
+    --sr-secondary: #064e3b;
+    --sr-mono-bg: #1c1c1f;
+  }
+
+  * { box-sizing: border-box; }
+
+  /* Mockup page chrome (NOT part of the extension — just the review backdrop). */
+  body {
+    margin: 0;
+    font-family: var(--sr-font-sans);
+    background: #e9eaee;
+    color: #0f1117;
+    -webkit-font-smoothing: antialiased;
+  }
+  body[data-page-theme="dark"] { background: #0c0c0e; color: #f4f4f5; }
+
+  .page-head {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 24px 8px;
+  }
+  .page-head h1 {
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 6px;
+  }
+  .page-head p {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: #56565e;
+    max-width: 64ch;
+  }
+  body[data-page-theme="dark"] .page-head p { color: #a1a1aa; }
+
+  .controls {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 18px 24px 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+  .controls .group {
+    display: inline-flex;
+    background: #fff;
+    border: 1px solid #d6d7dd;
+    border-radius: 9px;
+    padding: 3px;
+    gap: 2px;
+  }
+  body[data-page-theme="dark"] .controls .group {
+    background: #1b1b1f;
+    border-color: #2c2c31;
+  }
+  .controls .group-label {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #56565e;
+    align-self: center;
+    margin: 0 4px 0 6px;
+  }
+  body[data-page-theme="dark"] .controls .group-label { color: #a1a1aa; }
+  .seg {
+    appearance: none;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #56565e;
+    padding: 6px 13px;
+    border-radius: 7px;
+    cursor: pointer;
+  }
+  body[data-page-theme="dark"] .seg { color: #a1a1aa; }
+  .seg[aria-pressed="true"] {
+    background: #2d8653;
+    color: #fff;
+  }
+  .seg:focus-visible { outline: 2px solid #2d8653; outline-offset: 2px; }
+
+  .stage {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 22px 24px 60px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 26px 30px;
+    align-items: flex-start;
+  }
+
+  .specimen { display: none; }
+  .specimen.is-on { display: block; }
+
+  .specimen .cap {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 600;
+    color: #56565e;
+    margin: 0 0 9px 2px;
+  }
+  body[data-page-theme="dark"] .specimen .cap { color: #a1a1aa; }
+
+  /* The popup itself sits in a faux browser frame so it reads as the real
+   * extension popover. */
+  .frame {
+    width: 380px;
+    border-radius: 12px;
+    box-shadow: 0 14px 40px rgba(15, 17, 23, 0.18), 0 2px 6px rgba(15, 17, 23, 0.10);
+    overflow: hidden;
+    background: var(--sr-bg);
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  body[data-page-theme="dark"] .frame {
+    box-shadow: 0 14px 44px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255,255,255,0.05);
+  }
+
+  /* ============================================================================
+   * Extension styles — verbatim from src/globals.css (only the classes the two
+   * surfaces use). New structural rules introduced for this feature are flagged
+   * "NEW (this feature)".
+   * ========================================================================== */
+  .sr-popup { width: 380px; max-width: 100%; background: var(--sr-bg); color: var(--sr-fg); }
+  .sr-pop-head {
+    display: flex; align-items: center; gap: 9px;
+    padding: 13px 16px; border-bottom: 1px solid var(--sr-border);
+  }
+  .sr-brand {
+    margin: 0; font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 8px;
+    color: var(--sr-fg);
+  }
+  .sr-brand .sr-mark { color: var(--sr-primary); flex-shrink: 0; display: inline-flex; }
+  .sr-pop-context {
+    margin-left: auto; font-size: 0.6875rem; color: var(--sr-muted-fg);
+    text-align: right; line-height: 1.35; max-width: 56%; overflow: hidden;
+  }
+  .sr-pop-context .sr-loc {
+    display: block; font-weight: 600; color: var(--sr-fg);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .sr-pop-body { padding: 14px; display: flex; flex-direction: column; gap: 14px; }
+
+  .sr-eyebrow { font-size: 0.6875rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--sr-muted-fg); }
+  .sr-eyebrow-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 9px;
+  }
+  .sr-eyebrow-row .sr-eyebrow { font-weight: 600; letter-spacing: 0.08em; }
+
+  .sr-mono {
+    font-family: var(--sr-font-mono); font-size: 0.8125rem; line-height: 1.7;
+    background: var(--sr-mono-bg); border: 1px solid var(--sr-border);
+    border-radius: var(--sr-radius); padding: 14px 16px; margin: 0;
+    white-space: pre; overflow-x: auto; color: var(--sr-fg);
+  }
+
+  .sr-btn-copy {
+    height: 28px; padding: 0 11px; background: var(--sr-accent); color: var(--sr-accent-fg);
+    border: 1.5px solid transparent; border-radius: 6px; font: inherit;
+    font-size: 0.75rem; font-weight: 600; cursor: pointer; display: inline-flex;
+    align-items: center; gap: 5px; white-space: nowrap;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .sr-btn-copy:hover { background: var(--sr-secondary); border-color: var(--sr-accent-fg); }
+  .sr-btn-copy.is-copied { background: var(--sr-accent-fg); color: var(--sr-bg); border-color: var(--sr-accent-fg); }
+
+  .sr-btn-primary {
+    width: 100%; min-height: 38px; padding: 0 16px; background: var(--sr-primary);
+    color: var(--sr-primary-fg); border: 0; border-radius: var(--sr-radius);
+    font: inherit; font-size: 0.875rem; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background .15s, transform .05s;
+  }
+  .sr-btn-primary:hover { background: var(--sr-primary-hover); }
+  .sr-btn-primary:active { transform: translateY(0.5px); }
+
+  .sr-btn-ghost {
+    min-height: 32px; padding: 0 13px; background: var(--sr-accent); color: var(--sr-accent-fg);
+    border: 1.5px solid transparent; border-radius: 7px; font: inherit;
+    font-size: 0.75rem; font-weight: 600; cursor: pointer; display: inline-flex;
+    align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0;
+    transition: background .15s, border-color .15s;
+  }
+  .sr-btn-ghost:hover { background: var(--sr-secondary); border-color: var(--sr-accent-fg); }
+
+  .sr-link-action {
+    background: none; border: 0; padding: 0; font: inherit; font-size: 0.8125rem;
+    font-weight: 600; color: var(--sr-primary); cursor: pointer; display: inline-flex;
+    align-items: center; gap: 3px; border-radius: 4px;
+  }
+  .sr-link-action:hover { color: var(--sr-primary-hover); text-decoration: underline; }
+
+  .sr-notice {
+    display: flex; align-items: flex-start; gap: 9px; padding: 12px 13px;
+    border-radius: 8px; font-size: 0.8125rem; line-height: 1.5;
+  }
+  .sr-notice .sr-ico { flex-shrink: 0; margin-top: 1px; }
+  .sr-notice-neutral { background: var(--sr-muted); border: 1px solid var(--sr-border); color: var(--sr-fg); }
+  .sr-notice-neutral .sr-ico { color: var(--sr-muted-fg); }
+  .sr-strong { font-weight: 600; }
+  .sr-nudge-body { flex: 1; }
+  .sr-nudge-actions {
+    margin-top: 11px; display: flex; gap: 8px; align-items: center;
+    justify-content: space-between; flex-wrap: wrap;
+  }
+  .sr-nudge-meta { font-size: .75rem; color: var(--sr-muted-fg); }
+  .sr-nudge-meta .sr-strong { color: var(--sr-fg); }
+
+  .sr-copied-banner {
+    display: flex; align-items: center; gap: 7px; margin-top: 8px; padding: 7px 11px;
+    border-radius: 8px; background: var(--sr-accent); color: var(--sr-accent-fg);
+    font-size: 0.8125rem; font-weight: 600; line-height: 1.35;
+  }
+  .sr-copied-banner svg { flex-shrink: 0; }
+
+  .sr-footer {
+    text-align: center; font-size: 0.75rem; color: var(--sr-muted-fg);
+    padding: 11px 16px 13px; border-top: 1px solid var(--sr-border);
+  }
+  .sr-footer a { color: inherit; text-decoration: none; }
+  .sr-footer a:hover { text-decoration: underline; }
+
+  .sr-divider { border: none; border-top: 1px solid var(--sr-border); margin: 0; width: 100%; }
+
+  :focus-visible { outline: 2px solid var(--sr-ring); outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+  /* ============================================================================
+   * NEW (this feature) — additive structural CSS. Two small classes, both built
+   * only on existing tokens, no new colors. The Engineer can drop these into
+   * globals.css or keep them inline; either way they reuse the token system.
+   * ========================================================================== */
+
+  /* Walkthrough: an intro line, then a per-key checklist with a "get a free
+   * key" link on each row. Reuses the sr-notice-neutral card as its shell so it
+   * inherits AA contrast in both themes. */
+  .sr-walk { gap: 11px; flex-direction: column; align-items: stretch; }
+  .sr-walk-head { display: flex; align-items: flex-start; gap: 9px; }
+  .sr-walk-head .sr-ico { flex-shrink: 0; margin-top: 1px; color: var(--sr-muted-fg); }
+  .sr-walk-title { font-weight: 600; }
+  .sr-walk-lead { color: var(--sr-muted-fg); margin-top: 3px; line-height: 1.5; }
+
+  .sr-keylist { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+  .sr-keyrow {
+    display: flex; align-items: center; gap: 9px;
+    padding: 9px 11px; border-radius: 7px;
+    background: var(--sr-bg); border: 1px solid var(--sr-border);
+  }
+  .sr-keyrow .sr-keymark {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 6px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  /* still-needed key: neutral chip with a key glyph */
+  .sr-keyrow.is-needed .sr-keymark { background: var(--sr-muted); color: var(--sr-muted-fg); }
+  /* already-set key: accent chip with a check glyph */
+  .sr-keyrow.is-set .sr-keymark { background: var(--sr-accent); color: var(--sr-accent-fg); }
+  .sr-keyrow .sr-keytext { flex: 1; min-width: 0; }
+  .sr-keyrow .sr-keyname { font-weight: 600; font-size: 0.8125rem; }
+  .sr-keyrow .sr-keystate { font-size: 0.6875rem; color: var(--sr-muted-fg); }
+  .sr-keyrow.is-set .sr-keystate { color: var(--sr-accent-fg); font-weight: 600; }
+  /* the per-key "get a free key" link reuses the sr-getkey look from Options */
+  .sr-getkey {
+    font-size: 0.75rem; color: var(--sr-primary); text-decoration: none;
+    font-weight: 600; white-space: nowrap; flex-shrink: 0;
+    display: inline-flex; align-items: center; gap: 3px; border-radius: 4px;
+  }
+  .sr-getkey:hover { color: var(--sr-primary-hover); text-decoration: underline; }
+  .sr-keyrow.is-set .sr-getkey { visibility: hidden; }
+
+  .sr-walk-foot {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; margin-top: 3px;
+  }
+  .sr-walk-foot .sr-free { font-size: 0.75rem; color: var(--sr-muted-fg); }
+
+  /* Combined-copy button: full-width, accent-tinted (secondary), visually
+   * distinct from the two compact per-block Copy buttons by being full bleed
+   * and slightly heavier. NOT the filled green primary — see decisions.md. */
+  .sr-btn-combined {
+    width: 100%; min-height: 40px; padding: 0 16px; margin-top: 2px;
+    background: var(--sr-accent); color: var(--sr-accent-fg);
+    border: 1.5px solid var(--sr-border); border-radius: var(--sr-radius);
+    font: inherit; font-size: 0.8125rem; font-weight: 600; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .sr-btn-combined:hover { background: var(--sr-secondary); border-color: var(--sr-accent-fg); }
+  .sr-btn-combined.is-copied { background: var(--sr-accent-fg); color: var(--sr-bg); border-color: var(--sr-accent-fg); }
+  .sr-btn-combined svg { flex-shrink: 0; }
+</style>
+</head>
+<body data-page-theme="light">
+
+  <div class="page-head">
+    <h1>Onboarding &amp; combined copy</h1>
+    <p>Two popup surfaces, designed inside SnowRaven Mini's existing system — the real tokens, the existing card and button classes, the hand-drawn SVG icons. Toggle the theme and the variants to see each state. The starting point, not the final word.</p>
+  </div>
+
+  <div class="controls" role="group" aria-label="Mockup controls">
+    <div class="group" role="group" aria-label="Theme">
+      <span class="group-label">Theme</span>
+      <button class="seg" data-theme-btn="light" aria-pressed="true" type="button">Light</button>
+      <button class="seg" data-theme-btn="dark" aria-pressed="false" type="button">Dark</button>
+    </div>
+    <div class="group" role="group" aria-label="Walkthrough variant">
+      <span class="group-label">Walkthrough</span>
+      <button class="seg" data-walk-btn="both" aria-pressed="true" type="button">Both keys needed</button>
+      <button class="seg" data-walk-btn="one" aria-pressed="false" type="button">One key needed</button>
+    </div>
+  </div>
+
+  <div class="stage">
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SPECIMEN 1 — First-run walkthrough, BOTH keys missing
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="specimen walk-both is-on">
+      <p class="cap">First run — both keys needed</p>
+      <div class="frame">
+        <div class="sr-popup">
+          <header class="sr-pop-head">
+            <h1 class="sr-brand">
+              <span class="sr-mark" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg>
+              </span>
+              SnowRaven Mini
+            </h1>
+          </header>
+          <main class="sr-pop-body">
+            <div class="sr-notice sr-notice-neutral sr-walk">
+              <div class="sr-walk-head">
+                <span class="sr-ico" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15.5 7.5-7 7a3.5 3.5 0 1 1-2-2l1.6-1.6"/><circle cx="16.5" cy="6.5" r="3.5"/></svg>
+                </span>
+                <div>
+                  <div class="sr-walk-title">Two free keys and you're set</div>
+                  <div class="sr-walk-lead">Add your eBird and OpenWeather keys once. After that, opening a checklist copies its weather in a single click.</div>
+                </div>
+              </div>
+
+              <ul class="sr-keylist">
+                <li class="sr-keyrow is-needed">
+                  <span class="sr-keymark" aria-hidden="true">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15.5 7.5-7 7a3.5 3.5 0 1 1-2-2l1.6-1.6"/><circle cx="16.5" cy="6.5" r="3.5"/></svg>
+                  </span>
+                  <span class="sr-keytext">
+                    <span class="sr-keyname">eBird API key</span>
+                    <span class="sr-keystate">Needed</span>
+                  </span>
+                  <a class="sr-getkey" href="https://ebird.org/api/keygen" target="_blank" rel="noreferrer">Get a free key
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  </a>
+                </li>
+                <li class="sr-keyrow is-needed">
+                  <span class="sr-keymark" aria-hidden="true">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15.5 7.5-7 7a3.5 3.5 0 1 1-2-2l1.6-1.6"/><circle cx="16.5" cy="6.5" r="3.5"/></svg>
+                  </span>
+                  <span class="sr-keytext">
+                    <span class="sr-keyname">OpenWeather API key</span>
+                    <span class="sr-keystate">Needed</span>
+                  </span>
+                  <a class="sr-getkey" href="https://openweathermap.org/api" target="_blank" rel="noreferrer">Get a free key
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  </a>
+                </li>
+              </ul>
+
+              <div class="sr-walk-foot">
+                <span class="sr-free">Both are free to get.</span>
+                <button type="button" class="sr-link-action">Go to Settings
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </main>
+          <footer class="sr-footer">
+            SnowRaven Mini · <a href="#">Privacy</a> · <a href="#">GitHub</a>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SPECIMEN 2 — First-run walkthrough, ONE key missing (eBird set ✓)
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="specimen walk-one">
+      <p class="cap">First run — one key needed (eBird already set)</p>
+      <div class="frame">
+        <div class="sr-popup">
+          <header class="sr-pop-head">
+            <h1 class="sr-brand">
+              <span class="sr-mark" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg>
+              </span>
+              SnowRaven Mini
+            </h1>
+          </header>
+          <main class="sr-pop-body">
+            <div class="sr-notice sr-notice-neutral sr-walk">
+              <div class="sr-walk-head">
+                <span class="sr-ico" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15.5 7.5-7 7a3.5 3.5 0 1 1-2-2l1.6-1.6"/><circle cx="16.5" cy="6.5" r="3.5"/></svg>
+                </span>
+                <div>
+                  <div class="sr-walk-title">One free key to go</div>
+                  <div class="sr-walk-lead">Your eBird key is set. Add your OpenWeather key and you're ready for one-click weather.</div>
+                </div>
+              </div>
+
+              <ul class="sr-keylist">
+                <li class="sr-keyrow is-set">
+                  <span class="sr-keymark" aria-hidden="true">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  </span>
+                  <span class="sr-keytext">
+                    <span class="sr-keyname">eBird API key</span>
+                    <span class="sr-keystate">Set</span>
+                  </span>
+                  <a class="sr-getkey" href="https://ebird.org/api/keygen" target="_blank" rel="noreferrer" tabindex="-1" aria-hidden="true">Get a free key</a>
+                </li>
+                <li class="sr-keyrow is-needed">
+                  <span class="sr-keymark" aria-hidden="true">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m15.5 7.5-7 7a3.5 3.5 0 1 1-2-2l1.6-1.6"/><circle cx="16.5" cy="6.5" r="3.5"/></svg>
+                  </span>
+                  <span class="sr-keytext">
+                    <span class="sr-keyname">OpenWeather API key</span>
+                    <span class="sr-keystate">Needed</span>
+                  </span>
+                  <a class="sr-getkey" href="https://openweathermap.org/api" target="_blank" rel="noreferrer">Get a free key
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                  </a>
+                </li>
+              </ul>
+
+              <div class="sr-walk-foot">
+                <span class="sr-free">The OpenWeather key is free to get.</span>
+                <button type="button" class="sr-link-action">Go to Settings
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </main>
+          <footer class="sr-footer">
+            SnowRaven Mini · <a href="#">Privacy</a> · <a href="#">GitHub</a>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SPECIMEN 3 — Result view with the combined button
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="specimen result is-on">
+      <p class="cap">Result — weather + tide, with combined copy</p>
+      <div class="frame">
+        <div class="sr-popup">
+          <header class="sr-pop-head">
+            <h1 class="sr-brand">
+              <span class="sr-mark" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg>
+              </span>
+              SnowRaven Mini
+            </h1>
+            <span class="sr-pop-context">
+              <span class="sr-loc">Bodega Bay, CA</span>
+              Today 7:42am
+            </span>
+          </header>
+          <main class="sr-pop-body">
+            <!-- Weather slot -->
+            <section aria-labelledby="r-weather-label">
+              <div class="sr-eyebrow-row">
+                <span class="sr-eyebrow" id="r-weather-label">Weather</span>
+                <button type="button" class="sr-btn-copy" aria-label="Copy weather to clipboard">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span class="label">Copy</span>
+                </button>
+              </div>
+<pre class="sr-mono" tabindex="0" role="group" aria-label="Weather output">🌤️
+Few clouds
+Temperature: 54 - 57°F
+Wind: Gentle breeze - Moderate breeze
+Wind Direction: NW - W
+Cloud Cover: 12 - 20%
+Humidity: 81 - 88%
+Dew point: 49 - 51°F
+Sunrise: 5:49am
+Sunset: 8:31pm
+Weather generated by SnowRaven</pre>
+              <div class="sr-copied-banner">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                <span>Copied to clipboard. Paste it into your checklist comment.</span>
+              </div>
+            </section>
+
+            <hr class="sr-divider" aria-hidden="true" />
+
+            <!-- Tide slot -->
+            <section aria-labelledby="r-tide-label">
+              <div class="sr-eyebrow-row">
+                <span class="sr-eyebrow" id="r-tide-label">Tide</span>
+                <button type="button" class="sr-btn-copy" aria-label="Copy tide to clipboard">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span class="label">Copy</span>
+                </button>
+              </div>
+<pre class="sr-mono" tabindex="0" role="group" aria-label="Tide output">🌊
+Observed
+Water level: 2.31 ft
+Tide: Rising (turned during your checklist)
+Previous Low: 1.08 ft at 6:14am
+Next High: 5.27 ft at 12:38pm
+Station: Bodega Harbor Entrance (9415020), 2.4 mi away
+Relative to MLLW
+Tide data from NOAA CO-OPS</pre>
+            </section>
+
+            <!-- NEW (this feature) — combined copy, full-width secondary, below the Tide slot -->
+            <button type="button" class="sr-btn-combined" aria-label="Copy weather and tide together to clipboard">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <span class="label">Copy weather &amp; tide together</span>
+            </button>
+          </main>
+          <footer class="sr-footer">
+            SnowRaven Mini · <a href="#">Privacy</a> · <a href="#">GitHub</a>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         SPECIMEN 4 — Combined button mid-confirmation ("Copied!")
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="specimen result-copied is-on">
+      <p class="cap">Result — combined copy just fired ("Copied!")</p>
+      <div class="frame">
+        <div class="sr-popup">
+          <header class="sr-pop-head">
+            <h1 class="sr-brand">
+              <span class="sr-mark" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D8653"/><g transform="translate(4,4)" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></g></svg>
+              </span>
+              SnowRaven Mini
+            </h1>
+            <span class="sr-pop-context">
+              <span class="sr-loc">Bodega Bay, CA</span>
+              Today 7:42am
+            </span>
+          </header>
+          <main class="sr-pop-body">
+            <section aria-labelledby="rc-weather-label">
+              <div class="sr-eyebrow-row">
+                <span class="sr-eyebrow" id="rc-weather-label">Weather</span>
+                <button type="button" class="sr-btn-copy" aria-label="Copy weather to clipboard">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span class="label">Copy</span>
+                </button>
+              </div>
+<pre class="sr-mono" tabindex="0" role="group" aria-label="Weather output">🌤️
+Few clouds
+Temperature: 54 - 57°F
+Wind: Gentle breeze - Moderate breeze
+Wind Direction: NW - W
+Cloud Cover: 12 - 20%
+Humidity: 81 - 88%
+Dew point: 49 - 51°F
+Sunrise: 5:49am
+Sunset: 8:31pm
+Weather generated by SnowRaven</pre>
+            </section>
+
+            <hr class="sr-divider" aria-hidden="true" />
+
+            <section aria-labelledby="rc-tide-label">
+              <div class="sr-eyebrow-row">
+                <span class="sr-eyebrow" id="rc-tide-label">Tide</span>
+                <button type="button" class="sr-btn-copy" aria-label="Copy tide to clipboard">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <span class="label">Copy</span>
+                </button>
+              </div>
+<pre class="sr-mono" tabindex="0" role="group" aria-label="Tide output">🌊
+Observed
+Water level: 2.31 ft
+Tide: Rising (turned during your checklist)
+Previous Low: 1.08 ft at 6:14am
+Next High: 5.27 ft at 12:38pm
+Station: Bodega Harbor Entrance (9415020), 2.4 mi away
+Relative to MLLW
+Tide data from NOAA CO-OPS</pre>
+            </section>
+
+            <button type="button" class="sr-btn-combined is-copied" aria-label="Weather and tide copied to clipboard">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              <span class="label">Copied!</span>
+            </button>
+          </main>
+          <footer class="sr-footer">
+            SnowRaven Mini · <a href="#">Privacy</a> · <a href="#">GitHub</a>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Theme toggle — flips both the page backdrop and the popup tokens.
+    const themeBtns = document.querySelectorAll('[data-theme-btn]');
+    themeBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const theme = btn.getAttribute('data-theme-btn');
+        document.body.setAttribute('data-page-theme', theme);
+        document.querySelectorAll('.frame .sr-popup').forEach((p) => {
+          if (theme === 'dark') p.parentElement.setAttribute('data-theme', 'dark');
+          else p.parentElement.removeAttribute('data-theme');
+        });
+        themeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      });
+    });
+
+    // Walkthrough variant toggle — shows the both-keys or one-key specimen.
+    const walkBtns = document.querySelectorAll('[data-walk-btn]');
+    walkBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const which = btn.getAttribute('data-walk-btn');
+        document.querySelector('.specimen.walk-both').classList.toggle('is-on', which === 'both');
+        document.querySelector('.specimen.walk-one').classList.toggle('is-on', which === 'one');
+        walkBtns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      });
+    });
+  </script>
+</body>
+</html>

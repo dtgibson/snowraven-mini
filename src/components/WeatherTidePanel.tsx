@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import type { WeatherState, TideState } from '../lib/types';
 import { copyText } from '../lib/ext/clipboard';
+import { buildCombined } from '../lib/tideFormatter';
 import { tideTooFarNotice, tideOverrideLabel } from '../lib/tideNotice';
 import { openOptions } from '../lib/ext/options';
 import { CopyIcon, CheckIcon, AlertIcon } from './Icons';
@@ -62,6 +63,44 @@ function BlockEyebrow({
         </button>
       )}
     </div>
+  );
+}
+
+// The full-width "Copy weather & tide together" button (FR-10..21). Built ONLY
+// from weather.formatted + tide.body via buildCombined — NEVER tide.formatted,
+// which ends in "· via SnowRaven" and would double-attribute the combined block.
+// Manual only (no auto-fire): it copies solely on click, flips to "Copied!" for
+// ~2000 ms on success (same affordance as BlockEyebrow), and announces via the
+// shared polite live region. On a failed copy it shows no success and announces
+// nothing (FR-19).
+function CombinedCopyButton({
+  weatherFormatted,
+  tideBody,
+  announce,
+}: {
+  weatherFormatted: string;
+  tideBody: string;
+  announce: (msg: string) => void;
+}) {
+  const [copied, setCopied] = useState(false);
+  const handle = () => {
+    void copyText(buildCombined(weatherFormatted, tideBody)).then((ok) => {
+      if (!ok) return;
+      setCopied(true);
+      announce('Weather and tide copied to clipboard.');
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+  return (
+    <button
+      type="button"
+      className={`sr-btn-combined${copied ? ' is-copied' : ''}`}
+      onClick={handle}
+      aria-label={copied ? 'Weather and tide copied to clipboard' : 'Copy weather and tide together to clipboard'}
+    >
+      {copied ? <CheckIcon size={13} /> : <CopyIcon size={13} />}
+      <span className="label">{copied ? 'Copied!' : 'Copy weather & tide together'}</span>
+    </button>
   );
 }
 
@@ -189,6 +228,16 @@ export function WeatherTidePanel({ weather, tide, autoCopied, onTideOverride, an
           </div>
         )}
       </section>
+
+      {/* ── Combined copy ────────────────────────────────────────────── */}
+      {/* Renders only when both blocks succeeded this open (FR-10/11). */}
+      {weather.status === 'success' && tide.status === 'ok' && (
+        <CombinedCopyButton
+          weatherFormatted={weather.formatted}
+          tideBody={tide.body}
+          announce={announce}
+        />
+      )}
     </>
   );
 }

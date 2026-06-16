@@ -603,3 +603,62 @@ body {
   margin: 0;
   width: 100%;
 }
+
+/* ── Onboarding & combined copy (this feature) ─────────────────────────
+ * Additive structural CSS, every value resolves to an existing --sr-* token.
+ * No new colors. Mirrors the "NEW (this feature)" block in design.html. */
+
+/* First-run walkthrough: an intro line, then a per-key checklist with a
+ * "get a free key" link per row. Reuses the sr-notice-neutral card as its
+ * shell so it inherits AA contrast in both themes. */
+.sr-walk { gap: 11px; flex-direction: column; align-items: stretch; }
+.sr-walk-head { display: flex; align-items: flex-start; gap: 9px; }
+.sr-walk-head .sr-ico { flex-shrink: 0; margin-top: 1px; color: var(--sr-muted-fg); }
+.sr-walk-title { font-weight: 600; }
+.sr-walk-lead { color: var(--sr-muted-fg); margin-top: 3px; line-height: 1.5; }
+
+.sr-keylist { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.sr-keyrow {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 11px; border-radius: 7px;
+  background: var(--sr-bg); border: 1px solid var(--sr-border);
+}
+.sr-keyrow .sr-keymark {
+  flex-shrink: 0; width: 22px; height: 22px; border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+/* still-needed key: neutral chip with a key glyph */
+.sr-keyrow.is-needed .sr-keymark { background: var(--sr-muted); color: var(--sr-muted-fg); }
+/* already-set key: accent chip with a check glyph */
+.sr-keyrow.is-set .sr-keymark { background: var(--sr-accent); color: var(--sr-accent-fg); }
+.sr-keyrow .sr-keytext { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.sr-keyrow .sr-keyname { font-weight: 600; font-size: 0.8125rem; }
+.sr-keyrow .sr-keystate { font-size: 0.6875rem; color: var(--sr-muted-fg); }
+.sr-keyrow.is-set .sr-keystate { color: var(--sr-accent-fg); font-weight: 600; }
+/* the per-key "get a free key" link — the inline-flex variant of sr-getkey */
+.sr-keyrow .sr-getkey {
+  font-size: 0.75rem; font-weight: 600; flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 3px; border-radius: 4px;
+}
+.sr-keyrow.is-set .sr-getkey { visibility: hidden; }
+
+.sr-walk-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; margin-top: 3px;
+}
+.sr-walk-foot .sr-free { font-size: 0.75rem; color: var(--sr-muted-fg); }
+
+/* Combined-copy button: full-width, accent-tinted (secondary), distinct from
+ * the two compact per-block Copy buttons by being full-bleed with a structural
+ * border. NOT the filled green primary — see decisions.md D-01. */
+.sr-btn-combined {
+  width: 100%; min-height: 40px; padding: 0 16px; margin-top: 2px;
+  background: var(--sr-accent); color: var(--sr-accent-fg);
+  border: 1.5px solid var(--sr-border); border-radius: var(--sr-radius);
+  font: inherit; font-size: 0.8125rem; font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.sr-btn-combined:hover { background: var(--sr-secondary); border-color: var(--sr-accent-fg); }
+.sr-btn-combined.is-copied { background: var(--sr-accent-fg); color: var(--sr-bg); border-color: var(--sr-accent-fg); }
+.sr-btn-combined svg { flex-shrink: 0; }
