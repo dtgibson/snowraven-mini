@@ -1,9 +1,9 @@
 # Firefox Add-ons (AMO): Submit Checklist
 
-> **Status: ✅ v1.2.0 live (updated 2026-06-15)** — published at <https://addons.mozilla.org/firefox/addon/snowraven-mini/>, at full cross-store parity with the Chrome Web Store. Retained for reference when preparing future Firefox Add-ons updates: bump the version, regenerate `store/` assets and zips, and repeat the steps below.
+> **Status: v1.2.0 live; v1.3.0 update prepared** — v1.2.0 is published at <https://addons.mozilla.org/firefox/addon/snowraven-mini/> (full cross-store parity with Chrome). The v1.3.0 package (firefox + source zips under `artifacts/`, attached to the v1.3.0 GitHub release) is prepared; follow the steps below to submit the v1.3.0 update to AMO.
 
-- Package to upload: `artifacts/snowraven-mini-firefox-1.2.0.zip`
-- Source archive (required by AMO): `artifacts/snowraven-mini-source-1.2.0.zip` (build steps in `/BUILD.md`)
+- Package to upload: `artifacts/snowraven-mini-firefox-1.3.0.zip`
+- Source archive (required by AMO): `artifacts/snowraven-mini-source-1.3.0.zip` (build steps in `/BUILD.md`)
 - Copy from: `store/listing-copy.md` and `store/permissions-and-privacy.md`
 - Images from: `store/assets/`
 
@@ -15,8 +15,8 @@
 ## Submit the add-on
 4. Go to <https://addons.mozilla.org/developers> and choose "Submit a New Add-on".
 5. Choose "On this site" (a listed, public add-on).
-6. Upload `artifacts/snowraven-mini-firefox-1.2.0.zip`. Automated validation runs on upload.
-7. When asked about minified or bundled code, upload the source: `artifacts/snowraven-mini-source-1.2.0.zip`. Point the reviewer to `BUILD.md`: `npm ci` then `npm run build` reproduces `dist/`.
+6. Upload `artifacts/snowraven-mini-firefox-1.3.0.zip`. Automated validation runs on upload.
+7. When asked about minified or bundled code, upload the source: `artifacts/snowraven-mini-source-1.3.0.zip`. Point the reviewer to `BUILD.md`: `npm ci` then `npm run build` reproduces `dist/`.
 
 ## Listing
 8. Name: **SnowRaven Mini**

@@ -1,6 +1,6 @@
 # Chrome Web Store: Submit Checklist
 
-- Package to upload: `artifacts/snowraven-mini-chrome-1.2.0.zip`
+- Package to upload: `artifacts/snowraven-mini-chrome-1.3.0.zip`
 - Copy from: `store/listing-copy.md` and `store/permissions-and-privacy.md`
 - Images from: `store/assets/`
 
@@ -11,7 +11,7 @@
 4. In the Account tab, verify a contact email (required to publish publicly) and set your publisher display name.
 
 ## The item
-5. Click "New item" and upload `artifacts/snowraven-mini-chrome-1.2.0.zip`.
+5. Click "New item" and upload `artifacts/snowraven-mini-chrome-1.3.0.zip`.
 
 ## Store listing tab
 6. Name: **SnowRaven Mini**
