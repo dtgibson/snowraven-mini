@@ -92,7 +92,7 @@ A brand-new OpenWeather key can take a little while (often up to a couple of hou
 
 ## Installing
 
-SnowRaven Mini is on the **Chrome Web Store** ([listing](https://chromewebstore.google.com/detail/snowraven-mini/dfbphfbhbehdlfepoigechmjbifpndhc)) as **v1.3.0** — the one-click install for Chrome, Microsoft Edge, and other Chromium browsers. It's also on **Firefox Add-ons** ([listing](https://addons.mozilla.org/firefox/addon/snowraven-mini/)) as **v1.3.0** — the one-click install for Firefox. The same build works in both browsers: one codebase, one manifest. Chrome ignores the Firefox-specific `gecko` block in the manifest; Firefox reads it.
+SnowRaven Mini is on the **Chrome Web Store** ([listing](https://chromewebstore.google.com/detail/snowraven-mini/dfbphfbhbehdlfepoigechmjbifpndhc)) as **v1.4.0** — the one-click install for Chrome, Microsoft Edge, and other Chromium browsers. It's also on **Firefox Add-ons** ([listing](https://addons.mozilla.org/firefox/addon/snowraven-mini/)) as **v1.4.0** — the one-click install for Firefox. The same build works in both browsers: one codebase, one manifest. Chrome ignores the Firefox-specific `gecko` block in the manifest; Firefox reads it.
 
 ### From the Chrome Web Store (recommended for Chrome)
 
@@ -197,7 +197,7 @@ The intended flow is fast: open the Edit Comments page, click the icon, paste.
 
 **The tide block.** Below the weather, the tide block appears as its own monospace card under a "Tide" eyebrow, with its own **Copy** button. Tide is **never auto-copied**; copy it with its button when you want it. If your checklist is inland or outside the US, you will see a calm amber notice instead, with an override to show the nearest station anyway (see [the tide notices](#tide-too-far-or-outside-the-us)).
 
-**What gets copied.** The weather block (auto-copied on open, or by the weather **Copy** button) is the weather text only, ending with the SnowRaven attribution line. The tide **Copy** button copies the tide text only, ending with its "Tide data from NOAA CO-OPS · via SnowRaven" credit. The two blocks are copied separately. (In this version there is no single combined "weather + tide together" copy button; copy each block in turn if you want both.) See [the output format](#the-weather-and-tide-output-format) for exactly what each block contains.
+**What gets copied.** The weather block (auto-copied on open, or by the weather **Copy** button) is the weather text only, ending with the SnowRaven attribution line. The tide **Copy** button copies the tide text only, ending with its "Tide data from NOAA CO-OPS · via SnowRaven" credit. When both blocks resolve, a **Copy weather & tide together** button appears below the tide and copies the two as one combined block: the weather, then the tide, then a single shared attribution line. It is manual-only and sits alongside the per-block Copy buttons; the weather still auto-copies on open. See [the output format](#the-weather-and-tide-output-format) for exactly what each block contains.
 
 If you open the popup on a page that is not an eBird checklist, it tells you so calmly and does nothing else.
 
@@ -215,15 +215,15 @@ A calm **"Loading weather & tide…"** row with a spinner while the lookup runs.
 
 A calm, non-error message: **"No checklist on this page"** with the line **"Open a checklist's Edit Comments page to get its weather."** You see this whenever the active tab is not an eBird checklist (or its URL carries no valid `S…` checklist ID). Nothing else happens.
 
-### Missing-keys nudge
+### Missing-key walkthrough
 
-If one or both keys are not set, the popup shows a neutral nudge naming what is missing:
+If one or both keys are not set, the popup shows a first-run key walkthrough that names both free keys you need (eBird and OpenWeather) and shows each one's status:
 
 - Both missing: **"eBird and OpenWeather API keys aren't set yet. Add them once and a single click does the lookup."**
 - Only eBird missing: **"eBird API key isn't set yet…"** (and it notes "OpenWeather key: set ✓").
 - Only OpenWeather missing: **"OpenWeather API key isn't set yet…"** (and it notes "eBird key: set ✓").
 
-A **Go to Settings →** action opens the Options page. Both keys are required in this version; the extension will not run a partial lookup with only one key.
+Each missing key gets a **Get a free key** link that opens that provider's key page in a new tab, and a **Go to Settings →** action opens the Options page to paste them. Both keys are required in this version; the extension will not run a partial lookup with only one key.
 
 ### Allow SnowRaven Mini to reach these? (permission needed)
 
@@ -240,7 +240,7 @@ If you open the popup on a checklist **view** page (`https://ebird.org/checklist
 
 ### Result: weather and tide
 
-The happy path. The weather block (auto-copied, with its green "Copied to clipboard" banner) sits above the tide block. Each block is a monospace card with its own **Copy** button; pressing a Copy button flips it to **"Copied!"** for about two seconds and announces the copy to screen readers. See [Using It on a Checklist](#using-it-on-a-checklist) and [the output format](#the-weather-and-tide-output-format).
+The happy path. The weather block (auto-copied, with its green "Copied to clipboard" banner) sits above the tide block. Each block is a monospace card with its own **Copy** button; pressing a Copy button flips it to **"Copied!"** for about two seconds and announces the copy to screen readers. When both blocks resolve, a **Copy weather & tide together** button below the tide copies them as one combined block. See [Using It on a Checklist](#using-it-on-a-checklist) and [the output format](#the-weather-and-tide-output-format).
 
 ### Tide too far, or outside the US
 
