@@ -2,6 +2,11 @@
 
 All notable changes to SnowRaven Mini are documented here.
 
+## [1.4.0] - 2026-06-28
+
+### Fixed
+- **The popup no longer collapses to an unreadable vertical sliver after a lookup.** On some Macs the popup would narrow — once the weather and tide result appeared — until it was a thin vertical bar a character or two wide. The popup is sized to a fixed 380px but was also allowed to shrink to fit its container, with no hard lower bound; on a Mac set to always-visible (width-reserving) scrollbars, the scrollbar that appears for the taller result state shaves a little off the width, and the browser's popup auto-sizer then ratchets it down with nothing to stop it. The popup shell now carries a hard 380px floor, so it holds its width on every machine regardless of the macOS scroll-bar setting, browser zoom, or display scaling. The weather and tide block is untouched, so the copied text stays byte-for-byte identical to the SnowRaven desktop app.
+
 ## [1.3.0] - 2026-06-15
 
 ### Added

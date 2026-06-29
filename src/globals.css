@@ -160,8 +160,13 @@ body {
 
 /* ---- Popup shell ---- */
 .sr-popup {
+  /* Hard 380px floor. An MV3 popup auto-sizes its window to content, so a
+     percentage max-width has no stable basis: once the result state summons a
+     width-reserving vertical scrollbar (macOS "Show scroll bars: Always"), the
+     viewport dips below 380 and max-width:100% ratchets the popup down to an
+     unreadable sliver. min-width pins the floor; do not re-add a max-width. */
   width: 380px;
-  max-width: 100%;
+  min-width: 380px;
   background: var(--sr-bg);
   color: var(--sr-fg);
 }
