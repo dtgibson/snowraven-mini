@@ -18,7 +18,7 @@ This is a living document. It reflects the current best thinking on what to buil
 1. **Tide without an OpenWeather key.** Let tide show on its own when only OpenWeather is missing, instead of requiring both keys before any lookup. (The first-run walkthrough that used to share this row has shipped.)
 2. **Duplicate-block guard.** Skip the weather auto-copy when the checklist comment already contains a weather block, so reopening the popup doesn't risk a double paste. (The combined copy that used to share this row has shipped.)
 
-The **Chrome Web Store** is live at **v1.4.0** and **Firefox Add-ons** at **v1.3.0** (its v1.4.0 update is pending AMO review); the site and its custom domain are live. The walkthrough and combined copy shipped in **v1.3.0** (55d501b). A popup-width fix (the popup no longer collapses to a vertical bar after a lookup) shipped as **v1.4.0** (ad2ee5f) — a live GitHub release, now also live on the Chrome Web Store; the Firefox Add-ons submission is pending AMO review.
+Both the **Chrome Web Store** and **Firefox Add-ons** are live at **v1.4.0** — full cross-store parity — and the site and its custom domain are live. The walkthrough and combined copy shipped in **v1.3.0** (55d501b). A popup-width fix (the popup no longer collapses to a vertical bar after a lookup) shipped as **v1.4.0** (ad2ee5f) — a live GitHub release, now live on both the Chrome Web Store and Firefox Add-ons.
 
 ---
 
