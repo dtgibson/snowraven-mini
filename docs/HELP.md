@@ -219,11 +219,11 @@ A calm, non-error message: **"No checklist on this page"** with the line **"Open
 
 If one or both keys are not set, the popup shows a first-run key walkthrough that names both free keys you need (eBird and OpenWeather) and shows each one's status:
 
-- Both missing: **"eBird and OpenWeather API keys aren't set yet. Add them once and a single click does the lookup."**
-- Only eBird missing: **"eBird API key isn't set yet…"** (and it notes "OpenWeather key: set ✓").
-- Only OpenWeather missing: **"OpenWeather API key isn't set yet…"** (and it notes "eBird key: set ✓").
+- Both missing: titled **"Two free keys and you’re set"**, with the line "Add your eBird and OpenWeather keys once. After that, opening a checklist copies its weather in a single click."
+- Only OpenWeather missing (eBird already set): titled **"One free key to go"**, with the line "Your eBird key is set. Add your OpenWeather key and you’re ready for one-click weather."
+- Only eBird missing (OpenWeather already set): titled **"One free key to go"**, with the line "Your OpenWeather key is set. Add your eBird key and you’re ready for one-click weather."
 
-Each missing key gets a **Get a free key** link that opens that provider's key page in a new tab, and a **Go to Settings →** action opens the Options page to paste them. Both keys are required in this version; the extension will not run a partial lookup with only one key.
+Below the header, a per-key checklist shows each key with a **Needed** or **Set** tag; every key you still need carries a **Get a free key** link that opens that provider's key page in a new tab. A **Go to Settings** action at the foot opens the Options page to paste them. Both keys are required in this version; the extension will not run a partial lookup with only one key.
 
 ### Allow SnowRaven Mini to reach these? (permission needed)
 
